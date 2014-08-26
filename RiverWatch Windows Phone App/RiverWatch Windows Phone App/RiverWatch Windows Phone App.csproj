@@ -119,8 +119,10 @@
     <Content Include="Assets\StoreLogo.scale-240.png" />
     <Content Include="Assets\WideLogo.scale-240.png" />
     <Content Include="Common\ReadMe.txt" />
-    <Content Include="RiverWatch Branding\rw.png" />
-    <Content Include="StoreManifest.xml" />
+    <Content Include="RiverWatchBranding\rw.png" />
+    <Content Include="StoreManifest.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

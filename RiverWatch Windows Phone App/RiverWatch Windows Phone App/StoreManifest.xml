@@ -3,5 +3,5 @@
     <HardwareRequirements>
       <Requirement Name="ID_REQ_REARCAMERA" />
     </HardwareRequirements>
-  </ProductFeatures>
+  </ProductFeatures>  
 </StoreManifest>
