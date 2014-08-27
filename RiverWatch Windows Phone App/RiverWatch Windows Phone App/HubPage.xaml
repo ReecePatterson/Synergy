@@ -8,11 +8,12 @@
     xmlns:data="using:RiverWatch_Windows_Phone_App.Data"
    >
 
-    <Grid x:Name="LayoutRoot">
-        <Hub x:Name="Hub" x:Uid="Hub" Header="RiverWatch" Background="{ThemeResource HubBackgroundImageBrush}">
-            <HubSection x:Uid="HubSection1" Header="Submit Report Hub">
+    <Grid>
+        <Hub Header="RiverWatch">
+            <HubSection Header="Submit Report">
                 <DataTemplate>
                     <Grid>
+
                         <Button x:Name="CameraButton" Content="Camera" HorizontalAlignment="Left" Margin="20,60,0,0" VerticalAlignment="Top" Click="CameraButton_Click"/>
                         <Button x:Name="GPSButton" Content="GPS" HorizontalAlignment="Left" Margin="20,120,0,0" VerticalAlignment="Top" Click="GPSButton_Click"/>
                         <Button x:Name="DescriptionButton" Content="Description" HorizontalAlignment="Left" Margin="20,180,0,0" VerticalAlignment="Top" Click="DescriptionButton_Click"/>
@@ -21,7 +22,7 @@
                 </DataTemplate>
             </HubSection>
 
-            <HubSection x:Uid="HubSection2" Header="WaterWand Hub">
+            <HubSection Header="WaterWand">
                 <DataTemplate>
                     <Grid>
                         <TextBlock>Work In Progress</TextBlock>
@@ -29,7 +30,6 @@
                 </DataTemplate>
             </HubSection>
         </Hub>
-        <TextBox x:Name="apple" HorizontalAlignment="Left" Margin="0,542,0,0" TextWrapping="Wrap" Text="DynamicDebug" VerticalAlignment="Top" Height="98" Width="400"/>
-
+        <TextBox x:Name="apple" HorizontalAlignment="Left" Margin="0,522,0,0" TextWrapping="Wrap" Text="DynamicDebug" VerticalAlignment="Top" Height="118" Width="400" IsReadOnly="True" />
     </Grid>
 </Page>
