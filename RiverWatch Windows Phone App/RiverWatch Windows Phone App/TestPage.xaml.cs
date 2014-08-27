@@ -15,14 +15,14 @@ using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
-namespace RiverWatch_Windows_Phone_App
+namespace TestApp
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class TestPage : Page
     {
-        public MainPage()
+        public TestPage()
         {
             this.InitializeComponent();
         }
@@ -36,5 +36,9 @@ namespace RiverWatch_Windows_Phone_App
         {
         }
 
+        private void ReturnButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.GoBack();
+        }
     }
 }

@@ -63,34 +63,12 @@
         <Hub x:Name="Hub" x:Uid="Hub" Header="RiverWatch" Background="{ThemeResource HubBackgroundImageBrush}">
             <HubSection x:Uid="HubSection3" Header="Submit Report Hub"
                         DataContext="{Binding Groups[1]}" HeaderTemplate="{ThemeResource HubSectionHeaderTemplate}">
-                <DataTemplate>
-                    <ListView 
-                        AutomationProperties.AutomationId="ItemListViewSection3"
-                        AutomationProperties.Name="Items In Group"
-                        SelectionMode="None"
-                        IsItemClickEnabled="True"
-                        ItemsSource="{Binding Items}"
-                        ItemTemplate="{StaticResource StandardTripleLineItemTemplate}"
-                        ItemClick="ItemView_ItemClick"
-                        ContinuumNavigationTransitionInfo.ExitElementContainer="True">
-                    </ListView>
-                </DataTemplate>
+                
             </HubSection>
 
             <HubSection x:Uid="HubSection5" Header="WaterWand Hub"
                         DataContext="{Binding Groups[3]}" HeaderTemplate="{ThemeResource HubSectionHeaderTemplate}">
-                <DataTemplate>
-                    <ListView 
-                        AutomationProperties.AutomationId="ItemListViewSection5"
-                        AutomationProperties.Name="Items In Group"
-                        SelectionMode="None"
-                        IsItemClickEnabled="True"
-                        ItemsSource="{Binding Items}"
-                        ItemTemplate="{StaticResource StandardDoubleLineItemTemplate}"
-                        ItemClick="ItemView_ItemClick"
-                        ContinuumNavigationTransitionInfo.ExitElementContainer="True">
-                    </ListView>
-                </DataTemplate>
+                
             </HubSection>
         </Hub>
     </Grid>
