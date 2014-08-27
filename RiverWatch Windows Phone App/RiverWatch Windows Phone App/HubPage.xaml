@@ -6,70 +6,30 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:data="using:RiverWatch_Windows_Phone_App.Data"
-    DataContext="{Binding DefaultViewModel, RelativeSource={RelativeSource Self}}"
-    d:DataContext="{Binding Source={d:DesignData Source=/DataModel/SampleData.json, Type=data:SampleDataSource}}"
-    mc:Ignorable="d">
-
-    <Page.Resources>
-        <DataTemplate x:Key="HubSectionHeaderTemplate">
-            <TextBlock Margin="0,0,0,-9.5" Text="{Binding}"/>
-        </DataTemplate>
-
-        <!-- Grid-appropriate item template as seen in section 2 -->
-        <DataTemplate x:Key="Standard200x180TileItemTemplate">
-            <Grid Margin="0,0,9.5,9.5" Background="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}">
-                <Image Source="{Binding ImagePath}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Title}" Height="138.5" Width="138.5"/>
-                <TextBlock Text="{Binding Title}" VerticalAlignment="Bottom" Margin="9.5,0,0,6.5" Style="{ThemeResource BaseTextBlockStyle}"/>
-            </Grid>
-        </DataTemplate>
-
-        <DataTemplate x:Key="StandardTripleLineItemTemplate">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <Border Background="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}" Margin="0,9.5,0,0" Grid.Column="0" HorizontalAlignment="Left">
-                    <Image Source="{Binding ImagePath}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Title}" Height="79" Width="79"/>
-                </Border>
-                <StackPanel Grid.Column="1" Margin="14.5,0,0,0">
-                    <TextBlock Text="{Binding Title}" Style="{ThemeResource ListViewItemTextBlockStyle}"/>
-                    <TextBlock Text="{Binding Description}" Style="{ThemeResource ListViewItemContentTextBlockStyle}" Foreground="{ThemeResource PhoneMidBrush}" />
-                    <TextBlock Text="{Binding Subtitle}" Style="{ThemeResource ListViewItemSubheaderTextBlockStyle}" />
-                </StackPanel>
-            </Grid>
-        </DataTemplate>
-
-        <DataTemplate x:Key="StandardDoubleLineItemTemplate">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <Border Background="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}" Margin="0,9.5,0,0" Grid.Column="0" HorizontalAlignment="Left">
-                    <Image Source="{Binding ImagePath}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Title}" Height="79" Width="79"/>
-                </Border>
-                <StackPanel Grid.Column="1" Margin="14.5,0,0,0">
-                    <TextBlock Text="{Binding Title}" Style="{ThemeResource ListViewItemTextBlockStyle}"/>
-                    <TextBlock Text="{Binding Subtitle}" Style="{ThemeResource ListViewItemSubheaderTextBlockStyle}"/>
-                </StackPanel>
-            </Grid>
-        </DataTemplate>
-    </Page.Resources>
+   >
 
     <Grid x:Name="LayoutRoot">
         <Hub x:Name="Hub" x:Uid="Hub" Header="RiverWatch" Background="{ThemeResource HubBackgroundImageBrush}">
-            <HubSection x:Uid="HubSection3" Header="Submit Report Hub"
-                        DataContext="{Binding Groups[1]}" HeaderTemplate="{ThemeResource HubSectionHeaderTemplate}">
-                
+            <HubSection x:Uid="HubSection1" Header="Submit Report Hub">
+                <DataTemplate>
+                    <Grid>
+                        <Button x:Name="CameraButton" Content="Camera" HorizontalAlignment="Left" Margin="20,60,0,0" VerticalAlignment="Top" Click="CameraButton_Click"/>
+                        <Button x:Name="GPSButton" Content="GPS" HorizontalAlignment="Left" Margin="20,120,0,0" VerticalAlignment="Top" Click="GPSButton_Click"/>
+                        <Button x:Name="DescriptionButton" Content="Description" HorizontalAlignment="Left" Margin="20,180,0,0" VerticalAlignment="Top" Click="DescriptionButton_Click"/>
+                        <Button x:Name="TestButton" Content="Test" HorizontalAlignment="Left" Margin="20,240,0,0" VerticalAlignment="Top" Click="TestButton_Click"/>
+                    </Grid>
+                </DataTemplate>
             </HubSection>
 
-            <HubSection x:Uid="HubSection5" Header="WaterWand Hub"
-                        DataContext="{Binding Groups[3]}" HeaderTemplate="{ThemeResource HubSectionHeaderTemplate}">
-                
+            <HubSection x:Uid="HubSection2" Header="WaterWand Hub">
+                <DataTemplate>
+                    <Grid>
+                        <TextBlock>Work In Progress</TextBlock>
+                    </Grid>
+                </DataTemplate>
             </HubSection>
         </Hub>
+        <TextBox x:Name="apple" HorizontalAlignment="Left" Margin="0,542,0,0" TextWrapping="Wrap" Text="DynamicDebug" VerticalAlignment="Top" Height="98" Width="400"/>
+
     </Grid>
 </Page>

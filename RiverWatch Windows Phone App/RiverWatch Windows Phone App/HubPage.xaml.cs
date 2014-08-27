@@ -33,6 +33,37 @@ namespace RiverWatch_Windows_Phone_App
         private readonly ObservableDictionary defaultViewModel = new ObservableDictionary();
         private readonly ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView("Resources");
 
+
+        // ========= EMANS BIT =================
+
+        private void CameraButton_Click(object sender, RoutedEventArgs e)
+        {
+            apple.Text = ">>>Going to Alex's Camera Page";
+            apple.Select(apple.Text.Length, 0);
+        }
+
+        private void GPSButton_Click(object sender, RoutedEventArgs e)
+        {
+            apple.Text = ">>>Going to Callum's GPS Page";
+            apple.Select(apple.Text.Length, 0);
+        }
+
+        private void DescriptionButton_Click(object sender, RoutedEventArgs e)
+        {
+            apple.Text = ">>>Going to Alvin's Description Page";
+            apple.Select(apple.Text.Length, 0);
+        }
+
+        private void TestButton_Click(object sender, RoutedEventArgs e)
+        {
+            apple.Text = ">>>Going to Eman's Test Page";
+            apple.Select(apple.Text.Length, 0);
+
+            Frame.Navigate(typeof(TestPage));
+        }
+
+        // =====================================
+
         public HubPage()
         {
             this.InitializeComponent();
@@ -95,31 +126,11 @@ namespace RiverWatch_Windows_Phone_App
             // TODO: Save the unique state of the page here.
         }
 
-        /// <summary>
-        /// Shows the details of a clicked group in the <see cref="SectionPage"/>.
-        /// </summary>
-        private void GroupSection_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            var groupId = ((SampleDataGroup)e.ClickedItem).UniqueId;
-            if (!Frame.Navigate(typeof(SectionPage), groupId))
-            {
-                throw new Exception(this.resourceLoader.GetString("NavigationFailedExceptionMessage"));
-            }
-        }
+        
 
         /// <summary>
         /// Shows the details of an item clicked on in the <see cref="ItemPage"/>
         /// </summary>
-        private void ItemView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            // Navigate to the appropriate destination page, configuring the new page
-            // by passing required information as a navigation parameter
-            var itemId = ((SampleDataItem)e.ClickedItem).UniqueId;
-            if (!Frame.Navigate(typeof(ItemPage), itemId))
-            {
-                throw new Exception(this.resourceLoader.GetString("NavigationFailedExceptionMessage"));
-            }
-        }
 
         #region NavigationHelper registration
 
