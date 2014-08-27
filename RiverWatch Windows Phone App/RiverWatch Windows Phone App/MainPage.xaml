@@ -64,7 +64,6 @@
                     <ListView
                         ItemsSource="{Binding}"
                         IsItemClickEnabled="True"
-                        ItemClick="GroupSection_ItemClick"
                         ContinuumNavigationTransitionInfo.ExitElementContainer="True">
                         <ListView.ItemTemplate>
                             <DataTemplate>

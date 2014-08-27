@@ -16,7 +16,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="RiverWatch_Windows_Phone_App.App">
-      <m3:VisualElements DisplayName="RiverWatch" Square150x150Logo="Assets\Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="RiverWatch Windows Phone App" ForegroundText="light" BackgroundColor="white">
+      <m3:VisualElements DisplayName="RiverWatch" Square150x150Logo="Assets\Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="RiverWatch Windows Phone App" ForegroundText="light" BackgroundColor="#FFFFFF">
         <m3:DefaultTile Square71x71Logo="Assets\Square71x71Logo.png">
         </m3:DefaultTile>
         <m3:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="white" />
