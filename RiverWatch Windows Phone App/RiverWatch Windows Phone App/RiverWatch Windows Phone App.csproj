@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RiverWatch_Windows_Phone_App</RootNamespace>
     <AssemblyName>RiverWatch Windows Phone App</AssemblyName>
-    <DefaultLanguage>en-NZ</DefaultLanguage>
+    <DefaultLanguage>en-nz</DefaultLanguage>
     <TargetPlatformVersion>8.1</TargetPlatformVersion>
     <MinimumVisualStudioVersion>12</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
