@@ -143,5 +143,35 @@ namespace RiverWatch_Windows_Phone_App
 
         // ======== UNUSED METHODS ==========
 
+        private void CameraButton_Click(object sender, RoutedEventArgs e)
+        {
+            // unused in this branch
+        }
+
+        private void GPSButton_Click(object sender, RoutedEventArgs e)
+        {
+            // unused in this branch
+        }
+
+        private void DescriptionButton_Click(object sender, RoutedEventArgs e)
+        {
+            // unused in this branch
+        }
+
+        private void TestButton_Click(object sender, RoutedEventArgs e)
+        {
+            // unused in this branch
+        }
+
+
+        private void ItemView_ItemClick(object sender, RoutedEventArgs e)
+        {
+            // unused in this branch
+        }
+
+        private void GroupSection_ItemClick(object sender, RoutedEventArgs e)
+        {
+            // unused in this branch
+        }
     }
 }
