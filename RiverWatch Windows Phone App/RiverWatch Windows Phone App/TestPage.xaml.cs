@@ -20,9 +20,9 @@ namespace RiverWatch_Windows_Phone_App
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class BlankPage1 : Page
+    public sealed partial class TestPage : Page
     {
-        public BlankPage1()
+        public TestPage()
         {
             this.InitializeComponent();
         }
@@ -34,6 +34,11 @@ namespace RiverWatch_Windows_Phone_App
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+        }
+
+        private void ReturnButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.GoBack();
         }
     }
 }
