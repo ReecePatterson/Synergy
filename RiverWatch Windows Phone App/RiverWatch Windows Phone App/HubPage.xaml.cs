@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel.Resources;
+using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Display;
@@ -33,12 +34,6 @@ namespace RiverWatch_Windows_Phone_App
         private readonly ObservableDictionary defaultViewModel = new ObservableDictionary();
         private readonly ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView("Resources");
 
-
-        // ========= EMANS BIT =================
-
-        
-
-        // =====================================
 
         public HubPage()
         {
@@ -133,5 +128,17 @@ namespace RiverWatch_Windows_Phone_App
         }
 
         #endregion
+
+        // ========= EMANS BIT =================
+
+        private void PollutionReport_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(TestPage));
+        }
+
+        private void WaterQualityReport_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(TestPage));
+        }
     }
 }
