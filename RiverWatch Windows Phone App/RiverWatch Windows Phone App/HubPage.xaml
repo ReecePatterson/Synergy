@@ -13,11 +13,7 @@
             <HubSection Header="Submit Report">
                 <DataTemplate>
                     <Grid>
-
-                        <Button x:Name="CameraButton" Content="Camera" HorizontalAlignment="Left" Margin="20,60,0,0" VerticalAlignment="Top" Click="CameraButton_Click"/>
-                        <Button x:Name="GPSButton" Content="GPS" HorizontalAlignment="Left" Margin="20,120,0,0" VerticalAlignment="Top" Click="GPSButton_Click"/>
-                        <Button x:Name="DescriptionButton" Content="Description" HorizontalAlignment="Left" Margin="20,180,0,0" VerticalAlignment="Top" Click="DescriptionButton_Click"/>
-                        <Button x:Name="TestButton" Content="Test" HorizontalAlignment="Left" Margin="20,240,0,0" VerticalAlignment="Top" Click="TestButton_Click"/>
+                        <Image HorizontalAlignment="Left" Height="320" Margin="10,50,0,0" VerticalAlignment="Top" Width="320" Source="RiverWatchBranding/PollutionReportImg.png"/>
                     </Grid>
                 </DataTemplate>
             </HubSection>
@@ -26,10 +22,10 @@
                 <DataTemplate>
                     <Grid>
                         <TextBlock>Work In Progress</TextBlock>
+                        <Image HorizontalAlignment="Left" Height="320" Margin="10,50,0,0" VerticalAlignment="Top" Width="320" Source="RiverWatchBranding/WaterQualityReportImg.png"/>
                     </Grid>
                 </DataTemplate>
             </HubSection>
         </Hub>
-        <TextBox x:Name="apple" HorizontalAlignment="Left" Margin="0,522,0,0" TextWrapping="Wrap" Text="DynamicDebug" VerticalAlignment="Top" Height="118" Width="400" IsReadOnly="True" />
     </Grid>
 </Page>

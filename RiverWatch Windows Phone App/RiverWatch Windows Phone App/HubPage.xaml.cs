@@ -36,31 +36,7 @@ namespace RiverWatch_Windows_Phone_App
 
         // ========= EMANS BIT =================
 
-        private void CameraButton_Click(object sender, RoutedEventArgs e)
-        {
-            apple.Text = ">>>Going to Alex's Camera Page";
-            apple.Select(apple.Text.Length, 0);
-        }
-
-        private void GPSButton_Click(object sender, RoutedEventArgs e)
-        {
-            apple.Text = ">>>Going to Callum's GPS Page";
-            apple.Select(apple.Text.Length, 0);
-        }
-
-        private void DescriptionButton_Click(object sender, RoutedEventArgs e)
-        {
-            apple.Text = ">>>Going to Alvin's Description Page";
-            apple.Select(apple.Text.Length, 0);
-        }
-
-        private void TestButton_Click(object sender, RoutedEventArgs e)
-        {
-            apple.Text = ">>>Going to Eman's Test Page";
-            apple.Select(apple.Text.Length, 0);
-
-            Frame.Navigate(typeof(TestPage));
-        }
+        
 
         // =====================================
 
