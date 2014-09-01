@@ -133,7 +133,7 @@ namespace RiverWatch_Windows_Phone_App
 
         private void PollutionReport_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            Frame.Navigate(typeof(PollutionReportPage));
+            Frame.Navigate(typeof(TestPage));
         }
 
         private void WaterQualityReport_Tapped(object sender, TappedRoutedEventArgs e)
