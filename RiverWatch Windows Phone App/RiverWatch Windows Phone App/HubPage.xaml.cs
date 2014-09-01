@@ -62,6 +62,16 @@ namespace RiverWatch_Windows_Phone_App
             Frame.Navigate(typeof(TestPage));
         }
 
+        private void ItemView_ItemClick(object sender, RoutedEventArgs e)
+        {
+            // heello
+        }
+
+        private void GroupSection_ItemClick(object sender, RoutedEventArgs e)
+        {
+            // poo
+        }
+
         // =====================================
 
         public HubPage()
