@@ -140,5 +140,8 @@ namespace RiverWatch_Windows_Phone_App
         {
             Frame.Navigate(typeof(TestPage));
         }
+
+        // ======== UNUSED METHODS ==========
+
     }
 }
