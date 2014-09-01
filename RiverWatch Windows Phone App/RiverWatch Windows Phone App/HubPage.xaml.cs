@@ -62,14 +62,28 @@ namespace RiverWatch_Windows_Phone_App
             Frame.Navigate(typeof(TestPage));
         }
 
+        // Don't know why, but visual studio is not smart enough
+        // to recognise that these methods are used in other branches,
+        // NOT THIS BRANCH!
+
         private void ItemView_ItemClick(object sender, RoutedEventArgs e)
         {
-            // heello
+            // unused in this branch
         }
 
         private void GroupSection_ItemClick(object sender, RoutedEventArgs e)
         {
-            // poo
+            // unused in this branch
+        }
+
+        private void WaterQualityReport_Tapped(object sender, RoutedEventArgs e)
+        {
+            // unused in this branch
+        }
+
+        private void PollutionReport_Tapped(object sender, RoutedEventArgs e)
+        {
+            // unused in this branch
         }
 
         // =====================================
