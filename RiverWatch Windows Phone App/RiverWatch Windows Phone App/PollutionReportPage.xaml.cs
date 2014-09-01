@@ -35,5 +35,10 @@ namespace RiverWatch_Windows_Phone_App
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
         }
+
+        private void ReturnButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.GoBack();
+        }
     }
 }
