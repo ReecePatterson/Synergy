@@ -41,6 +41,7 @@ namespace RiverWatch_Windows_Phone_App
         public String description = "";
         public String tags = "";
         public String date = "";
+        public Boolean textReady = false;
 
 
 
@@ -57,13 +58,18 @@ namespace RiverWatch_Windows_Phone_App
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            // init datetime
-            this.date = string.Format("{0 : dd/MM/yyyy}", DateTime.Now);
-            
+            // check if an image is saved, if so, its ready
+
             // init geolocation
             geolocationReady = false;
             this.GeolocationText.Text = "Loading Coordinates ...";
             getGeoPosition();
+
+            // check if textual information is filled out, if so, its ready
+
+            // init datetime
+            this.date = string.Format("{0 : dd/MM/yyyy}", DateTime.Now);
+            
         }
 
         private async Task getGeoPosition()
@@ -82,12 +88,7 @@ namespace RiverWatch_Windows_Phone_App
             Frame.GoBack();
         }
 
-        private void PhotoGrid_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            
-        }
-
-        private void SubmitReport_Click(object sender, TappedRoutedEventArgs e)
+        private void SubmitReport_Click(object sender, RoutedEventArgs e)
         {
             // Gotta collate all the information we need to send to the server...
 
