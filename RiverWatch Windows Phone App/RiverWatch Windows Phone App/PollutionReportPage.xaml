@@ -13,6 +13,7 @@
 
         <Grid x:Name="PhotoGrid" Background="#FF3C5BE6"  VerticalAlignment="Top" Margin="60,50,10,0" Height="140">
             <TextBlock>This is for taking a photo</TextBlock>
+            <Image x:Name="imagePreivew" HorizontalAlignment="Left" Stretch="None" Width="200" Height="100" Margin="20,20,20,20" />
         </Grid>
         <Grid x:Name="GeolocateGrid" Background="#FF3C5BE6" VerticalAlignment="Top" Margin="60,200,10,0" Height="90">
             <!--<TextBlock>This is for checking lang and lat</TextBlock>-->
