@@ -9,7 +9,19 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <TextBlock>This is the Pollution Report Page</TextBlock>
-        <Button Content="Return" HorizontalAlignment="Left" Margin="20,170,0,0" VerticalAlignment="Top" Click="ReturnButton_Click"/>
+        <TextBlock x:Name="PageTitle" FontSize="25" Margin="10,0,0,0">Create a Pollution Report</TextBlock>
+
+        <Grid x:Name="PhotoGrid" Background="#FF3C5BE6"  VerticalAlignment="Top" Margin="60,50,10,0" Height="140">
+            <TextBlock>This is for taking a photo</TextBlock>
+        </Grid>
+        <Grid x:Name="GeolocateGrid" Background="#FF3C5BE6" VerticalAlignment="Top" Margin="60,200,10,0" Height="90">
+            <!--<TextBlock>This is for checking lang and lat</TextBlock>-->
+            <TextBlock x:Name="GeolocationText" FontSize="15" Margin="20,18,0,0">Loading coordinates...</TextBlock>
+        </Grid>
+        <Grid x:Name="DescriptionGrid" Background="#FF3C5BE6" VerticalAlignment="Top" Margin="60,300,10,0" Height="250">
+            <TextBlock>This is for describing the incident</TextBlock>
+        </Grid>
+
+        <Image HorizontalAlignment="Left" Margin="9,50,0,0" Height="41" VerticalAlignment="Top" Width="41" Source="Assets/backArrow.png" Tapped="ReturnButton_Click"/>
     </Grid>
 </Page>
