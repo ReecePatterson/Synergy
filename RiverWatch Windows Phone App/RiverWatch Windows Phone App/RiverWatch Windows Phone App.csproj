@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\backArrow.png" />
+    <Content Include="Assets\cameraIcon.png" />
     <Content Include="Assets\DarkGray.png" />
     <Content Include="Assets\LightGray.png" />
     <Content Include="Assets\MediumGray.png" />
