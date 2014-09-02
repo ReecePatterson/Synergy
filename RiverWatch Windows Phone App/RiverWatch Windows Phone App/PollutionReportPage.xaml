@@ -11,7 +11,7 @@
     <Grid>
         <TextBlock x:Name="PageTitle" FontSize="25" Margin="10,0,0,0">Create a Pollution Report</TextBlock>
 
-        <Grid x:Name="PhotoGrid" Background="#FF3C5BE6"  VerticalAlignment="Top" Margin="60,50,10,0" Height="140">
+        <Grid x:Name="PhotoGrid" Background="#FF3C5BE6"  VerticalAlignment="Top" Margin="60,50,10,0" Height="140" Tapped="PhotoGrid_Tapped">
             <TextBlock>This is for taking a photo</TextBlock>
         </Grid>
         <Grid x:Name="GeolocateGrid" Background="#FF3C5BE6" VerticalAlignment="Top" Margin="60,200,10,0" Height="90">

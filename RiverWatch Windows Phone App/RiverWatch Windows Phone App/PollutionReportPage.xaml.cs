@@ -14,6 +14,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.Media.Capture;
+
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -60,6 +62,11 @@ namespace RiverWatch_Windows_Phone_App
         private void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.GoBack();
+        }
+
+        private void PhotoGrid_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            
         }
 
     }
