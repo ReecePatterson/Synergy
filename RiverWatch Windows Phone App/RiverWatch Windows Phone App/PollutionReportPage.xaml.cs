@@ -27,13 +27,27 @@ namespace RiverWatch_Windows_Phone_App
     public sealed partial class PollutionReportPage : Page
     {
         // fields
+
+        // image information
+        public Boolean imageReady = false;
+
+        // location information
         public String longi = "";
         public String latit = "";
-        public Boolean geoFound = false;
+        public Boolean geolocationReady = false;
+
+        // textual information
+        public String title = "";
+        public String description = "";
+        public String tags = "";
+        public String date = "";
+
+
 
         public PollutionReportPage()
         {
             this.InitializeComponent();
+            
         }
 
         /// <summary>
@@ -43,7 +57,11 @@ namespace RiverWatch_Windows_Phone_App
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            geoFound = false;
+            // init datetime
+            this.date = string.Format("{0 : dd/MM/yyyy}", DateTime.Now);
+            
+            // init geolocation
+            geolocationReady = false;
             this.GeolocationText.Text = "Loading Coordinates ...";
             getGeoPosition();
         }
@@ -56,7 +74,7 @@ namespace RiverWatch_Windows_Phone_App
             this.latit = "" + position.Coordinate.Latitude;
             this.longi = "" + position.Coordinate.Longitude;
             this.GeolocationText.Text = "Latitude: " + this.latit + "\n\nLongitude: " + this.longi;
-            geoFound = true;
+            geolocationReady = true;
         }
 
         private void ReturnButton_Click(object sender, RoutedEventArgs e)
@@ -67,6 +85,17 @@ namespace RiverWatch_Windows_Phone_App
         private void PhotoGrid_Tapped(object sender, TappedRoutedEventArgs e)
         {
             
+        }
+
+        private void SubmitReport_Click(object sender, TappedRoutedEventArgs e)
+        {
+            // Gotta collate all the information we need to send to the server...
+
+            // Save information locally on the phone
+            
+            // Send information to WaiNZ server
+
+            // If send was successful, delete report that was saved locally
         }
 
     }
