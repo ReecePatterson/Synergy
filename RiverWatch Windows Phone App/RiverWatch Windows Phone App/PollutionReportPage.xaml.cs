@@ -99,5 +99,10 @@ namespace RiverWatch_Windows_Phone_App
             // If send was successful, delete report that was saved locally
         }
 
+        private void AddTags_Click(object sender, RoutedEventArgs e)
+        {
+            //Frame.Navigate(typeof(AddTagsPage));
+        }
+
     }
 }
