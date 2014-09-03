@@ -15,22 +15,19 @@
             <TextBlock>This is for taking a photo</TextBlock>
             <Image x:Name="imagePreivew" HorizontalAlignment="Left" Stretch="None" Width="200" Height="100" Margin="20,20,20,20" />
         </Grid>
-        <Grid x:Name="GeolocateGrid" Background="#FF3C5BE6" VerticalAlignment="Top" Margin="60,200,10,0" Height="90">
+        <Grid x:Name="GeolocateGrid" Background="#FF3C5BE6" VerticalAlignment="Top" Margin="60,200,10,0" Height="83">
             <!--<TextBlock>This is for checking lang and lat</TextBlock>-->
             <TextBlock x:Name="GeolocationText" FontSize="15" Margin="20,18,0,0">Loading coordinates...</TextBlock>
         </Grid>
-        <Grid x:Name="DescriptionGrid" Background="#FF3C5BE6" VerticalAlignment="Top" Margin="60,300,10,0" Height="287">
-            <TextBlock Margin="10,10,10,254">
-                Title
-            </TextBlock>
-            <TextBox x:Name="Title" Margin="27,32,27,0"/>
-            <TextBlock Margin="10,90,0,161">
-                Description
-            </TextBlock>
-            <TextBox x:Name="Description" Margin="27,111,27,0" Height="129"/>
+        <Grid x:Name="DescriptionGrid" Background="#FF3C5BE6" VerticalAlignment="Top" Margin="60,300,10,0" Height="330">
+            <TextBox x:Name="Title" PlaceholderText="Title"  Margin="10,10,10,0"/>
+            <TextBox x:Name="Description" PlaceholderText="Your Description Here"  Margin="10,53,10,0" Height="143"/>
+            <Button  x:Name="Tags" Content="AddTags" Margin="223,191,0,35" Height="104" Width="107" Click="AddTags_Click"/>
+            <TextBox x:Name="ListOfTags" Text="No Tags Applied"  IsReadOnly="True" Margin="10,201,107,0" Height="85"/>
+
         </Grid>
 
         <Image HorizontalAlignment="Left" Margin="9,50,0,0" Height="41" VerticalAlignment="Top" Width="41" Source="Assets/backArrow.png" Tapped="ReturnButton_Click"/>
-        <Button Content="Submit" HorizontalAlignment="Left" Margin="281,582,0,0" VerticalAlignment="Top" Click="SubmitReport_Click"/>
+        <Button Content="Submit" HorizontalAlignment="Left" Margin="60,582,0,0" VerticalAlignment="Top" Click="SubmitReport_Click" Width="330"/>
     </Grid>
 </Page>
