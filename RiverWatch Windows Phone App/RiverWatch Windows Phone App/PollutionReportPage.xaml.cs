@@ -68,13 +68,24 @@ namespace RiverWatch_Windows_Phone_App
                 // start finding geolocation
                 this.GeolocationToolTip.Text = "Loading Coordinates ...";
                 getGeoPosition();
+
+                // remove tool tip for image
+                this.ImageToolTip.Text = "";
+                // resize the photo tile and put the image taken on it
+                //
+            }
+            else
+            {
+                // keep tool tip for image
+                this.ImageToolTip.Text = "Take a photo";
+                // keep tool tip for geolocation
+                this.GeolocationToolTip.Text = "Find location";
             }
 
             // check if textual information is filled out, if so, its ready
 
             // init datetime
             this.date = string.Format("{0 : dd/MM/yyyy}", DateTime.Now);
-            
         }
 
         private async Task getGeoPosition()
@@ -84,6 +95,9 @@ namespace RiverWatch_Windows_Phone_App
             Geoposition position = await geolocator.GetGeopositionAsync();
             this.latit = "" + position.Coordinate.Latitude;
             this.longi = "" + position.Coordinate.Longitude;
+
+            // resize the geolocation tile and display the coordinates
+            // 
             this.GeolocationToolTip.Text = "Latitude: " + this.latit + "\n\nLongitude: " + this.longi;
             geolocationReady = true;
         }
