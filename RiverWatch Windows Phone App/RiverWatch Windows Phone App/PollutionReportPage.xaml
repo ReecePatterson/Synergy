@@ -19,8 +19,15 @@
             <!--<TextBlock>This is for checking lang and lat</TextBlock>-->
             <TextBlock x:Name="GeolocationText" FontSize="15" Margin="20,18,0,0">Loading coordinates...</TextBlock>
         </Grid>
-        <Grid x:Name="DescriptionGrid" Background="#FF3C5BE6" VerticalAlignment="Top" Margin="60,300,10,0" Height="250">
-            <TextBlock>This is for describing the incident</TextBlock>
+        <Grid x:Name="DescriptionGrid" Background="#FF3C5BE6" VerticalAlignment="Top" Margin="60,300,10,0" Height="287">
+            <TextBlock Margin="10,10,10,254">
+                Title
+            </TextBlock>
+            <TextBox x:Name="Title" Margin="27,32,27,0"/>
+            <TextBlock Margin="10,90,0,161">
+                Description
+            </TextBlock>
+            <TextBox x:Name="Description" Margin="27,111,27,0" Height="129"/>
         </Grid>
 
         <Image HorizontalAlignment="Left" Margin="9,50,0,0" Height="41" VerticalAlignment="Top" Width="41" Source="Assets/backArrow.png" Tapped="ReturnButton_Click"/>
