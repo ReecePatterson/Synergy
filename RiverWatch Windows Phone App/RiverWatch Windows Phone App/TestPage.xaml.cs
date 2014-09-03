@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using Windows.Devices.Enumeration;
 using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -48,7 +49,37 @@ namespace RiverWatch_Windows_Phone_App
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            getGeoPosition();
+            
+        }
+
+        private static async Task<DeviceInformation> GetCameraID(Windows.Devices.Enumeration.Panel desired)
+        {
+            DeviceInformation deviceID = (await DeviceInformation.FindAllAsync(DeviceClass.VideoCapture))
+                .FirstOrDefault(x => x.EnclosureLocation != null && x.EnclosureLocation.Panel == desired);
+
+            if (deviceID != null) return deviceID;
+            else throw new Exception(string.Format("Camera of type {0} doesn't exist.", desired));
+        }
+
+        async void photoCapture(object sender, RoutedEventArgs e)
+        {
+            var cameraID = await GetCameraID(Windows.Devices.Enumeration.Panel.Back);
+            mediaCapture = new MediaCapture();
+            await mediaCapture.InitializeAsync(new MediaCaptureInitializationSettings
+            {
+                StreamingCaptureMode = StreamingCaptureMode.Video,
+                PhotoCaptureSource = PhotoCaptureSource.VideoPreview,
+                AudioDeviceId = string.Empty,
+                VideoDeviceId = cameraID.Id
+
+            });
+            //var maxResolution = mediaCapture.VideoDeviceController.GetAvailableMediaStreamProperties(MediaStreamType.Photo).Aggregate((i1, i2) => (i1 as VideoEncodingProperties).Width > (i2 as VideoEncodingProperties).Width ? i1 : i2);
+            //await mediaCapture.VideoDeviceController.SetMediaStreamPropertiesAsync(MediaStreamType.Photo, maxResolution);
+
+
+            mediaCapture.SetPreviewRotation(VideoRotation.Clockwise90Degrees);
+            CameraPreview.Source = mediaCapture;
+            await mediaCapture.StartPreviewAsync();
         }
 
         public String latit = "";
