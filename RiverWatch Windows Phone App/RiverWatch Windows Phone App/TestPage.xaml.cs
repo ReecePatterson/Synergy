@@ -10,6 +10,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Media.Capture;
 using Windows.Media.MediaProperties;
+using Windows.Phone.UI.Input;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -40,6 +41,7 @@ namespace RiverWatch_Windows_Phone_App
         public TestPage()
         {
             this.InitializeComponent();
+            Application.Current.Resuming += new EventHandler<object>(AppResume);
         }
 
         /// <summary>
@@ -49,10 +51,21 @@ namespace RiverWatch_Windows_Phone_App
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            
+            //this.thing.Text = "On Navigated To";
+            photoCapture();
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            //this.thing.Text = "On Navigated From";
+            stopCamera();
+        }
 
+        private void AppResume(object sender, object e)
+        {
+            this.thing.Text = "App resume";
+            stopCamera();
+        }
 
         private static async Task<DeviceInformation> GetCameraID(Windows.Devices.Enumeration.Panel desired)
         {
@@ -63,9 +76,15 @@ namespace RiverWatch_Windows_Phone_App
             else throw new Exception(string.Format("Camera of type {0} doesn't exist.", desired));
         }
 
+        async void stopCamera()
+        {
+            await mediaCapture.StopPreviewAsync();
+            mediaCapture.Dispose();
+        }
+
         MediaCapture mediaCapture;
 
-        async void photoCapture(object sender, RoutedEventArgs e)
+        async void photoCapture()
         {
             var cameraID = await GetCameraID(Windows.Devices.Enumeration.Panel.Back);
             mediaCapture = new MediaCapture();
@@ -86,10 +105,10 @@ namespace RiverWatch_Windows_Phone_App
             await mediaCapture.StartPreviewAsync();
         }
 
+        
+
         async void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
-            await mediaCapture.StopPreviewAsync();
-            mediaCapture.Dispose();
             Frame.GoBack();
         }
     }
