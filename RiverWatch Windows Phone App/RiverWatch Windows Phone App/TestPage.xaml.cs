@@ -52,6 +52,8 @@ namespace RiverWatch_Windows_Phone_App
             
         }
 
+
+
         private static async Task<DeviceInformation> GetCameraID(Windows.Devices.Enumeration.Panel desired)
         {
             DeviceInformation deviceID = (await DeviceInformation.FindAllAsync(DeviceClass.VideoCapture))
@@ -60,6 +62,8 @@ namespace RiverWatch_Windows_Phone_App
             if (deviceID != null) return deviceID;
             else throw new Exception(string.Format("Camera of type {0} doesn't exist.", desired));
         }
+
+        MediaCapture mediaCapture;
 
         async void photoCapture(object sender, RoutedEventArgs e)
         {
@@ -82,62 +86,11 @@ namespace RiverWatch_Windows_Phone_App
             await mediaCapture.StartPreviewAsync();
         }
 
-        public String latit = "";
-        public String longi = "";
-        public Boolean geoFound = false;
-
-        private async Task getGeoPosition()
+        async void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
-            var geolocator = new Geolocator();
-            geolocator.DesiredAccuracyInMeters = 100;
-            Geoposition position = await geolocator.GetGeopositionAsync();
-            this.latit = ""+position.Coordinate.Latitude;
-            this.longi = "" + position.Coordinate.Longitude;
-            this.Coordinates.Text = "Latitude: "+this.latit + "\n\nLongitude: " + this.longi;
-            geoFound = true;
-        }
-
-        private void ReturnButton_Click(object sender, RoutedEventArgs e)
-        {
+            await mediaCapture.StopPreviewAsync();
+            mediaCapture.Dispose();
             Frame.GoBack();
-        }
-
-        Windows.Media.Capture.MediaCapture captureManager;
-
-        async private void InitCamera_Click(object sender, RoutedEventArgs e)
-        {
-            captureManager = new MediaCapture();
-            await captureManager.InitializeAsync();
-        }
-
-        async private void StartCapturePreview_Click(object sender, RoutedEventArgs e)
-        {
-            capturePreview.Source = captureManager;
-            await captureManager.StartPreviewAsync();
-        }
-
-        async private void StopCapturePreview_Click(object sender, RoutedEventArgs e)
-        {
-            await captureManager.StopPreviewAsync();
-        }
-
-        async private void CapturePhoto_Click(object sender, RoutedEventArgs e)
-        {
-            ImageEncodingProperties imgFormat = ImageEncodingProperties.CreateJpeg();
-
-            // create storage file in local app storage
-            StorageFile file = await ApplicationData.Current.LocalFolder.CreateFileAsync(
-                "TestPhoto.jpg",
-                CreationCollisionOption.GenerateUniqueName);
-
-            // take photo
-            await captureManager.CapturePhotoToStorageFileAsync(imgFormat, file);
-
-            // Get photo as a BitmapImage
-            BitmapImage bmpImage = new BitmapImage(new Uri(file.Path));
-
-            // imagePreivew is a <Image> object defined in XAML
-            imagePreivew.Source = bmpImage;
         }
     }
 }
