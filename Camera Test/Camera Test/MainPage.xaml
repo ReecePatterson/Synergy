@@ -1,8 +1,8 @@
 ﻿<Page
-    x:Class="RiverWatch_Windows_Phone_App.TestPage"
+    x:Class="Camera_Test.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:RiverWatch_Windows_Phone_App"
+    xmlns:local="using:Camera_Test"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -14,6 +14,6 @@
                 <CompositeTransform/>
             </CaptureElement.RenderTransform>
         </CaptureElement>
-        <Button Content="Go Back" Click="ReturnButton_Click" Margin="20,0,0,0"/>
+
     </Grid>
 </Page>

@@ -3,43 +3,37 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
-using Windows.Devices.Enumeration;
-using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.Media.Capture;
-using Windows.Media.MediaProperties;
-using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using Windows.Media.Capture;
+using System.Threading.Tasks;
+using Windows.Devices.Enumeration;
+using Windows.Media.MediaProperties;
 
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
+// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
 
-
-/**
- * Author: Emmanuel Godinez
- * Date: 24/08/14
- * 
- * For the purposes of testing things on Windows Phone 8.1
- * */
-
-namespace RiverWatch_Windows_Phone_App
+namespace Camera_Test
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class TestPage : Page
+    
+    
+    public sealed partial class MainPage : Page
     {
-        public TestPage()
+        private MediaCapture mediaCapture;
+        public MainPage()
         {
             this.InitializeComponent();
+
+            this.NavigationCacheMode = NavigationCacheMode.Required;
         }
 
         /// <summary>
@@ -49,11 +43,16 @@ namespace RiverWatch_Windows_Phone_App
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            
+            // TODO: Prepare page for display here.
+
+            // TODO: If your application contains multiple pages, ensure that you are
+            // handling the hardware Back button by registering for the
+            // Windows.Phone.UI.Input.HardwareButtons.BackPressed event.
+            // If you are using the NavigationHelper provided by some templates,
+            // this event is handled for you.
         }
 
-
-
+        //Aquired from http://www.romasz.net/how-to-take-a-photo-in-windows-runtime/
         private static async Task<DeviceInformation> GetCameraID(Windows.Devices.Enumeration.Panel desired)
         {
             DeviceInformation deviceID = (await DeviceInformation.FindAllAsync(DeviceClass.VideoCapture))
@@ -62,8 +61,6 @@ namespace RiverWatch_Windows_Phone_App
             if (deviceID != null) return deviceID;
             else throw new Exception(string.Format("Camera of type {0} doesn't exist.", desired));
         }
-
-        MediaCapture mediaCapture;
 
         async void photoCapture(object sender, RoutedEventArgs e)
         {
@@ -75,7 +72,7 @@ namespace RiverWatch_Windows_Phone_App
                 PhotoCaptureSource = PhotoCaptureSource.VideoPreview,
                 AudioDeviceId = string.Empty,
                 VideoDeviceId = cameraID.Id
-
+                
             });
             //var maxResolution = mediaCapture.VideoDeviceController.GetAvailableMediaStreamProperties(MediaStreamType.Photo).Aggregate((i1, i2) => (i1 as VideoEncodingProperties).Width > (i2 as VideoEncodingProperties).Width ? i1 : i2);
             //await mediaCapture.VideoDeviceController.SetMediaStreamPropertiesAsync(MediaStreamType.Photo, maxResolution);
@@ -84,13 +81,6 @@ namespace RiverWatch_Windows_Phone_App
             mediaCapture.SetPreviewRotation(VideoRotation.Clockwise90Degrees);
             CameraPreview.Source = mediaCapture;
             await mediaCapture.StartPreviewAsync();
-        }
-
-        async void ReturnButton_Click(object sender, RoutedEventArgs e)
-        {
-            await mediaCapture.StopPreviewAsync();
-            mediaCapture.Dispose();
-            Frame.GoBack();
         }
     }
 }
