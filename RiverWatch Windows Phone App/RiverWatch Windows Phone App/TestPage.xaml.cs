@@ -105,7 +105,16 @@ namespace RiverWatch_Windows_Phone_App
             await mediaCapture.StartPreviewAsync();
         }
 
-        
+        async void CaptureImage_Click(object sender, RoutedEventArgs e)
+        {
+            Image i = new Image();
+            //BitmapImage bi = new BitmapImage();
+            //bi.UriSource = new Uri(i.BaseUri, "Assets/pinIcon.png");
+            //i.Source = bi;
+            
+            PollutionReportPage.setImage(i);
+            Frame.Navigate(typeof(PollutionReportPage));
+        }
 
         async void ReturnButton_Click(object sender, RoutedEventArgs e)
         {

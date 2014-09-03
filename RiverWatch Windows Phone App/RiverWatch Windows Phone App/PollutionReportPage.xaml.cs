@@ -29,6 +29,7 @@ namespace RiverWatch_Windows_Phone_App
         // fields
 
         // image information
+        private static Image pollutionImage = null;
         public Boolean imageReady = false;
 
         // location information
@@ -58,12 +59,16 @@ namespace RiverWatch_Windows_Phone_App
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            // check if an image is saved, if so, its ready
-
             // init geolocation
             geolocationReady = false;
-            this.GeolocationText.Text = "Loading Coordinates ...";
-            getGeoPosition();
+            
+            // check if an image is saved, if so, its ready
+            if (pollutionImage != null)
+            {
+                // start finding geolocation
+                this.GeolocationToolTip.Text = "Loading Coordinates ...";
+                getGeoPosition();
+            }
 
             // check if textual information is filled out, if so, its ready
 
@@ -79,7 +84,7 @@ namespace RiverWatch_Windows_Phone_App
             Geoposition position = await geolocator.GetGeopositionAsync();
             this.latit = "" + position.Coordinate.Latitude;
             this.longi = "" + position.Coordinate.Longitude;
-            this.GeolocationText.Text = "Latitude: " + this.latit + "\n\nLongitude: " + this.longi;
+            this.GeolocationToolTip.Text = "Latitude: " + this.latit + "\n\nLongitude: " + this.longi;
             geolocationReady = true;
         }
 
@@ -107,6 +112,11 @@ namespace RiverWatch_Windows_Phone_App
         private void cameraButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Frame.Navigate(typeof(TestPage));
+        }
+
+        public static void setImage(Image i)
+        {
+            pollutionImage = i;
         }
 
     }
