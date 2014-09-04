@@ -117,10 +117,10 @@ namespace RiverWatch_Windows_Phone_App
             geolocationReady = true;
         }
 
-        private override void ReturnButton_Click(object sender, RoutedEventArgs e)
+        private async void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
             pollutionImage = null;
-            Frame.Navigate(typeof );
+            Frame.Navigate(typeof(HubPage));
         }
 
         private void SubmitReport_Click(object sender, RoutedEventArgs e)
