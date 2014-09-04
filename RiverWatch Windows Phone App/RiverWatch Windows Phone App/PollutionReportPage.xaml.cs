@@ -137,7 +137,7 @@ namespace RiverWatch_Windows_Phone_App
 
         private void AddTags_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Strings.AddTagsPage));
+            Frame.Navigate(typeof(AddTagsPage));
         }
 
         private void cameraButton_Tapped(object sender, TappedRoutedEventArgs e)
@@ -145,10 +145,28 @@ namespace RiverWatch_Windows_Phone_App
             Frame.Navigate(typeof(CameraPage));
         }
 
+        
+
         public static void setImage(BitmapImage i)
         {
             pollutionImage = i;
         }
+
+        private void tagButton_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(AddTagsPage));
+        }
+
+        private void descriptionButton_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(AddDescriptionPage));
+        }
+
+        private void waterQualityButton_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(WaterQualityReportPage));
+        }
+
 
     }
 }
