@@ -5,8 +5,7 @@
     xmlns:local="using:RiverWatch_Windows_Phone_App"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    mc:Ignorable="d">
     <Grid>
         <TextBlock x:Name="PageTitle" FontSize="25" Margin="10,0,0,0">Create a Pollution Report</TextBlock>
 
@@ -46,8 +45,8 @@
             </Grid>
         </Grid>
 
-        <Image HorizontalAlignment="Left" Margin="9,50,0,0" Height="41" VerticalAlignment="Top" Width="41" Source="Assets/backArrow.png" Tapped="ReturnButton_Click"/>
         <Rectangle HorizontalAlignment="Left" Height="100" Margin="-85,298,0,0" VerticalAlignment="Top" Width="100"/>
+        <AppBarButton x:Name="ReturnButton" HorizontalAlignment="Left" Icon="Back" Label="appbarbutton" Margin="9,50,0,0" VerticalAlignment="Top" IsCompact="True" Click="ReturnButton_Click"/>
         <!--<Button Content="Submit" HorizontalAlignment="Left" Margin="60,582,0,0" VerticalAlignment="Top" Click="SubmitReport_Click" Width="330"/>-->
     </Grid>
 </Page>
