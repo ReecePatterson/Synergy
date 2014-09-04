@@ -97,8 +97,8 @@
     <Compile Include="AddTagsPage.xaml.cs">
       <DependentUpon>AddTagsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TestPage.xaml.cs">
-      <DependentUpon>TestPage.xaml</DependentUpon>
+    <Compile Include="CameraPage.xaml.cs">
+      <DependentUpon>CameraPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="WaterQualityReportPage.xaml.cs">
       <DependentUpon>WaterQualityReportPage.xaml</DependentUpon>
@@ -155,7 +155,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TestPage.xaml">
+    <Page Include="CameraPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
