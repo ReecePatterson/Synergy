@@ -7,7 +7,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
     <Grid>
         <TextBlock x:Name="PageTitle" FontSize="25" Margin="10,0,0,0">Create a Pollution Report</TextBlock>
 
@@ -20,31 +19,31 @@
         </Grid>
 
         <Grid x:Name="GeolocateGrid" Background="#227fff" VerticalAlignment="Top" Margin="60,160,10,0" Height="90">
+            <TextBlock x:Name="GeolocationToolTip" FontSize="20" Margin="20,18,0,0">Awaiting Photo</TextBlock>
             <Grid HorizontalAlignment="Right" Width="100" Background="#004cff">
                 <Image VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" Source="Assets/pinIcon.png"/>
             </Grid>
-            <TextBlock x:Name="GeolocationToolTip" FontSize="20" Margin="20,18,0,0">Awaiting Photo</TextBlock>
         </Grid>
 
         <Grid x:Name="TagsGrid" Background="#227fff" VerticalAlignment="Top" Margin="60,270,10,0" Height="90">
-            <Grid HorizontalAlignment="Right" Width="100" Background="#004cff">
-                <Image VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" Source="Assets/cameraIcon.png" Tapped="cameraButton_Tapped"/>
-            </Grid>
             <TextBlock x:Name="TagsToolTip" FontSize="20" Margin="20,18,0,0">Select Tags</TextBlock>
+            <Grid HorizontalAlignment="Right" Width="100" Background="#004cff">
+                <Image x:Name="tagButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" Source="Assets/cameraIcon.png" Tapped="tagButton_Tapped"/>
+            </Grid>
         </Grid>
 
         <Grid x:Name="DescriptionGrid" Background="#227fff" VerticalAlignment="Top" Margin="60,380,10,0" Height="90">
-            <Grid HorizontalAlignment="Right" Width="100" Background="#004cff">
-                <Image VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" Source="Assets/cameraIcon.png" Tapped="cameraButton_Tapped"/>
-            </Grid>
             <TextBlock x:Name="DescriptionToolTip" FontSize="20" Margin="20,18,0,0">Add Description</TextBlock>
+            <Grid HorizontalAlignment="Right" Width="100" Background="#004cff">
+                <Image x:Name="descriptionButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" Source="Assets/cameraIcon.png" Tapped="descriptionButton_Tapped"/>
+            </Grid>
         </Grid>
 
         <Grid x:Name="BluetoothGrid" Background="#227fff" VerticalAlignment="Top" Margin="60,490,10,0" Height="90">
-            <Grid HorizontalAlignment="Right" Width="100" Background="#004cff">
-                <Image VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" Source="Assets/cameraIcon.png" Tapped="cameraButton_Tapped"/>
-            </Grid>
             <TextBlock x:Name="WaterQualityToolTip" FontSize="18" Margin="20,18,0,0">Measure Water Quality</TextBlock>
+            <Grid HorizontalAlignment="Right" Width="100" Background="#004cff">
+                <Image x:Name="waterQualityButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" Source="Assets/cameraIcon.png" Tapped="waterQualityButton_Tapped"/>
+            </Grid>
         </Grid>
 
         <Image HorizontalAlignment="Left" Margin="9,50,0,0" Height="41" VerticalAlignment="Top" Width="41" Source="Assets/backArrow.png" Tapped="ReturnButton_Click"/>
