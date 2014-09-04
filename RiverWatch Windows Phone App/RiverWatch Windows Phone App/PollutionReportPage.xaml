@@ -14,20 +14,24 @@
         <Grid x:Name="PhotoGrid" Background="#FF3C5BE6" VerticalAlignment="Top" Margin="60,50,10,0" Height="90">
             <TextBlock x:Name="ImageToolTip" FontSize="20" Margin="20,18,0,0">Take a photo</TextBlock>
             <Image x:Name="cameraButton" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="250,15,20,0" Width="60" Height="60" Source="Assets/cameraIcon.png" Tapped="cameraButton_Tapped"/>
+            <Image x:Name="imagePreview" HorizontalAlignment="Left" Stretch="UniformToFill" Width="225" Margin="5,5,0,5"/>
         </Grid>
         <Grid x:Name="GeolocateGrid" Background="#FF3C5BE6" VerticalAlignment="Top" Margin="60,160,10,0" Height="90">
             <!--<TextBlock>This is for checking lang and lat</TextBlock>-->
             <Image x:Name="pinIcon" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="250,15,20,0" Width="60" Height="60" Source="Assets/pinIcon.png"></Image>
             <TextBlock x:Name="GeolocationToolTip" FontSize="20" Margin="20,18,0,0">Awaiting Photo</TextBlock>
         </Grid>
-        <Grid x:Name="Tags" Background="#FF3C5BE6" VerticalAlignment="Top" Margin="60,270,10,0" Height="90">
+        <Grid x:Name="TagsGrid" Background="#FF3C5BE6" VerticalAlignment="Top" Margin="60,270,10,0" Height="90">
+            <TextBlock x:Name="TagsToolTip" FontSize="20" Margin="20,18,0,0">Select Tags</TextBlock>
         </Grid>
-        <Grid x:Name="Description" Background="#FF3C5BE6" VerticalAlignment="Top" Margin="60,380,10,0" Height="90">
+        <Grid x:Name="DescriptionGrid" Background="#FF3C5BE6" VerticalAlignment="Top" Margin="60,380,10,0" Height="90">
+            <TextBlock x:Name="DescriptionToolTip" FontSize="20" Margin="20,18,0,0">Add Description</TextBlock>
         </Grid>
-        <Grid x:Name="Bluetooth" Background="#FF3C5BE6" VerticalAlignment="Top" Margin="60,490,10,0" Height="90">
+        <Grid x:Name="BluetoothGrid" Background="#FF3C5BE6" VerticalAlignment="Top" Margin="60,490,10,0" Height="90">
+            <TextBlock x:Name="WaterQualityToolTip" FontSize="20" Margin="20,18,0,0">Measure Water Quality</TextBlock>
         </Grid>
 
-        <Image x:Name="imagePreview" HorizontalAlignment="Center" Stretch="UniformToFill" Width="340" Margin="60,306,0,73"/>
+        
 
         <!--<Grid x:Name="DescriptionGrid" Background="#FF3C5BE6" VerticalAlignment="Top" Margin="60,300,10,0" Height="330">
             <TextBox x:Name="Title" PlaceholderText="Title"  Margin="10,10,10,0"/>
