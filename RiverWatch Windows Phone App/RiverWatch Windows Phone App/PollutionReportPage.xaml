@@ -13,7 +13,6 @@
 
         <Grid x:Name="PhotoGrid" Background="#FF3C5BE6" VerticalAlignment="Top" Margin="60,50,10,0" Height="90">
             <TextBlock x:Name="ImageToolTip" FontSize="20" Margin="20,18,0,0">Take a photo</TextBlock>
-
             <Image x:Name="cameraButton" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="250,15,20,0" Width="60" Height="60" Source="Assets/cameraIcon.png" Tapped="cameraButton_Tapped"/>
         </Grid>
         <Grid x:Name="GeolocateGrid" Background="#FF3C5BE6" VerticalAlignment="Top" Margin="60,160,10,0" Height="90">
