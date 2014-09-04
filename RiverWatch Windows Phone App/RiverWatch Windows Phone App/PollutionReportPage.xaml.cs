@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RiverWatch_Windows_Phone_App.Common;
+using RiverWatch_Windows_Phone_App.Data;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -136,7 +138,7 @@ namespace RiverWatch_Windows_Phone_App
 
         private void AddTags_Click(object sender, RoutedEventArgs e)
         {
-            //Frame.Navigate(typeof(AddTagsPage));
+            Frame.Navigate(typeof(Strings.AddTagsPage));
         }
 
         private void cameraButton_Tapped(object sender, TappedRoutedEventArgs e)

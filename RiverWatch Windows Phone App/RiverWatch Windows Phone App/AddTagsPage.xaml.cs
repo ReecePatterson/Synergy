@@ -35,5 +35,6 @@ namespace RiverWatch_Windows_Phone_App.Strings
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
         }
+
     }
 }
