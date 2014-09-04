@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.Media.Capture;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.Phone.UI.Input;
 
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
@@ -50,7 +51,16 @@ namespace RiverWatch_Windows_Phone_App
         public PollutionReportPage()
         {
             this.InitializeComponent();
-            
+            HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+        }
+
+        void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e) {
+            Frame rootFrame = Window.Current.Content as Frame;
+            if (rootFrame != null && rootFrame.CanGoBack) {
+                rootFrame.GoBack();
+                e.Handled = true;
+            }
+
         }
 
         /// <summary>
@@ -107,10 +117,10 @@ namespace RiverWatch_Windows_Phone_App
             geolocationReady = true;
         }
 
-        private void ReturnButton_Click(object sender, RoutedEventArgs e)
+        private override void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
             pollutionImage = null;
-            Frame.GoBack();
+            Frame.Navigate(typeof );
         }
 
         private void SubmitReport_Click(object sender, RoutedEventArgs e)
