@@ -42,9 +42,8 @@ namespace RiverWatch_Windows_Phone_App
         public Boolean geolocationReady = false;
 
         // textual information
-        public String title = "";
         public String description = "";
-        public String tags = "";
+        public static List<String> tags = null;
         public String date = "";
         public Boolean textReady = false;
 
@@ -144,14 +143,7 @@ namespace RiverWatch_Windows_Phone_App
         {
             Frame.Navigate(typeof(CameraPage));
         }
-
         
-
-        public static void setImage(BitmapImage i)
-        {
-            pollutionImage = i;
-        }
-
         private void tagButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Frame.Navigate(typeof(AddTagsPage));
@@ -167,6 +159,17 @@ namespace RiverWatch_Windows_Phone_App
             Frame.Navigate(typeof(WaterQualityReportPage));
         }
 
+        // ===== public methods =====
+
+        public static void setImage(BitmapImage i)
+        {
+            pollutionImage = i;
+        }
+
+        public static void setTags(List<String> tags)
+        {
+            tags = tags;
+        }
 
     }
 }
