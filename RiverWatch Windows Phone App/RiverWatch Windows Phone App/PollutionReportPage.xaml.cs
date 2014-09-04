@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.Media.Capture;
+using Windows.UI.Xaml.Media.Imaging;
 
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
@@ -29,7 +30,7 @@ namespace RiverWatch_Windows_Phone_App
         // fields
 
         // image information
-        private static Image pollutionImage = null;
+        private static BitmapImage pollutionImage = null;
         public Boolean imageReady = false;
 
         // location information
@@ -66,13 +67,16 @@ namespace RiverWatch_Windows_Phone_App
             if (pollutionImage != null)
             {
                 // start finding geolocation
-                this.GeolocationToolTip.Text = "Loading Coordinates ...";
                 getGeoPosition();
 
                 // remove tool tip for image
                 this.ImageToolTip.Text = "";
+
                 // resize the photo tile and put the image taken on it
-                //
+                imagePreview.Source = pollutionImage;
+                
+                // tell user system is looking for location even though we've already started
+                this.GeolocationToolTip.Text = "Loading Coordinates ...";
             }
             else
             {
@@ -96,14 +100,16 @@ namespace RiverWatch_Windows_Phone_App
             this.latit = "" + position.Coordinate.Latitude;
             this.longi = "" + position.Coordinate.Longitude;
 
-            // resize the geolocation tile and display the coordinates
+            // resize the geolocation tile and font, then display the coordinates
             // 
+            this.GeolocationToolTip.FontSize = 15;
             this.GeolocationToolTip.Text = "Latitude: " + this.latit + "\n\nLongitude: " + this.longi;
             geolocationReady = true;
         }
 
         private void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
+            pollutionImage = null;
             Frame.GoBack();
         }
 
@@ -128,7 +134,7 @@ namespace RiverWatch_Windows_Phone_App
             Frame.Navigate(typeof(TestPage));
         }
 
-        public static void setImage(Image i)
+        public static void setImage(BitmapImage i)
         {
             pollutionImage = i;
         }

@@ -9,7 +9,6 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <TextBlock x:Name="thing">thing</TextBlock>
         <CaptureElement x:Name="CameraPreview" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False" ScrollViewer.VerticalScrollBarVisibility="Disabled" UseLayoutRounding="False" Stretch="UniformToFill">
             <CaptureElement.RenderTransform>
                 <CompositeTransform/>
@@ -17,5 +16,6 @@
         </CaptureElement>
         <Button Content="Capture" Click="CaptureImage_Click" HorizontalAlignment="Right" Margin="0,0,20,0"></Button>
         <Button Content="Go Back" Click="ReturnButton_Click" Margin="20,0,0,0"/>
+        <Image x:Name="preview" Width="200" ></Image>
     </Grid>
 </Page>

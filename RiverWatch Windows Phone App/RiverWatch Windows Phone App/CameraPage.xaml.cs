@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -42,6 +43,7 @@ namespace RiverWatch_Windows_Phone_App
         {
             this.InitializeComponent();
             Application.Current.Resuming += new EventHandler<object>(AppResume);
+            HardwareButtons.BackPressed += HardwareButtons_BackPressed;
         }
 
         /// <summary>
@@ -59,12 +61,24 @@ namespace RiverWatch_Windows_Phone_App
         {
             //this.thing.Text = "On Navigated From";
             stopCamera();
+            
+        }
+        
+        void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            if(rootFrame != null && rootFrame.CanGoBack)
+            {
+                rootFrame.GoBack();
+                e.Handled = true;
+            }
+
         }
 
         private void AppResume(object sender, object e)
         {
-            this.thing.Text = "App resume";
             stopCamera();
+            
         }
 
         private static async Task<DeviceInformation> GetCameraID(Windows.Devices.Enumeration.Panel desired)
@@ -108,12 +122,25 @@ namespace RiverWatch_Windows_Phone_App
         async void CaptureImage_Click(object sender, RoutedEventArgs e)
         {
             Image i = new Image();
-            //BitmapImage bi = new BitmapImage();
-            //bi.UriSource = new Uri(i.BaseUri, "Assets/pinIcon.png");
-            //i.Source = bi;
-            
-            PollutionReportPage.setImage(i);
-            Frame.Navigate(typeof(PollutionReportPage));
+            ImageEncodingProperties imgFormat = ImageEncodingProperties.CreateJpeg();
+
+            // create storage file in local app storage
+            StorageFile file = await ApplicationData.Current.LocalFolder.CreateFileAsync(
+                "TestPhoto.jpg",
+                CreationCollisionOption.GenerateUniqueName);
+
+            // take photo
+            await mediaCapture.CapturePhotoToStorageFileAsync(imgFormat, file);
+
+            // Get photo as a BitmapImage
+            BitmapImage bmpImage = new BitmapImage(new Uri(file.Path));
+
+            // imagePreivew is a <Image> object defined in XAML
+            preview.Source = bmpImage;
+            i.Source = bmpImage;
+
+            PollutionReportPage.setImage(bmpImage);
+            Frame.GoBack();
         }
 
         async void ReturnButton_Click(object sender, RoutedEventArgs e)
