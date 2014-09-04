@@ -69,7 +69,7 @@ namespace RiverWatch_Windows_Phone_App
             Frame rootFrame = Window.Current.Content as Frame;
             if(rootFrame != null && rootFrame.CanGoBack)
             {
-                rootFrame.GoBack();
+                rootFrame.Navigate(typeof(PollutionReportPage));
                 e.Handled = true;
             }
 
