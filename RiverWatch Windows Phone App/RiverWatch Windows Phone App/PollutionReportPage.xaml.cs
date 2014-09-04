@@ -106,5 +106,10 @@ namespace RiverWatch_Windows_Phone_App
             Frame.Navigate(typeof(Strings.AddTagsPage));
         }
 
+        private void cameraButton_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(TestPage));
+        }
+
     }
 }
