@@ -9,27 +9,12 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <CaptureElement x:Name="CameraPreview" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False" Loaded="photoCapture" ScrollViewer.VerticalScrollBarVisibility="Disabled" UseLayoutRounding="False" Stretch="UniformToFill">
+        <TextBlock x:Name="thing">thing</TextBlock>
+        <CaptureElement x:Name="CameraPreview" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False" ScrollViewer.VerticalScrollBarVisibility="Disabled" UseLayoutRounding="False" Stretch="UniformToFill">
             <CaptureElement.RenderTransform>
                 <CompositeTransform/>
             </CaptureElement.RenderTransform>
         </CaptureElement>
-        
-        <TextBlock HorizontalAlignment="Left" Margin="20,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top">Welcome To Eman's Test Page</TextBlock>
-        <TextBlock x:Name="Coordinates" HorizontalAlignment="Left" Margin="20,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top">Finding Coordinates...</TextBlock>
-        <Button Content="Return" HorizontalAlignment="Left" Margin="20,141,0,0" VerticalAlignment="Top" Click="ReturnButton_Click"/>
-
-        <StackPanel Orientation="Vertical">
-            <CaptureElement x:Name="capturePreview" Width="320" Height="240" />
-            <Image x:Name="imagePreivew" Stretch="None" Height="178" Margin="40,200,68,200" />
-        </StackPanel>
-
-        <StackPanel Orientation="Vertical" Margin="0,218,0,0">
-            <Button Click="InitCamera_Click" Content="Initialize Camera" />
-            <Button Click="StartCapturePreview_Click" Content="Start Capture Preview" />
-            <Button Click="CapturePhoto_Click" Content="Capture Photo"/>
-            <Button Click="StopCapturePreview_Click" Content="Stop Capture Preview" />
-        </StackPanel>
-
+        <Button Content="Go Back" Click="ReturnButton_Click" Margin="20,0,0,0"/>
     </Grid>
 </Page>

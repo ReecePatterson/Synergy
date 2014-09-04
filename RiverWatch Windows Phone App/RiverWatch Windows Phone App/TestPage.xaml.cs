@@ -10,6 +10,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Media.Capture;
 using Windows.Media.MediaProperties;
+using Windows.Phone.UI.Input;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -40,6 +41,7 @@ namespace RiverWatch_Windows_Phone_App
         public TestPage()
         {
             this.InitializeComponent();
+            Application.Current.Resuming += new EventHandler<object>(AppResume);
         }
 
         /// <summary>
@@ -49,7 +51,20 @@ namespace RiverWatch_Windows_Phone_App
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            
+            //this.thing.Text = "On Navigated To";
+            photoCapture();
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            //this.thing.Text = "On Navigated From";
+            stopCamera();
+        }
+
+        private void AppResume(object sender, object e)
+        {
+            this.thing.Text = "App resume";
+            stopCamera();
         }
 
         private static async Task<DeviceInformation> GetCameraID(Windows.Devices.Enumeration.Panel desired)
@@ -61,7 +76,15 @@ namespace RiverWatch_Windows_Phone_App
             else throw new Exception(string.Format("Camera of type {0} doesn't exist.", desired));
         }
 
-        async void photoCapture(object sender, RoutedEventArgs e)
+        async void stopCamera()
+        {
+            await mediaCapture.StopPreviewAsync();
+            mediaCapture.Dispose();
+        }
+
+        MediaCapture mediaCapture;
+
+        async void photoCapture()
         {
             var cameraID = await GetCameraID(Windows.Devices.Enumeration.Panel.Back);
             mediaCapture = new MediaCapture();
@@ -82,62 +105,11 @@ namespace RiverWatch_Windows_Phone_App
             await mediaCapture.StartPreviewAsync();
         }
 
-        public String latit = "";
-        public String longi = "";
-        public Boolean geoFound = false;
+        
 
-        private async Task getGeoPosition()
-        {
-            var geolocator = new Geolocator();
-            geolocator.DesiredAccuracyInMeters = 100;
-            Geoposition position = await geolocator.GetGeopositionAsync();
-            this.latit = ""+position.Coordinate.Latitude;
-            this.longi = "" + position.Coordinate.Longitude;
-            this.Coordinates.Text = "Latitude: "+this.latit + "\n\nLongitude: " + this.longi;
-            geoFound = true;
-        }
-
-        private void ReturnButton_Click(object sender, RoutedEventArgs e)
+        async void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.GoBack();
-        }
-
-        Windows.Media.Capture.MediaCapture captureManager;
-
-        async private void InitCamera_Click(object sender, RoutedEventArgs e)
-        {
-            captureManager = new MediaCapture();
-            await captureManager.InitializeAsync();
-        }
-
-        async private void StartCapturePreview_Click(object sender, RoutedEventArgs e)
-        {
-            capturePreview.Source = captureManager;
-            await captureManager.StartPreviewAsync();
-        }
-
-        async private void StopCapturePreview_Click(object sender, RoutedEventArgs e)
-        {
-            await captureManager.StopPreviewAsync();
-        }
-
-        async private void CapturePhoto_Click(object sender, RoutedEventArgs e)
-        {
-            ImageEncodingProperties imgFormat = ImageEncodingProperties.CreateJpeg();
-
-            // create storage file in local app storage
-            StorageFile file = await ApplicationData.Current.LocalFolder.CreateFileAsync(
-                "TestPhoto.jpg",
-                CreationCollisionOption.GenerateUniqueName);
-
-            // take photo
-            await captureManager.CapturePhotoToStorageFileAsync(imgFormat, file);
-
-            // Get photo as a BitmapImage
-            BitmapImage bmpImage = new BitmapImage(new Uri(file.Path));
-
-            // imagePreivew is a <Image> object defined in XAML
-            imagePreivew.Source = bmpImage;
         }
     }
 }
