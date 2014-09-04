@@ -30,16 +30,19 @@ namespace RiverWatch_Windows_Phone_App
     /// </summary>
     public sealed partial class PollutionReportPage : Page
     {
+        // Report
+        Report report = new Report();
+
         // fields
 
         // image information
         private static BitmapImage pollutionImage = null;
-        public Boolean imageReady = false;
+        public static Boolean imageReady = false;
 
         // location information
         public String longi = "";
         public String latit = "";
-        public Boolean geolocationReady = false;
+        public static Boolean geolocationReady = false;
 
         // textual information
         public String description = "";
@@ -69,24 +72,23 @@ namespace RiverWatch_Windows_Phone_App
         /// <param name="e">Event data that describes how this page was reached.
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            // init geolocation
-            geolocationReady = false;
-            
+        {      
             // check if an image is saved, if so, its ready
             if (pollutionImage != null)
             {
-                // start finding geolocation
-                getGeoPosition();
+                if (!geolocationReady) {
+                    // start finding geolocation
+                    getGeoPosition();
 
-                // remove tool tip for image
-                this.ImageToolTip.Text = "";
+                    // remove tool tip for image
+                    this.ImageToolTip.Text = "";
 
-                // resize the photo tile and put the image taken on it
-                imagePreview.Source = pollutionImage;
+                    // resize the photo tile and put the image taken on it
+                    imagePreview.Source = pollutionImage;
                 
-                // tell user system is looking for location even though we've already started
-                this.GeolocationToolTip.Text = "Loading Coordinates ...";
+                    // tell user system is looking for location even though we've already started
+                    this.GeolocationToolTip.Text = "Loading Coordinates ...";
+                }
             }
             else
             {
@@ -119,7 +121,9 @@ namespace RiverWatch_Windows_Phone_App
 
         private async void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
+            // delete everything
             pollutionImage = null;
+            geolocationReady = false;
             Frame.Navigate(typeof(HubPage));
         }
 
@@ -166,9 +170,9 @@ namespace RiverWatch_Windows_Phone_App
             pollutionImage = i;
         }
 
-        public static void setTags(List<String> tags)
+        public static void setTags(List<String> tagList)
         {
-            tags = tags;
+            tags = tagList;
         }
 
     }
