@@ -19,7 +19,7 @@
                 </DataTemplate>
             </HubSection>
 
-            <HubSection Header="WaterWand">
+            <HubSection Header="Unsent Reports">
                 <DataTemplate>
                     <Grid>
                         <TextBlock>Work In Progress</TextBlock>
