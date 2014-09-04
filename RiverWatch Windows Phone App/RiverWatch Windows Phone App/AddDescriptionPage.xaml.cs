@@ -31,6 +31,8 @@ namespace RiverWatch_Windows_Phone_App
 
         void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
         {
+            PollutionReportPage.setDescription(DescriptionString.Text);
+
             Frame rootFrame = Window.Current.Content as Frame;
             if (rootFrame != null && rootFrame.CanGoBack)
             {
@@ -46,6 +48,18 @@ namespace RiverWatch_Windows_Phone_App
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+        }
+
+        private void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            PollutionReportPage.setDescription(DescriptionString.Text);
+
+            Frame rootFrame = Window.Current.Content as Frame;
+            if (rootFrame != null && rootFrame.CanGoBack)
+            {
+                rootFrame.Navigate(typeof(PollutionReportPage));
+                
+            }
         }
     }
 }
