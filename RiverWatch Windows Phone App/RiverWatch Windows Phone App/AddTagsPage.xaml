@@ -9,6 +9,11 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <RadioButton Content="Option 1"  Height="80" Width="377" />
+        <RadioButton Content="Option 1"  Height="80" Width="377" Margin="0,83,0,0"/>
+        <RadioButton Content="Option 1"  Height="80" Width="377" Margin="0,165,0,0"/>
+        <RadioButton Content="Option 1"  Height="80" Width="377" Margin="0,248,0,0"/>
+        <RadioButton Content="Option 1"  Height="80" Width="377" Margin="0,330,0,0"/>
 
     </Grid>
 </Page>
