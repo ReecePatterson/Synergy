@@ -19,7 +19,13 @@
         <Grid x:Name="GeolocateGrid" Background="#FF3C5BE6" VerticalAlignment="Top" Margin="60,160,10,0" Height="90">
             <!--<TextBlock>This is for checking lang and lat</TextBlock>-->
             <Image x:Name="pinIcon" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="250,15,20,0" Width="60" Height="60" Source="Assets/pinIcon.png"></Image>
-            <TextBlock x:Name="GeolocationToolTip" FontSize="20" Margin="20,18,0,0">Find location</TextBlock>
+            <TextBlock x:Name="GeolocationToolTip" FontSize="20" Margin="20,18,0,0">Awaiting Photo</TextBlock>
+        </Grid>
+        <Grid x:Name="Tags" Background="#FF3C5BE6" VerticalAlignment="Top" Margin="60,270,10,0" Height="90">
+        </Grid>
+        <Grid x:Name="Description" Background="#FF3C5BE6" VerticalAlignment="Top" Margin="60,380,10,0" Height="90">
+        </Grid>
+        <Grid x:Name="Bluetooth" Background="#FF3C5BE6" VerticalAlignment="Top" Margin="60,490,10,0" Height="90">
         </Grid>
 
         <Image x:Name="imagePreview" HorizontalAlignment="Center" Stretch="UniformToFill" Width="340" Margin="60,306,0,73"/>
@@ -34,6 +40,6 @@
         -->
 
         <Image HorizontalAlignment="Left" Margin="9,50,0,0" Height="41" VerticalAlignment="Top" Width="41" Source="Assets/backArrow.png" Tapped="ReturnButton_Click"/>
-        <Button Content="Submit" HorizontalAlignment="Left" Margin="60,582,0,0" VerticalAlignment="Top" Click="SubmitReport_Click" Width="330"/>
+        <!--<Button Content="Submit" HorizontalAlignment="Left" Margin="60,582,0,0" VerticalAlignment="Top" Click="SubmitReport_Click" Width="330"/>-->
     </Grid>
 </Page>
