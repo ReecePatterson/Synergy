@@ -45,7 +45,7 @@ namespace RiverWatch_Windows_Phone_App
         public static Boolean geolocationReady = false;
 
         // textual information
-        public String description = "";
+        public static String description = "";
         public static List<String> tags = null;
         public String date = "";
         public Boolean textReady = false;
@@ -173,6 +173,11 @@ namespace RiverWatch_Windows_Phone_App
         public static void setTags(List<String> tagList)
         {
             tags = tagList;
+        }
+
+        public static void setDescription(String desc)
+        {
+            description = desc;
         }
 
     }
