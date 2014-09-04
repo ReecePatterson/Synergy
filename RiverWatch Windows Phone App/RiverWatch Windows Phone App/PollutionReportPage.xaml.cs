@@ -96,14 +96,16 @@ namespace RiverWatch_Windows_Phone_App
             this.latit = "" + position.Coordinate.Latitude;
             this.longi = "" + position.Coordinate.Longitude;
 
-            // resize the geolocation tile and display the coordinates
+            // resize the geolocation tile and font, then display the coordinates
             // 
+            this.GeolocationToolTip.FontSize = 15;
             this.GeolocationToolTip.Text = "Latitude: " + this.latit + "\n\nLongitude: " + this.longi;
             geolocationReady = true;
         }
 
         private void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
+            pollutionImage = null;
             Frame.GoBack();
         }
 
