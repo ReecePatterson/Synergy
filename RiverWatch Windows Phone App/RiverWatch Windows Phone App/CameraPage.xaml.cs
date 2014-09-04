@@ -7,12 +7,14 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Geolocation;
+using Windows.Devices.Sensors;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Media.Capture;
 using Windows.Media.MediaProperties;
 using Windows.Phone.UI.Input;
 using Windows.Storage;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -39,11 +41,52 @@ namespace RiverWatch_Windows_Phone_App
     /// </summary>
     public sealed partial class CameraPage : Page
     {
+        private SimpleOrientationSensor _simpleorientation;
+
         public CameraPage()
         {
             this.InitializeComponent();
             Application.Current.Resuming += new EventHandler<object>(AppResume);
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+
+            _simpleorientation = SimpleOrientationSensor.GetDefault();
+            if (_simpleorientation != null) {
+                _simpleorientation.OrientationChanged += new TypedEventHandler<SimpleOrientationSensor, SimpleOrientationSensorOrientationChangedEventArgs>(OrientationChanged);
+            }
+        }
+
+        // For orientation Switching
+        private async void OrientationChanged(object sender, SimpleOrientationSensorOrientationChangedEventArgs e) {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => {
+                SimpleOrientation orientation = e.Orientation;
+                switch (orientation) {
+                    case SimpleOrientation.NotRotated:
+                        //Portrait Up 
+                        cameraButton.RenderTransform = new RotateTransform() { Angle = 0 };
+                        break;
+                    case SimpleOrientation.Rotated90DegreesCounterclockwise:
+                        //LandscapeLeft 
+                        cameraButton.RenderTransform = new RotateTransform() { Angle = 90 };
+                        break;
+                    case SimpleOrientation.Rotated180DegreesCounterclockwise:
+                        //PortraitDown 
+                        cameraButton.RenderTransform = new RotateTransform() { Angle = 180 };
+                        break;
+                    case SimpleOrientation.Rotated270DegreesCounterclockwise:
+                        //LandscapeRight 
+                        cameraButton.RenderTransform = new RotateTransform() { Angle = 270 };
+                        break;
+                    case SimpleOrientation.Faceup:
+                       // txtOrientation.Text = "Faceup";
+                        break;
+                    case SimpleOrientation.Facedown:
+                        //txtOrientation.Text = "Facedown";
+                        break;
+                    default:
+                        //txtOrientation.Text = "Unknown orientation";
+                        break;
+                }
+            });
         }
 
         /// <summary>

@@ -20,6 +20,11 @@
         <m3:DefaultTile Square71x71Logo="Assets\Square71x71Logo.png">
         </m3:DefaultTile>
         <m3:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="white" />
+        <m3:InitialRotationPreference>
+          <m3:Rotation Preference="portrait" />
+          <m3:Rotation Preference="landscape" />
+          <m3:Rotation Preference="landscapeFlipped" />
+        </m3:InitialRotationPreference>
       </m3:VisualElements>
     </Application>
   </Applications>
