@@ -19,6 +19,7 @@
         <CheckBox x:Name="tag7" Content="Lake" Width="320" Margin="70,440,0,0"/>
         <CheckBox x:Name="tag8" Content="Ocean" Width="320" Margin="70,500,0,0"/>
         <TextBlock Text="Please select the appropriate tags:" FontSize="12" HorizontalAlignment="Left" Margin="50,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="55" Width="285"/>
+        <AppBarButton HorizontalAlignment="Left" Icon="Back" Label="appbarbutton" Margin="-2,85,0,0" VerticalAlignment="Top" Click="AppBarButton_Click"/>
 
 
     </Grid>

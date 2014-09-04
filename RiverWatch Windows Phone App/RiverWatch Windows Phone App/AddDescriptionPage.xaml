@@ -9,6 +9,8 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-
+        <TextBox x:Name="DescriptionString" HorizontalAlignment="Left" Margin="71,104,0,0" TextWrapping="Wrap" PlaceholderText="Insert your description here" VerticalAlignment="Top" Height="532" Width="325"/>
+        <TextBlock Text="Pollution Incident Description" FontSize="25" HorizontalAlignment="Left" Margin="73,12,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="102" Width="321"/>
+        <AppBarButton HorizontalAlignment="Left" Icon="Back" Label="appbarbutton" Margin="0,61,0,0" VerticalAlignment="Top" Click="AppBarButton_Click"/>
     </Grid>
 </Page>
