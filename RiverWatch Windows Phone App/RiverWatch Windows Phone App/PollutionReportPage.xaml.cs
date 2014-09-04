@@ -131,7 +131,7 @@ namespace RiverWatch_Windows_Phone_App
 
         private void cameraButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            Frame.Navigate(typeof(TestPage));
+            Frame.Navigate(typeof(CameraPage));
         }
 
         public static void setImage(BitmapImage i)

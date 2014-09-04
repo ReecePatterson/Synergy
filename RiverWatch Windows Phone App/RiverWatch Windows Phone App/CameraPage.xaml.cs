@@ -37,9 +37,9 @@ namespace RiverWatch_Windows_Phone_App
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class TestPage : Page
+    public sealed partial class CameraPage : Page
     {
-        public TestPage()
+        public CameraPage()
         {
             this.InitializeComponent();
             Application.Current.Resuming += new EventHandler<object>(AppResume);
