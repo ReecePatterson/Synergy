@@ -48,13 +48,16 @@ namespace RiverWatch_Windows_Phone_App
             this.InitializeComponent();
             Application.Current.Resuming += new EventHandler<object>(AppResume);
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+            HardwareButtons.CameraPressed += HardwareButtons_CameraPressed;
+            HardwareButtons.CameraHalfPressed += HardwareButtons_CameraHalfPressed;
+            HardwareButtons.CameraReleased += HardwareButtons_CameraPressed;
 
             _simpleorientation = SimpleOrientationSensor.GetDefault();
             if (_simpleorientation != null) {
                 _simpleorientation.OrientationChanged += new TypedEventHandler<SimpleOrientationSensor, SimpleOrientationSensorOrientationChangedEventArgs>(OrientationChanged);
             }
         }
-
+        
         // For orientation Switching
         private async void OrientationChanged(object sender, SimpleOrientationSensorOrientationChangedEventArgs e) {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => {
@@ -116,6 +119,13 @@ namespace RiverWatch_Windows_Phone_App
                 e.Handled = true;
             }
 
+        }
+
+        void HardwareButtons_CameraPressed(object sender, CameraEventArgs e) {
+            CaptureImage_Click(this, null);
+        }
+
+        void HardwareButtons_CameraHalfPressed(object sender, CameraEventArgs e) {
         }
 
         private void AppResume(object sender, object e)
