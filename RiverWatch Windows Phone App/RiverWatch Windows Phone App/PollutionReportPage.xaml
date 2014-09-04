@@ -24,14 +24,12 @@
 
         <Image x:Name="imagePreview" HorizontalAlignment="Center" Stretch="UniformToFill" Width="340" Margin="60,306,0,73"/>
 
-        <!--<Grid x:Name="DescriptionGrid" Background="#FF3C5BE6" VerticalAlignment="Top" Margin="60,300,10,0" Height="330">
+        <Grid x:Name="DescriptionGrid" Background="#FF3C5BE6" VerticalAlignment="Top" Margin="60,300,10,0" Height="330">
             <TextBox x:Name="Title" PlaceholderText="Title"  Margin="10,10,10,0"/>
             <TextBox x:Name="Description" PlaceholderText="Your Description Here"  Margin="10,53,10,0" Height="143"/>
             <Button  x:Name="Tags" Content="AddTags" Margin="223,191,0,35" Height="104" Width="107" Click="AddTags_Click"/>
             <TextBox x:Name="ListOfTags" Text="No Tags Applied"  IsReadOnly="True" Margin="10,201,107,0" Height="85"/>
-
         </Grid>
-        -->
 
         <Image HorizontalAlignment="Left" Margin="9,50,0,0" Height="41" VerticalAlignment="Top" Width="41" Source="Assets/backArrow.png" Tapped="ReturnButton_Click"/>
         <Button Content="Submit" HorizontalAlignment="Left" Margin="60,582,0,0" VerticalAlignment="Top" Click="SubmitReport_Click" Width="330"/>
