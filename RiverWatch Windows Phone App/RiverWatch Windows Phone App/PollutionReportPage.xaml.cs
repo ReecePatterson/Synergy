@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RiverWatch_Windows_Phone_App.Common;
+using RiverWatch_Windows_Phone_App.Data;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -46,21 +48,20 @@ namespace RiverWatch_Windows_Phone_App
         public String date = "";
         public Boolean textReady = false;
 
-
-
         public PollutionReportPage()
         {
             this.InitializeComponent();
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
         }
 
-        void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e) {
+        void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
+        {
             Frame rootFrame = Window.Current.Content as Frame;
-            if (rootFrame != null && rootFrame.CanGoBack) {
-                rootFrame.GoBack();
+            if (rootFrame != null && rootFrame.CanGoBack)
+            {
+                rootFrame.Navigate(typeof(HubPage));
                 e.Handled = true;
             }
-
         }
 
         /// <summary>
@@ -136,7 +137,7 @@ namespace RiverWatch_Windows_Phone_App
 
         private void AddTags_Click(object sender, RoutedEventArgs e)
         {
-            //Frame.Navigate(typeof(AddTagsPage));
+            Frame.Navigate(typeof(Strings.AddTagsPage));
         }
 
         private void cameraButton_Tapped(object sender, TappedRoutedEventArgs e)

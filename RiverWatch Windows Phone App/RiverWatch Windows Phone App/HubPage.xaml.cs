@@ -129,7 +129,7 @@ namespace RiverWatch_Windows_Phone_App
 
         #endregion
 
-        // ========= EMANS BIT =================
+        // ========= Page Navigation =================
 
         private void PollutionReport_Tapped(object sender, TappedRoutedEventArgs e)
         {
@@ -138,7 +138,7 @@ namespace RiverWatch_Windows_Phone_App
 
         private void WaterQualityReport_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            Frame.Navigate(typeof(WaterQualityReportPage));
+            Frame.Navigate(typeof(UnsentReportsPage));
         }
 
         // ======== UNUSED METHODS ==========

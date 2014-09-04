@@ -79,6 +79,9 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AddDescriptionPage.xaml.cs">
+      <DependentUpon>AddDescriptionPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -99,6 +102,12 @@
     </Compile>
     <Compile Include="CameraPage.xaml.cs">
       <DependentUpon>CameraPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SubmitReportPage.xaml.cs">
+      <DependentUpon>SubmitReportPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UnsentReportsPage.xaml.cs">
+      <DependentUpon>UnsentReportsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="WaterQualityReportPage.xaml.cs">
       <DependentUpon>WaterQualityReportPage.xaml</DependentUpon>
@@ -143,6 +152,10 @@
     <PRIResource Include="Strings\en-US\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="AddDescriptionPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="HubPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -158,6 +171,14 @@
     <Page Include="CameraPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SubmitReportPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UnsentReportsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WaterQualityReportPage.xaml">
       <SubType>Designer</SubType>
