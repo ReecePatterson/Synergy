@@ -45,6 +45,25 @@ namespace RiverWatch_Windows_Phone_App
             }
         }
 
+        public Boolean isImageReady()
+        {
+            return this.imageReady;
+        }
+
+        public Boolean isGeolocationReady()
+        {
+            return this.geolocationReady;
+        }
+
+        public Boolean isTagsReady()
+        {
+            return this.tagsReady;
+        }
+
+        public Boolean isDescriptionReady()
+        {
+            return this.descriptionReady;
+        }
 
         public byte[] reportToByteStream()
         {
@@ -64,6 +83,18 @@ namespace RiverWatch_Windows_Phone_App
         {
 
         }
+
+        private async Task getGeoPosition()
+        {
+            var geolocator = new Geolocator();
+            geolocator.DesiredAccuracyInMeters = 100;
+            Geoposition position = await geolocator.GetGeopositionAsync();
+            this.latit = "" + position.Coordinate.Latitude;
+            this.longi = "" + position.Coordinate.Longitude;
+            this.geolocationReady = true;
+        }
+
+
         // getters
         public BitmapImage getSource()
         {
@@ -89,31 +120,40 @@ namespace RiverWatch_Windows_Phone_App
         {
             return this.description;
         }
+
         // setters
 
-        public void setBitmapImage(BitmapImage bi)
+        public Boolean setBitmapImage(BitmapImage bi)
         {
             this.pollutionImage = bi;
             this.imageReady = true;
+
+            // sneakily start the geolocation task
+            this.getGeoPosition();
+
+            return true;
         }
 
-        public void setGeolocation(Geoposition geo)
+        public Boolean setGeolocation(Geoposition geo)
         {
             this.latit = "" + geo.Coordinate.Latitude;
             this.longi = "" + geo.Coordinate.Longitude;
             this.geolocationReady = true;
+            return true;
         }
 
-        public void setTags(List<String> taglist)
+        public Boolean setTags(List<String> taglist)
         {
             this.tags = taglist;
             this.tagsReady = true;
+            return true;
         }
 
-        public void setDescription(String desc)
+        public Boolean setDescription(String desc)
         {
             this.description = desc;
             this.descriptionReady = true;
+            return true;
         }
     }
 }

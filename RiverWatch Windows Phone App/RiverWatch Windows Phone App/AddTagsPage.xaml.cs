@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RiverWatch_Windows_Phone_App.Common;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -66,13 +67,14 @@ namespace RiverWatch_Windows_Phone_App
                 tags.Add(tag8.Content.ToString());
             }
 
-            PollutionReportPage.setTags(tags);
+            
+            //PollutionReportPage.setTags(tags);
 
             Frame rootFrame = Window.Current.Content as Frame;
             if (rootFrame != null && rootFrame.CanGoBack)
             {
-                rootFrame.Navigate(typeof(PollutionReportPage));
-                e.Handled = true;
+                rootFrame.Navigate(typeof(PollutionReportPage),tags);
+                //e.Handled = true;
             }
         }
 
@@ -83,55 +85,12 @@ namespace RiverWatch_Windows_Phone_App
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            
         }
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
-
-            List<String> tags = new List<String>();
-
-            if (tag1.IsChecked == true)
-            {
-                tags.Add(tag1.Content.ToString());
-            }
-            if (tag2.IsChecked == true)
-            {
-                tags.Add(tag2.Content.ToString());
-            }
-            if (tag3.IsChecked == true)
-            {
-                tags.Add(tag3.Content.ToString());
-            }
-            if (tag4.IsChecked == true)
-            {
-                tags.Add(tag4.Content.ToString());
-            }
-            if (tag5.IsChecked == true)
-            {
-                tags.Add(tag5.Content.ToString());
-            }
-            if (tag6.IsChecked == true)
-            {
-                tags.Add(tag6.Content.ToString());
-            }
-            if (tag7.IsChecked == true)
-            {
-                tags.Add(tag7.Content.ToString());
-            }
-            if (tag8.IsChecked == true)
-            {
-                tags.Add(tag8.Content.ToString());
-            }
-
-            PollutionReportPage.setTags(tags);
-
-            Frame rootFrame = Window.Current.Content as Frame;
-            if (rootFrame != null && rootFrame.CanGoBack)
-            {
-                rootFrame.Navigate(typeof(PollutionReportPage));
-              
-            }
-
+            HardwareButtons_BackPressed(this, null);
         }
 
     }

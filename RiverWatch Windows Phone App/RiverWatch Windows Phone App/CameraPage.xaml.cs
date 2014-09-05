@@ -192,8 +192,8 @@ namespace RiverWatch_Windows_Phone_App
             preview.Source = bmpImage;
             i.Source = bmpImage;
 
-            PollutionReportPage.setImage(bmpImage);
-            Frame.GoBack();
+            //PollutionReportPage.setImage(bmpImage);
+            Frame.Navigate(typeof(PollutionReportPage),bmpImage);
         }
 
         async void ReturnButton_Click(object sender, RoutedEventArgs e)

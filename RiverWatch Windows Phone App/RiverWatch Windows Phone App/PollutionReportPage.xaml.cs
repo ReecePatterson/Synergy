@@ -19,6 +19,7 @@ using Windows.UI.Xaml.Navigation;
 using Windows.Media.Capture;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.Phone.UI.Input;
+using System.Diagnostics;
 
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
@@ -30,30 +31,17 @@ namespace RiverWatch_Windows_Phone_App
     /// </summary>
     public sealed partial class PollutionReportPage : Page
     {
-        // Report
-        Report report = new Report();
+        static Report report = new Report();
 
-        // fields
-
-        // image information
-        private static BitmapImage pollutionImage = null;
-        public static Boolean imageReady = false;
-
-        // location information
-        public String longi = "";
-        public String latit = "";
-        public static Boolean geolocationReady = false;
-
-        // textual information
-        public static String description = "";
-        public static List<String> tags = null;
-        public String date = "";
-        public Boolean textReady = false;
+        public NavigationHelper NavigationHelper { get; private set; }
 
         public PollutionReportPage()
         {
             this.InitializeComponent();
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+
+            NavigationHelper = new NavigationHelper(this);
+            NavigationHelper.LoadState += NavigationHelper_LoadState;
         }
 
         void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
@@ -61,6 +49,7 @@ namespace RiverWatch_Windows_Phone_App
             Frame rootFrame = Window.Current.Content as Frame;
             if (rootFrame != null && rootFrame.CanGoBack)
             {
+                report.discardReport();
                 rootFrame.Navigate(typeof(HubPage));
                 e.Handled = true;
             }
@@ -72,59 +61,77 @@ namespace RiverWatch_Windows_Phone_App
         /// <param name="e">Event data that describes how this page was reached.
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
-        {      
-            // check if an image is saved, if so, its ready
-            if (pollutionImage != null)
+        {
+            if (e == null)
             {
-                if (!geolocationReady) {
-                    // start finding geolocation
-                    getGeoPosition();
+                return;
+            }
+            if (e.Parameter is BitmapImage)
+            {
+                Debug.WriteLine("photo");
+                BitmapImage bi = e.Parameter as BitmapImage;
+                report.setBitmapImage(bi);
+                //imagePreview.Source = bi;
+            }
+            else if(e.Parameter is List<String>){
+                Debug.WriteLine("tags");
+                List<String> li = e.Parameter as List<String>;
+                report.setTags(li);
+            }
+            else if (e.Parameter is String)
+            {
+                Debug.WriteLine("desc");
+                String s = e.Parameter as String;
+                report.setDescription(s);
+            }
+            //water quality
+            else
+            {
 
-                    // remove tool tip for image
-                    this.ImageToolTip.Text = "";
+            }
+            UpdatePollutionReport();
+        }
 
-                    // resize the photo tile and put the image taken on it
-                    imagePreview.Source = pollutionImage;
-                
-                    // tell user system is looking for location even though we've already started
-                    this.GeolocationToolTip.Text = "Loading Coordinates ...";
+        public async void UpdatePollutionReport()
+        {
+            // display image
+            if (report.getSource() == null)
+            {
+                ImageToolTip.Text = "Take a photo";
+            }
+            else
+            {
+                ImageToolTip.Text = "";
+                imagePreview.Source = report.getSource();
+            }
+
+            // display geolocation
+            if (report.getLatitude().Equals(""))
+            {
+                if (report.getSource() == null)
+                {
+                    GeolocationToolTip.Text = "Awaiting photo";
+                }
+                else
+                {
+                    GeolocationToolTip.Text = "Finding coordinates...";
                 }
             }
             else
             {
-                // keep tool tip for image
-                this.ImageToolTip.Text = "Take a photo";
-                // keep tool tip for geolocation
-                this.GeolocationToolTip.Text = "Find location";
+                GeolocationToolTip.Text = "Latitude: " + report.getLatitude() + "\n\nLongitude: " + report.getLongitude();
             }
 
-            // check if textual information is filled out, if so, its ready
+            // display tags
 
-            // init datetime
-            this.date = string.Format("{0 : dd/MM/yyyy}", DateTime.Now);
-        }
+            // display description
 
-        private async Task getGeoPosition()
-        {
-            var geolocator = new Geolocator();
-            geolocator.DesiredAccuracyInMeters = 100;
-            Geoposition position = await geolocator.GetGeopositionAsync();
-            this.latit = "" + position.Coordinate.Latitude;
-            this.longi = "" + position.Coordinate.Longitude;
-
-            // resize the geolocation tile and font, then display the coordinates
-            // 
-            this.GeolocationToolTip.FontSize = 15;
-            this.GeolocationToolTip.Text = "Latitude: " + this.latit + "\n\nLongitude: " + this.longi;
-            geolocationReady = true;
         }
 
         private async void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
-            // delete everything
-            pollutionImage = null;
-            geolocationReady = false;
-            Frame.Navigate(typeof(HubPage));
+            // do the same as hardware back button
+            this.HardwareButtons_BackPressed(this, null);
         }
 
         private void SubmitReport_Click(object sender, RoutedEventArgs e)
@@ -167,17 +174,44 @@ namespace RiverWatch_Windows_Phone_App
 
         public static void setImage(BitmapImage i)
         {
-            pollutionImage = i;
+            //pollutionImage = i;
+            Boolean result = report.setBitmapImage(i);
         }
 
         public static void setTags(List<String> tagList)
         {
-            tags = tagList;
+            //tags = tagList;
+            Boolean result = report.setTags(tagList);
+            Debug.WriteLine("Camera here " + report.getSource());
+            Debug.WriteLine("IM HERE "+report.getTags()[0]);
         }
 
         public static void setDescription(String desc)
         {
-            description = desc;
+            //description = desc;
+            Boolean result = report.setDescription(desc);
+        }
+
+        // 
+
+        private void NavigationHelper_LoadState(object sender, LoadStateEventArgs e)
+        {
+            //String s = e.NavigationParameter as String;
+
+            BitmapImage bi = e.NavigationParameter as BitmapImage;
+
+            Debug.WriteLine("this here " + bi);
+            
+            // this needs to take the parameter given from another page
+            // for example, (on the other page...) Frame.Navigate(typeof(PollutionReportPage),tagList)
+
+            // Employee emp = e.NavigationParameter as Employee; // This casts
+            // if (emp != null)
+            // {
+            //     txtName.Text = emp.Name;
+            //     txtID.Text = emp.ID.ToString();
+            // }
+            Frame.GoBack();
         }
 
     }
