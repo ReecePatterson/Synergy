@@ -136,7 +136,30 @@ namespace RiverWatch_Windows_Phone_App
             // display tags
             if (!report.isTagsReady())
             {
+                TagsToolTip.FontSize = 20;
+                TagsToolTip.Text = "Select tags";
+            }
+            else
+            {
+                // display as much selected tags
+                String t = "";
+                int count = 0;
+                int limit = 2;
+                foreach (String element in report.getTags())
+                {
+                    if (!(count < limit))
+                    {
+                        t += "\n";
+                        count = 0;
+                    }
+                    t += "#"+element+", ";
+                    count++;
+                }
+                t = t.Substring(0, t.Length - 2);
+                Debug.WriteLine(t);
 
+                TagsToolTip.FontSize = 15;
+                TagsToolTip.Text = t;
             }
 
             // display description
