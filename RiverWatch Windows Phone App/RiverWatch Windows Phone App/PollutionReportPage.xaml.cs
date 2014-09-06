@@ -143,20 +143,41 @@ namespace RiverWatch_Windows_Phone_App
             {
                 // display as much selected tags
                 String t = "";
-                int count = 0;
-                int limit = 2;
+                int NoOfTags = report.getTags().Count;
+
+                int TagCount = 0;
+                int TagLimit = 6;
+
+                int LineCount = 0;
+                int LineLimit = 2;
+                
                 foreach (String element in report.getTags())
                 {
-                    if (!(count < limit))
+                    // if we've displayed 6 tags
+                    if (TagCount >= TagLimit)
+                    {
+                        break;
+                    }
+
+                    // if we've got two tags on a line
+                    if (!(LineCount < LineLimit))
                     {
                         t += "\n";
-                        count = 0;
+                        LineCount = 0;
                     }
+
+                    // append tag
                     t += "#"+element+", ";
-                    count++;
+                    LineCount++;
+                    TagCount++;
                 }
                 t = t.Substring(0, t.Length - 2);
                 Debug.WriteLine(t);
+
+                if (NoOfTags > 6)
+                {
+                    t += "...";
+                }
 
                 TagsToolTip.FontSize = 15;
                 TagsToolTip.Text = t;
