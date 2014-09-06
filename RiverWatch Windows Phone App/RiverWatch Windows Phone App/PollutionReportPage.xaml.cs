@@ -32,6 +32,7 @@ namespace RiverWatch_Windows_Phone_App
     public sealed partial class PollutionReportPage : Page
     {
         static Report report = new Report();
+        private Boolean UIReadyToSend = false;
 
         public PollutionReportPage()
         {
@@ -139,6 +140,7 @@ namespace RiverWatch_Windows_Phone_App
                 {
                     TagsToolTip.FontSize = 20;
                     TagsToolTip.Text = "Select tags";
+                    report.setTagsNotReady();
                 }
                 else { 
                     int TagCount = 0;
@@ -196,8 +198,9 @@ namespace RiverWatch_Windows_Phone_App
 
                 if (desc.Length == 0)
                 {
-                    TagsToolTip.FontSize = 20;
-                    TagsToolTip.Text = "Add description";
+                    DescriptionToolTip.FontSize = 20;
+                    DescriptionToolTip.Text = "Add description";
+                    report.setDescriptionNotReady();
                 }
                 else { 
                     // need to parse out trailing whitespace 
@@ -283,9 +286,20 @@ namespace RiverWatch_Windows_Phone_App
             // if report is complete, we need to compact the grids and display submit button
             if (report.isReportReady())
             {
-                Debug.WriteLine("Report is ready to send");
-
-                return;
+                if (UIReadyToSend == false)
+                {
+                    UIReadyToSend = true;
+                    Debug.WriteLine("Report is now ready to send");
+                    animateReadyToSend();
+                }
+            }
+            else
+            {
+                if (UIReadyToSend == true) {
+                    UIReadyToSend = false;
+                    Debug.WriteLine("Report is now not ready to send");
+                    animateNotReadyToSend();
+                }
             }
         }
 
@@ -300,11 +314,17 @@ namespace RiverWatch_Windows_Phone_App
             UpdatePollutionReport();
         }
 
-        private async void ReturnButton_Click(object sender, RoutedEventArgs e)
+        private async void animateReadyToSend()
         {
-            // do the same as hardware back button
-            this.HardwareButtons_BackPressed(this, null);
+            SubmitButton.Visibility = Visibility.Visible;
         }
+        private async void animateNotReadyToSend()
+        {
+            SubmitButton.Visibility = Visibility.Collapsed;
+        }
+
+
+        // ====== click events =======
 
         private void SubmitReport_Click(object sender, RoutedEventArgs e)
         {
@@ -317,9 +337,10 @@ namespace RiverWatch_Windows_Phone_App
             // If send was successful, delete report that was saved locally
         }
 
-        private void AddTags_Click(object sender, RoutedEventArgs e)
+        private async void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(AddTagsPage));
+            // do the same as hardware back button
+            this.HardwareButtons_BackPressed(this, null);
         }
 
         private void cameraButton_Tapped(object sender, TappedRoutedEventArgs e)

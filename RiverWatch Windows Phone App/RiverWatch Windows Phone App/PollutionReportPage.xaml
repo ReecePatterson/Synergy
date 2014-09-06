@@ -47,6 +47,7 @@
 
         <Rectangle HorizontalAlignment="Left" Height="100" Margin="-85,298,0,0" VerticalAlignment="Top" Width="100"/>
         <AppBarButton x:Name="ReturnButton" HorizontalAlignment="Left" Icon="Back" Label="appbarbutton" Margin="5,40,0,0" VerticalAlignment="Top" IsCompact="True" Click="ReturnButton_Click"/>
+        <AppBarButton x:Name="SubmitButton" Icon="Accept" VerticalAlignment="Bottom" HorizontalAlignment="Right" Visibility="Collapsed" Click="SubmitReport_Click"/>
         <!--<Button Content="Submit" HorizontalAlignment="Left" Margin="60,582,0,0" VerticalAlignment="Top" Click="SubmitReport_Click" Width="330"/>-->
     </Grid>
 </Page>

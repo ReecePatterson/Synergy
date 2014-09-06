@@ -176,5 +176,15 @@ namespace RiverWatch_Windows_Phone_App
             this.descriptionReady = true;
             return true;
         }
+
+        public void setTagsNotReady()
+        {
+            this.tagsReady = false;
+        }
+
+        public void setDescriptionNotReady()
+        {
+            this.descriptionReady = false;
+        }
     }
 }
