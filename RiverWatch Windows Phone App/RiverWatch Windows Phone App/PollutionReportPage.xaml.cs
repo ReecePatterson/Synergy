@@ -88,6 +88,14 @@ namespace RiverWatch_Windows_Phone_App
 
         public async void UpdatePollutionReport()
         {
+            // if report is complete, we need to compact the grids and display submit button
+            if (report.isReportReady())
+            {
+                Debug.WriteLine("Report is ready to send");
+
+                return;
+            }
+
             // display image
             if (report.getSource() == null)
             {
