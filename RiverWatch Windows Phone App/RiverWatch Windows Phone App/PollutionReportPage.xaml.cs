@@ -51,7 +51,7 @@ namespace RiverWatch_Windows_Phone_App
             {
                 report.discardReport();
                 rootFrame.Navigate(typeof(HubPage));
-                e.Handled = true;
+                //e.Handled = true;
             }
         }
 
@@ -71,7 +71,6 @@ namespace RiverWatch_Windows_Phone_App
                 Debug.WriteLine("photo");
                 BitmapImage bi = e.Parameter as BitmapImage;
                 report.setBitmapImage(bi);
-                //imagePreview.Source = bi;
             }
             else if(e.Parameter is List<String>){
                 Debug.WriteLine("tags");
@@ -106,19 +105,28 @@ namespace RiverWatch_Windows_Phone_App
             }
 
             // display geolocation
-            if (report.getLatitude().Equals(""))
+            if (!report.isGeolocationReady())
             {
                 if (report.getSource() == null)
                 {
+                    GeolocationToolTip.FontSize = 20;
                     GeolocationToolTip.Text = "Awaiting photo";
                 }
                 else
                 {
+                    GeolocationToolTip.FontSize = 20;
                     GeolocationToolTip.Text = "Finding coordinates...";
+
+                    // if we've got an image, start async method that 
+                    // sends request to report class every 10s to see if 
+                    // geolocation is ready to be displayed on UI
+
+                    checkGeolocation();
                 }
             }
             else
             {
+                GeolocationToolTip.FontSize = 15;
                 GeolocationToolTip.Text = "Latitude: " + report.getLatitude() + "\n\nLongitude: " + report.getLongitude();
             }
 
@@ -126,6 +134,17 @@ namespace RiverWatch_Windows_Phone_App
 
             // display description
 
+        }
+
+        private async void checkGeolocation()
+        {
+            Debug.WriteLine("geolocation search started");
+            while (!report.isGeolocationReady())
+            {
+                await Task.Delay(2000);
+            }
+            Debug.WriteLine("geolocation ready");
+            UpdatePollutionReport();
         }
 
         private async void ReturnButton_Click(object sender, RoutedEventArgs e)

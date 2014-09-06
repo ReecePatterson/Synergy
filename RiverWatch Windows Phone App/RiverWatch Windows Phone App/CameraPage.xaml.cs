@@ -196,9 +196,5 @@ namespace RiverWatch_Windows_Phone_App
             Frame.Navigate(typeof(PollutionReportPage),bmpImage);
         }
 
-        async void ReturnButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.GoBack();
-        }
     }
 }
