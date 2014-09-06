@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -48,6 +49,8 @@ namespace RiverWatch_Windows_Phone_App
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            Report report = e.Parameter as Report;
+            String s = report.getDescription();
         }
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)

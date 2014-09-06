@@ -42,7 +42,8 @@ namespace RiverWatch_Windows_Phone_App
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            
+            Report report = e.Parameter as Report;
+            List<String> li = report.getTags();   
         }
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)

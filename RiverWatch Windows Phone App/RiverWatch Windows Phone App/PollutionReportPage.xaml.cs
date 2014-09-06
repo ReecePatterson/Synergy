@@ -329,12 +329,12 @@ namespace RiverWatch_Windows_Phone_App
         
         private void tagButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            Frame.Navigate(typeof(AddTagsPage));
+            Frame.Navigate(typeof(AddTagsPage),report);
         }
 
         private void descriptionButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            Frame.Navigate(typeof(AddDescriptionPage));
+            Frame.Navigate(typeof(AddDescriptionPage),report);
         }
 
         private void waterQualityButton_Tapped(object sender, TappedRoutedEventArgs e)
