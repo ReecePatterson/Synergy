@@ -79,23 +79,13 @@ namespace RiverWatch_Windows_Phone_App
                 report.setDescription(s);
             }
             //water quality
-            else
-            {
-
-            }
+            // else
+            
             UpdatePollutionReport();
         }
 
         public async void UpdatePollutionReport()
         {
-            // if report is complete, we need to compact the grids and display submit button
-            if (report.isReportReady())
-            {
-                Debug.WriteLine("Report is ready to send");
-
-                return;
-            }
-
             // display image
             if (report.getSource() == null)
             {
@@ -222,9 +212,10 @@ namespace RiverWatch_Windows_Phone_App
                     int LineCount = 0;
                     int LineLimit = 3;
                     Boolean bigDesc = false;
+                    Boolean smallDesc = true;
 
                     int CharLimit = 23;
-                    char[] delimiterChars = { ' '};
+                    char[] delimiterChars = {' '};
                     String[] sa = desc.Split(delimiterChars);
 
                     String line = "";
@@ -233,6 +224,13 @@ namespace RiverWatch_Windows_Phone_App
                     {
                         // get size of str
                         int len = str.Length;
+
+                        // check if number of characters in word is more than limit
+                        if (len > CharLimit)
+                        {
+                            // we need to split the word and connect using -
+
+                        }
 
                         // get NoOfChars + len
                         int tempLength = NoOfChars + len;
@@ -250,6 +248,7 @@ namespace RiverWatch_Windows_Phone_App
                             LineCount++;
                             line = "";
                             NoOfChars = 0;
+                            smallDesc = false;
 
                             if (LineCount >= LineLimit)
                             {
@@ -259,7 +258,12 @@ namespace RiverWatch_Windows_Phone_App
                         }
                     }
 
-                    if (bigDesc)
+                    if (smallDesc)
+                    {
+                        finalDesc += line;
+                    }
+
+                    else if (bigDesc)
                     {
                         // remove the ending new line char
                         finalDesc = finalDesc.Substring(0, finalDesc.Length - 2);
@@ -276,6 +280,13 @@ namespace RiverWatch_Windows_Phone_App
                 }
             }
 
+            // if report is complete, we need to compact the grids and display submit button
+            if (report.isReportReady())
+            {
+                Debug.WriteLine("Report is ready to send");
+
+                return;
+            }
         }
 
         private async void checkGeolocation()
@@ -329,23 +340,6 @@ namespace RiverWatch_Windows_Phone_App
         private void waterQualityButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Frame.Navigate(typeof(WaterQualityReportPage));
-        }
-
-        // ===== public methods =====
-
-        public static void setImage(BitmapImage i)
-        {
-            Boolean result = report.setBitmapImage(i);
-        }
-
-        public static void setTags(List<String> tagList)
-        {
-            Boolean result = report.setTags(tagList);
-        }
-
-        public static void setDescription(String desc)
-        {
-            Boolean result = report.setDescription(desc);
         }
 
     }

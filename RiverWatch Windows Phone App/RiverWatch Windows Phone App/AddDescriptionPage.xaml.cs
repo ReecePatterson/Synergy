@@ -31,12 +31,12 @@ namespace RiverWatch_Windows_Phone_App
 
         void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
         {
-            PollutionReportPage.setDescription(DescriptionString.Text);
+            //PollutionReportPage.setDescription(DescriptionString.Text);
 
             Frame rootFrame = Window.Current.Content as Frame;
             if (rootFrame != null && rootFrame.CanGoBack)
             {
-                rootFrame.Navigate(typeof(PollutionReportPage));
+                rootFrame.Navigate(typeof(PollutionReportPage), DescriptionString.Text);
                 e.Handled = true;
             }
         }
@@ -52,12 +52,12 @@ namespace RiverWatch_Windows_Phone_App
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            PollutionReportPage.setDescription(DescriptionString.Text);
+            //PollutionReportPage.setDescription(DescriptionString.Text);
 
             Frame rootFrame = Window.Current.Content as Frame;
             if (rootFrame != null && rootFrame.CanGoBack)
             {
-                rootFrame.Navigate(typeof(PollutionReportPage));
+                rootFrame.Navigate(typeof(PollutionReportPage),DescriptionString.Text);
                 
             }
         }
