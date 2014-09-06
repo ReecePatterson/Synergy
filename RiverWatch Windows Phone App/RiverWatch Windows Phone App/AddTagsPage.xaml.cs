@@ -32,6 +32,21 @@ namespace RiverWatch_Windows_Phone_App
 
         void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
         {
+            AppBarButton_Click(this, null);
+        }
+
+        /// <summary>
+        /// Invoked when this page is about to be displayed in a Frame.
+        /// </summary>
+        /// <param name="e">Event data that describes how this page was reached.
+        /// This parameter is typically used to configure the page.</param>
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            
+        }
+
+        private void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
             List<String> tags = new List<String>();
 
             if (tag1.IsChecked == true)
@@ -67,30 +82,12 @@ namespace RiverWatch_Windows_Phone_App
                 tags.Add(tag8.Content.ToString());
             }
 
-            
-            //PollutionReportPage.setTags(tags);
-
             Frame rootFrame = Window.Current.Content as Frame;
             if (rootFrame != null && rootFrame.CanGoBack)
             {
-                rootFrame.Navigate(typeof(PollutionReportPage),tags);
+                rootFrame.Navigate(typeof(PollutionReportPage), tags);
                 //e.Handled = true;
             }
-        }
-
-        /// <summary>
-        /// Invoked when this page is about to be displayed in a Frame.
-        /// </summary>
-        /// <param name="e">Event data that describes how this page was reached.
-        /// This parameter is typically used to configure the page.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            
-        }
-
-        private void AppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            HardwareButtons_BackPressed(this, null);
         }
 
     }

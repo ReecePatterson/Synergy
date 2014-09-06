@@ -145,45 +145,136 @@ namespace RiverWatch_Windows_Phone_App
                 String t = "";
                 int NoOfTags = report.getTags().Count;
 
-                int TagCount = 0;
-                int TagLimit = 6;
+                if (NoOfTags == 0)
+                {
+                    TagsToolTip.FontSize = 20;
+                    TagsToolTip.Text = "Select tags";
+                }
+                else { 
+                    int TagCount = 0;
+                    int TagLimit = 6;
 
-                int LineCount = 0;
-                int LineLimit = 2;
+                    int LineCount = 0;
+                    int LineLimit = 2;
                 
-                foreach (String element in report.getTags())
-                {
-                    // if we've displayed 6 tags
-                    if (TagCount >= TagLimit)
+                    foreach (String element in report.getTags())
                     {
-                        break;
+                        // if we've displayed 6 tags
+                        if (TagCount >= TagLimit)
+                        {
+                            break;
+                        }
+
+                        // if we've got two tags on a line
+                        if (!(LineCount < LineLimit))
+                        {
+                            t += "\n";
+                            LineCount = 0;
+                        }
+
+                        // append tag
+                        t += "#"+element+", ";
+                        LineCount++;
+                        TagCount++;
                     }
 
-                    // if we've got two tags on a line
-                    if (!(LineCount < LineLimit))
+                    // remove extra comma
+                    t = t.Substring(0, t.Length - 2);
+                    Debug.WriteLine(t);
+
+                    // if user selected more than 6 tags, add a ...
+                    if (NoOfTags > 6)
                     {
-                        t += "\n";
-                        LineCount = 0;
+                        t += "...";
                     }
 
-                    // append tag
-                    t += "#"+element+", ";
-                    LineCount++;
-                    TagCount++;
+                    // display tags
+                    TagsToolTip.FontSize = 15;
+                    TagsToolTip.Text = t;
                 }
-                t = t.Substring(0, t.Length - 2);
-                Debug.WriteLine(t);
-
-                if (NoOfTags > 6)
-                {
-                    t += "...";
-                }
-
-                TagsToolTip.FontSize = 15;
-                TagsToolTip.Text = t;
             }
 
             // display description
+            if (!report.isDescriptionReady())
+            {
+                DescriptionToolTip.FontSize = 20;
+                DescriptionToolTip.Text = "Add description";
+            }
+            else
+            {
+                String desc = report.getDescription();
+
+                if (desc.Length == 0)
+                {
+                    TagsToolTip.FontSize = 20;
+                    TagsToolTip.Text = "Add description";
+                }
+                else { 
+                    // need to parse out trailing whitespace 
+                    desc = desc.Trim();
+
+                    // Format description
+                    // The description will have 23 chars per line,
+                    // and 3 lines only. If longer, description will display
+                    // "..." at the end of the third line
+                    String finalDesc = "";
+
+                    int LineCount = 0;
+                    int LineLimit = 3;
+                    Boolean bigDesc = false;
+
+                    int CharLimit = 23;
+                    char[] delimiterChars = { ' '};
+                    String[] sa = desc.Split(delimiterChars);
+
+                    String line = "";
+                    int NoOfChars = 0;
+                    foreach (String str in sa)
+                    {
+                        // get size of str
+                        int len = str.Length;
+
+                        // get NoOfChars + len
+                        int tempLength = NoOfChars + len;
+
+                        if (tempLength < CharLimit)
+                        {
+                            // we can add this word to the line
+                            line += str + " ";
+                            NoOfChars += len + 1;
+                        }
+                        else
+                        {
+                            // we need to create a new line for the new word
+                            finalDesc += line + "\n";
+                            LineCount++;
+                            line = "";
+                            NoOfChars = 0;
+
+                            if (LineCount >= LineLimit)
+                            {
+                                bigDesc = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (bigDesc)
+                    {
+                        // remove the ending new line char
+                        finalDesc = finalDesc.Substring(0, finalDesc.Length - 2);
+
+                        // replace with ...
+                        finalDesc += "...";
+                    }
+
+                    // need to parse out trailing whitespace
+                    finalDesc = finalDesc.Trim();
+
+                    DescriptionToolTip.FontSize = 15;
+                    DescriptionToolTip.Text = finalDesc;
+                }
+            }
 
         }
 
