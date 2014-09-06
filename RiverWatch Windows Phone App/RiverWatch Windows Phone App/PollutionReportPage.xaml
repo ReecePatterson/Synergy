@@ -34,7 +34,7 @@
         <Grid x:Name="DescriptionGrid" Background="#227fff" VerticalAlignment="Top" Margin="60,380,10,0" Height="90">
             <TextBlock x:Name="DescriptionToolTip" FontSize="20" Margin="20,18,0,0">Add description</TextBlock>
             <Grid HorizontalAlignment="Right" Width="100" Background="#004cff">
-                <Image x:Name="descriptionButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" Source="Assets/cameraIcon.png" Tapped="descriptionButton_Tapped"/>
+                <Image x:Name="descriptionButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" Source="Assets/descriptionIcon.png" Tapped="descriptionButton_Tapped"/>
             </Grid>
         </Grid>
 
