@@ -33,15 +33,10 @@ namespace RiverWatch_Windows_Phone_App
     {
         static Report report = new Report();
 
-        public NavigationHelper NavigationHelper { get; private set; }
-
         public PollutionReportPage()
         {
             this.InitializeComponent();
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
-
-            NavigationHelper = new NavigationHelper(this);
-            NavigationHelper.LoadState += NavigationHelper_LoadState;
         }
 
         void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
@@ -201,36 +196,14 @@ namespace RiverWatch_Windows_Phone_App
         {
             //tags = tagList;
             Boolean result = report.setTags(tagList);
-            Debug.WriteLine("Camera here " + report.getSource());
-            Debug.WriteLine("IM HERE "+report.getTags()[0]);
+            //Debug.WriteLine("Camera here " + report.getSource());
+            //Debug.WriteLine("IM HERE "+report.getTags()[0]);
         }
 
         public static void setDescription(String desc)
         {
             //description = desc;
             Boolean result = report.setDescription(desc);
-        }
-
-        // 
-
-        private void NavigationHelper_LoadState(object sender, LoadStateEventArgs e)
-        {
-            //String s = e.NavigationParameter as String;
-
-            BitmapImage bi = e.NavigationParameter as BitmapImage;
-
-            Debug.WriteLine("this here " + bi);
-            
-            // this needs to take the parameter given from another page
-            // for example, (on the other page...) Frame.Navigate(typeof(PollutionReportPage),tagList)
-
-            // Employee emp = e.NavigationParameter as Employee; // This casts
-            // if (emp != null)
-            // {
-            //     txtName.Text = emp.Name;
-            //     txtID.Text = emp.ID.ToString();
-            // }
-            Frame.GoBack();
         }
 
     }
