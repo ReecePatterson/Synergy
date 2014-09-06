@@ -6,6 +6,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+
+    <!--
+    <Page.Transitions >
+        <TransitionCollection>
+            <PaneThemeTransition Edge="Bottom"/>
+        </TransitionCollection>
+    </Page.Transitions>
+    -->
+
     <Grid>
         <TextBlock x:Name="PageTitle" FontSize="25" Margin="10,0,0,0">Create a Pollution Report</TextBlock>
 
@@ -38,7 +47,7 @@
             </Grid>
         </Grid>
 
-        <Grid x:Name="BluetoothGrid" Background="#227fff" VerticalAlignment="Top" Margin="60,490,10,0" Height="90">
+        <Grid x:Name="WaterQualityGrid" Background="#227fff" VerticalAlignment="Top" Margin="60,490,10,0" Height="90">
             <TextBlock x:Name="WaterQualityToolTip" FontSize="18" Margin="20,18,0,0">Measure water quality</TextBlock>
             <Grid HorizontalAlignment="Right" Width="100" Background="#004cff" Tapped="waterQualityButton_Tapped">
                 <Image x:Name="waterQualityButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" Source="Assets/wandIcon.png"/>
@@ -47,7 +56,12 @@
 
         <Rectangle HorizontalAlignment="Left" Height="100" Margin="-85,298,0,0" VerticalAlignment="Top" Width="100"/>
         <AppBarButton x:Name="ReturnButton" HorizontalAlignment="Left" Icon="Back" Label="appbarbutton" Margin="5,40,0,0" VerticalAlignment="Top" IsCompact="True" Click="ReturnButton_Click"/>
+        
         <AppBarButton x:Name="SubmitButton" Icon="Accept" VerticalAlignment="Bottom" HorizontalAlignment="Right" Visibility="Collapsed" Click="SubmitReport_Click"/>
+
+        
+        
+        
         <!--<Button Content="Submit" HorizontalAlignment="Left" Margin="60,582,0,0" VerticalAlignment="Top" Click="SubmitReport_Click" Width="330"/>-->
     </Grid>
 </Page>

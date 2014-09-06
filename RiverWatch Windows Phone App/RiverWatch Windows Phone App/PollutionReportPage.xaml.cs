@@ -232,7 +232,7 @@ namespace RiverWatch_Windows_Phone_App
                         if (len > CharLimit)
                         {
                             // we need to split the word and connect using -
-
+                            
                         }
 
                         // get NoOfChars + len
@@ -316,10 +316,50 @@ namespace RiverWatch_Windows_Phone_App
 
         private async void animateReadyToSend()
         {
+            double top = 0;
+            for (int i = 0; i < 10; i++)
+            {
+                // animate geolocation
+                top = GeolocateGrid.Margin.Top;
+                GeolocateGrid.Margin = new Thickness(60, top-1, 10, 0);
+
+                // animate tags
+                top = TagsGrid.Margin.Top;
+                TagsGrid.Margin = new Thickness(60, top - 2, 10, 0);
+
+                // animate description
+                top = DescriptionGrid.Margin.Top;
+                DescriptionGrid.Margin = new Thickness(60, top - 3, 10, 0);
+
+                // animate water quality
+                top = WaterQualityGrid.Margin.Top;
+                WaterQualityGrid.Margin = new Thickness(60, top - 4, 10, 0);
+                
+                await Task.Delay(20);
+            }
+
             SubmitButton.Visibility = Visibility.Visible;
         }
         private async void animateNotReadyToSend()
         {
+            // not sure if this will be used
+
+            // animate geolocation
+            GeolocateGrid.Margin = new Thickness(60, 160, 10, 0);
+            await Task.Delay(500);
+
+            // animate tags
+            TagsGrid.Margin = new Thickness(60, 270, 10, 0);
+            await Task.Delay(500);
+
+            // animate description
+            DescriptionGrid.Margin = new Thickness(60, 380, 10, 0);
+            await Task.Delay(500);
+
+            // animate water quality
+            WaterQualityGrid.Margin = new Thickness(60, 490, 10, 0);
+            await Task.Delay(500);
+
             SubmitButton.Visibility = Visibility.Collapsed;
         }
 
