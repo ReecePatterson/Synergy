@@ -134,6 +134,10 @@ namespace RiverWatch_Windows_Phone_App
             }
 
             // display tags
+            if (!report.isTagsReady())
+            {
+
+            }
 
             // display description
 
