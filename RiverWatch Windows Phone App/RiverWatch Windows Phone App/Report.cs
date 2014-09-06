@@ -81,7 +81,23 @@ namespace RiverWatch_Windows_Phone_App
 
         public void discardReport()
         {
+            // partial checks
+            imageReady = false;
+            geolocationReady = false;
+            tagsReady = false;
+            descriptionReady = false;
 
+            // image information
+            pollutionImage = null;
+
+            // location information
+            longi = "";
+            latit = "";
+
+            // textual information
+            description = "";
+            tags = null;
+            date = "";
         }
 
         private async Task getGeoPosition()

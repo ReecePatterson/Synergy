@@ -188,21 +188,16 @@ namespace RiverWatch_Windows_Phone_App
 
         public static void setImage(BitmapImage i)
         {
-            //pollutionImage = i;
             Boolean result = report.setBitmapImage(i);
         }
 
         public static void setTags(List<String> tagList)
         {
-            //tags = tagList;
             Boolean result = report.setTags(tagList);
-            //Debug.WriteLine("Camera here " + report.getSource());
-            //Debug.WriteLine("IM HERE "+report.getTags()[0]);
         }
 
         public static void setDescription(String desc)
         {
-            //description = desc;
             Boolean result = report.setDescription(desc);
         }
 
