@@ -14,7 +14,7 @@
                 <DataTemplate>
                     <Grid>
                         <TextBlock>Work In Progress</TextBlock>
-                        <Image HorizontalAlignment="Left" Height="320" Margin="10,50,0,0" VerticalAlignment="Top" Width="320" Source="RiverWatchBranding/PollutionReportImg.png" Tapped="PollutionReport_Tapped"/>
+                        <Image HorizontalAlignment="Left" Height="320" Margin="10,50,0,0" VerticalAlignment="Top" Width="320" Source="Assets/PollutionReportImg.png" Tapped="PollutionReport_Tapped"/>
                     </Grid>
                 </DataTemplate>
             </HubSection>

@@ -368,13 +368,7 @@ namespace RiverWatch_Windows_Phone_App
 
         private void SubmitReport_Click(object sender, RoutedEventArgs e)
         {
-            // Gotta collate all the information we need to send to the server...
-
-            // Save information locally on the phone
-            
-            // Send information to WaiNZ server
-
-            // If send was successful, delete report that was saved locally
+            Frame.Navigate(typeof(SubmitReportPage), report);
         }
 
         private async void ReturnButton_Click(object sender, RoutedEventArgs e)
