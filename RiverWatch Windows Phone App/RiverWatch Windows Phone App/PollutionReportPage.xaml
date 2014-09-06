@@ -27,7 +27,7 @@
         <Grid x:Name="TagsGrid" Background="#227fff" VerticalAlignment="Top" Margin="60,270,10,0" Height="90">
             <TextBlock x:Name="TagsToolTip" FontSize="20" Margin="20,18,0,0">Select tags</TextBlock>
             <Grid HorizontalAlignment="Right" Width="100" Background="#004cff">
-                <Image x:Name="tagButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" Source="Assets/cameraIcon.png" Tapped="tagButton_Tapped"/>
+                <Image x:Name="tagButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" Source="Assets/hashtagIcon.png" Tapped="tagButton_Tapped"/>
             </Grid>
         </Grid>
 
