@@ -231,8 +231,38 @@ namespace RiverWatch_Windows_Phone_App
                         // check if number of characters in word is more than limit
                         if (len > CharLimit)
                         {
+                            // need to find out how many chars we can fit on the current line
+                            int spaceLeft = CharLimit - NoOfChars;
+
                             // we need to split the word and connect using -
+                            String part1 = str.Substring(0, 2)+"-";
+                            int charmark = part1.Length;
+                            String part2 = str.Substring(2, str.Length - 1);
+                            Debug.WriteLine(spaceLeft+" : "+str.Length);
+                            Debug.WriteLine(part1 + " : " + part2);
                             
+
+                            finalDesc += part1 + "\n";
+
+                            LineCount++;
+                            line = "";
+                            NoOfChars = 0;
+                            smallDesc = false;
+
+                            // check if we can append the second part
+                            // if not, break from loop to replace last three chars with ...
+
+                            if (LineCount >= LineLimit)
+                            {
+                                bigDesc = true;
+                                break;
+                            }
+                            else
+                            {
+                                line += part2+" ";
+                                NoOfChars += part2.Length + 1;
+                                continue;
+                            }
                         }
 
                         // get NoOfChars + len
