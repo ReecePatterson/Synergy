@@ -51,6 +51,8 @@ namespace RiverWatch_Windows_Phone_App
         {
             Report report = e.Parameter as Report;
             String s = report.getDescription();
+
+            DescriptionString.Text = s;
         }
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)

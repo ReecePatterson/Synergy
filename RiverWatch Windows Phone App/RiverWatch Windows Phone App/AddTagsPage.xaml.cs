@@ -43,7 +43,45 @@ namespace RiverWatch_Windows_Phone_App
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             Report report = e.Parameter as Report;
-            List<String> li = report.getTags();   
+            List<String> li = report.getTags();
+
+            if (li != null)
+            {
+                if (li.Contains("Cattle"))
+                {
+                    tag1.IsChecked = true;
+                }
+                if (li.Contains("Bacteria"))
+                {
+                    tag2.IsChecked = true;
+                }
+                if (li.Contains("Faeces"))
+                {
+                    tag3.IsChecked = true;
+                }
+                if (li.Contains("Waste Spill"))
+                {
+                    tag4.IsChecked = true;
+                }
+                if (li.Contains("Vandalism"))
+                {
+                    tag5.IsChecked = true;
+                }
+                if (li.Contains("River"))
+                {
+                    tag6.IsChecked = true;
+                }
+                if (li.Contains("Lake"))
+                {
+                    tag7.IsChecked = true;
+                }
+                if (li.Contains("Ocean"))
+                {
+                    tag8.IsChecked = true;
+                }
+
+                
+            }
         }
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
