@@ -75,8 +75,9 @@ namespace RiverWatch_Windows_Phone_App
 
                 // display tick icon
                 
-                // wait for a bit, then go back to hub
+                // wait for a bit, discard report, then go back to hub
                 await Task.Delay(2000);
+                report.discardReport();
                 Frame.Navigate(typeof(HubPage));
             }
             else
@@ -97,11 +98,76 @@ namespace RiverWatch_Windows_Phone_App
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             // check if we can save the report
+            Boolean canSave = true;
+
+            // ==== actual check here ====
+            //
+            //
+            //
+            // ===========================
 
             // if so, save the report
+            if (canSave)
+            {
+                saveReport();
+            }
 
             // if not, tell the user they cannot save the report
             // and discard it.
+            else
+            {
+                notifyUnableToSave();
+            }
+        }
+
+        private async void saveReport()
+        {
+            // tell user that saving is in progress
+            this.SubmitReportText.Text = "Saving your report";
+
+            // show progress ring
+            this.SubmitReportProgress.IsActive = true;
+
+            // hide command bar
+            this.commandBar.Visibility = Visibility.Collapsed;
+
+            await Task.Delay(2000);
+
+            // ==== actually save the report ====
+            //
+            //
+            // ==================================
+
+            // tell user that report has been saved
+            this.SubmitReportText.Text = "Report Saved\n(Not really...)";
+
+            // hide progress ring
+            this.SubmitReportProgress.IsActive = false;
+
+            await Task.Delay(2000);
+
+            // discard report and go back to hub
+            report.discardReport();
+            Frame.Navigate(typeof(HubPage));
+        }
+
+        private async void notifyUnableToSave()
+        {
+            var messageDialog = new MessageDialog("Your phone is in a state where this report cannot be saved. This report will be discarded.");
+            
+            messageDialog.Commands.Add(new UICommand(
+                            "Okay",
+                            new UICommandInvokedHandler(this.UnableToSaveInvokedHandler)));
+
+            await messageDialog.ShowAsync();
+        }
+
+        private void UnableToSaveInvokedHandler(IUICommand command)
+        {
+            // discard report and go back to hub
+            report.discardReport();
+            Frame.Navigate(typeof(HubPage));
+            
         }
 
         private void DiscardButton_Click(object sender, RoutedEventArgs e)
@@ -119,10 +185,10 @@ namespace RiverWatch_Windows_Phone_App
             
             messageDialog.Commands.Add(new UICommand(
                 "Yes",
-                new UICommandInvokedHandler(this.CommandInvokedHandler)));
+                new UICommandInvokedHandler(this.AreYouSureInvokedHandler)));
             messageDialog.Commands.Add(new UICommand(
                 "No",
-                new UICommandInvokedHandler(this.CommandInvokedHandler)));
+                new UICommandInvokedHandler(this.AreYouSureInvokedHandler)));
 
             // Set the command that will be invoked by default
             messageDialog.DefaultCommandIndex = 0;
@@ -134,7 +200,7 @@ namespace RiverWatch_Windows_Phone_App
             await messageDialog.ShowAsync();
         }
 
-        private void CommandInvokedHandler(IUICommand command)
+        private void AreYouSureInvokedHandler(IUICommand command)
         {
             // Display message showing the label of the command that was invoked
             if (command.Label.Equals("Yes"))
