@@ -98,7 +98,7 @@ namespace RiverWatch_Windows_Phone_App
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             // check if we can save the report
-            Boolean canSave = true;
+            Boolean canSave = false;
 
             // ==== actual check here ====
             //

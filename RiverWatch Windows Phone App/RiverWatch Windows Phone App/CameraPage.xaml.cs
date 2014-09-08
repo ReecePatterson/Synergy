@@ -122,7 +122,7 @@ namespace RiverWatch_Windows_Phone_App
         }
 
         void HardwareButtons_CameraPressed(object sender, CameraEventArgs e) {
-            CaptureImage_Click(this, null);
+            //CaptureImage_Click(this, null);
         }
 
         void HardwareButtons_CameraHalfPressed(object sender, CameraEventArgs e) {

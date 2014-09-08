@@ -7,14 +7,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <!--
-    <Page.Transitions >
-        <TransitionCollection>
-            <PaneThemeTransition Edge="Bottom"/>
-        </TransitionCollection>
-    </Page.Transitions>
-    -->
-
     <Grid>
         <TextBlock x:Name="PageTitle" FontSize="25" Margin="10,0,0,0">Create a Pollution Report</TextBlock>
 

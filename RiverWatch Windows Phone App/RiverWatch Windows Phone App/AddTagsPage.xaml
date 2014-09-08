@@ -9,17 +9,18 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-
-        <CheckBox x:Name="tag1" Content="Cattle" Width="320" Margin="70,80,0,0"/>
-        <CheckBox x:Name="tag2" Content="Bacteria" Width="320" Margin="70,140,0,0"/>
-        <CheckBox x:Name="tag3" Content="Faeces" Width="320" Margin="70,200,0,0"/>
-        <CheckBox x:Name="tag4" Content="Waste Spill" Width="320" Margin="70,260,0,0"/>
-        <CheckBox x:Name="tag5" Content="Vandalism" Width="320" Margin="70,320,0,0"/>
-        <CheckBox x:Name="tag6" Content="River" Width="320" Margin="70,380,0,0"/>
-        <CheckBox x:Name="tag7" Content="Lake" Width="320" Margin="70,440,0,0"/>
-        <CheckBox x:Name="tag8" Content="Ocean" Width="320" Margin="70,500,0,0"/>
-        <TextBlock Text="Please select the appropriate tags:" FontSize="12" HorizontalAlignment="Left" Margin="50,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="55" Width="285"/>
-        <AppBarButton HorizontalAlignment="Left" Icon="Back" Label="appbarbutton" Margin="-2,85,0,0" VerticalAlignment="Top" Click="AppBarButton_Click"/>
+        <TextBlock x:Name="PageTitle" FontSize="25" Margin="10,0,0,0">Select appropriate tags</TextBlock>
+        <Grid x:Name="checkboxgrid" Margin="60,50,0,0">
+            <CheckBox x:Name="tag1" Content="Cattle" Width="320" Margin="70,0,0,0"/>
+            <CheckBox x:Name="tag2" Content="Bacteria" Width="320" Margin="70,50,0,0"/>
+            <CheckBox x:Name="tag3" Content="Faeces" Width="320" Margin="70,100,0,0"/>
+            <CheckBox x:Name="tag4" Content="Waste Spill" Width="320" Margin="70,150,0,0"/>
+            <CheckBox x:Name="tag5" Content="Vandalism" Width="320" Margin="70,200,0,0"/>
+            <CheckBox x:Name="tag6" Content="River" Width="320" Margin="70,250,0,0"/>
+            <CheckBox x:Name="tag7" Content="Lake" Width="320" Margin="70,300,0,0"/>
+            <CheckBox x:Name="tag8" Content="Ocean" Width="320" Margin="70,350,0,0"/>
+        </Grid>
+        <AppBarButton x:Name="ReturnButton" HorizontalAlignment="Left" Icon="Back" Label="appbarbutton" Margin="5,40,0,0" VerticalAlignment="Top" IsCompact="True" Click="AppBarButton_Click"/>
 
 
     </Grid>
