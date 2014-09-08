@@ -235,6 +235,7 @@ namespace RiverWatch_Windows_Phone_App
             while (!report.isGeolocationReady())
             {
                 await Task.Delay(2000);
+                //TODO add timeout
             }
             Debug.WriteLine("geolocation ready");
             UpdatePollutionReport();

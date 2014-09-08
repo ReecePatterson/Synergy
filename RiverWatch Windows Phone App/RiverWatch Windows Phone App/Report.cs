@@ -110,6 +110,7 @@ namespace RiverWatch_Windows_Phone_App
             var geolocator = new Geolocator();
             geolocator.DesiredAccuracyInMeters = 80;
             Geoposition position = await geolocator.GetGeopositionAsync();
+            //TODO check that this falls within new zealand!!!
             this.latit = "" + position.Coordinate.Latitude;
             this.longi = "" + position.Coordinate.Longitude;
             this.geolocationReady = true;
