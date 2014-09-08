@@ -26,14 +26,14 @@
         </Grid>
 
         <Grid x:Name="TagsGrid" Background="#227fff" VerticalAlignment="Top" Margin="60,270,10,0" Height="90">
-            <TextBlock x:Name="TagsToolTip" FontSize="20" Margin="20,18,0,0">Select tags</TextBlock>
+            <TextBlock x:Name="TagsToolTip" FontSize="20" Margin="20,18,100,0">Select tags</TextBlock>
             <Grid HorizontalAlignment="Right" Width="100" Background="#004cff" Tapped="tagButton_Tapped">
                 <Image x:Name="tagButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" Source="Assets/hashtagIcon.png"/>
             </Grid>
         </Grid>
 
         <Grid x:Name="DescriptionGrid" Background="#227fff" VerticalAlignment="Top" Margin="60,380,10,0" Height="90">
-            <TextBlock x:Name="DescriptionToolTip" FontSize="20" Margin="20,18,0,0">Add description</TextBlock>
+            <TextBlock x:Name="DescriptionToolTip" FontSize="20" Margin="20,18,100,10" TextTrimming="CharacterEllipsis" TextWrapping="Wrap">Add description</TextBlock>
             <Grid HorizontalAlignment="Right" Width="100" Background="#004cff" Tapped="descriptionButton_Tapped">
                 <Image x:Name="descriptionButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" Source="Assets/descriptionIcon.png" Tapped="descriptionButton_Tapped"/>
             </Grid>
