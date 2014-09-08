@@ -4,7 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
+using Windows.UI.Popups;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.Storage;
+using System.IO;
+using Windows.UI.Xaml.Controls;
+using System.Diagnostics;
 
 namespace RiverWatch_Windows_Phone_App
 {
@@ -67,16 +72,14 @@ namespace RiverWatch_Windows_Phone_App
 
         public byte[] reportToByteStream()
         {
-            byte[] byteArray = new byte[10];
+            byte[] finalByteArray = byte[1];
 
-            // something done here
-
-            return byteArray;
+            return finalByteArray;
         }
 
-        public void reportToFile()
+        public static Report byteStreamToReport()
         {
-
+            return null;
         }
 
         public void discardReport()
@@ -143,6 +146,11 @@ namespace RiverWatch_Windows_Phone_App
             return this.description;
         }
 
+        public String getDate()
+        {
+            return this.date;
+        }
+
         // setters
 
         public Boolean setBitmapImage(BitmapImage bi)
@@ -152,6 +160,9 @@ namespace RiverWatch_Windows_Phone_App
 
             // sneakily start the geolocation task
             this.getGeoPosition();
+
+            DateTime dt = System.DateTime.Now;
+            this.date = dt.ToString("dd_MM_yyyy H_mm_ss");
 
             return true;
         }

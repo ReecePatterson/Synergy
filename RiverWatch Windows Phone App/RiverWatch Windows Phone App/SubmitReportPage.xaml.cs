@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Phone.UI.Input;
+using Windows.Storage;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -55,7 +56,6 @@ namespace RiverWatch_Windows_Phone_App
         {
             this.report = e.Parameter as Report;
             attemptSendToServer();
-            //http://social.msdn.microsoft.com/forums/windowsapps/en-us/3fbf0af7-fe8d-44d8-85b4-11ff5d56becb/httpwebrequest-in-application-metro
         }
 
         private async void attemptSendToServer()
@@ -65,6 +65,7 @@ namespace RiverWatch_Windows_Phone_App
             await Task.Delay(2000);
             
             // attempt to send
+            // http://social.msdn.microsoft.com/forums/windowsapps/en-us/3fbf0af7-fe8d-44d8-85b4-11ff5d56becb/httpwebrequest-in-application-metro
 
             if (success)
             {
@@ -96,16 +97,13 @@ namespace RiverWatch_Windows_Phone_App
             }
         }
 
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        private async void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             // check if we can save the report
             Boolean canSave = false;
 
-            // ==== actual check here ====
-            //
-            //
-            //
-            // ===========================
+            // check if we've got space
+
 
             // if so, save the report
             if (canSave)
@@ -135,8 +133,25 @@ namespace RiverWatch_Windows_Phone_App
             await Task.Delay(2000);
 
             // ==== actually save the report ====
-            //
-            //
+            // Get the text data from the textbox. 
+            byte[] fileBytes = report.reportToByteStream();
+
+            // Get the local folder.
+            StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
+
+            // Create a new folder name DataFolder.
+            var dataFolder = await local.CreateFolderAsync("RiverWatch_Data",
+                CreationCollisionOption.OpenIfExists);
+
+            // Create a new file named DataFile.txt.
+            var file = await dataFolder.CreateFileAsync(report.getDate()+".txt",
+            CreationCollisionOption.ReplaceExisting);
+
+            // Write the data from the textbox.
+            using (var s = await file.OpenStreamForWriteAsync())
+            {
+                s.Write(fileBytes, 0, fileBytes.Length);
+            }
             // ==================================
 
             // tell user that report has been saved
