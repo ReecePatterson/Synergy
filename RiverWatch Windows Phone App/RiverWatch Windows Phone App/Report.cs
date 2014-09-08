@@ -35,7 +35,7 @@ namespace RiverWatch_Windows_Phone_App
 
         public Boolean isReportReady()
         {
-            if (this.imageReady && this.geolocationReady && this.tagsReady && this.descriptionReady)
+            if (this.imageReady && this.geolocationReady)
             {
                 return true;
             }

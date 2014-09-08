@@ -28,5 +28,6 @@
                 </DataTemplate>
             </HubSection>
         </Hub>
+        <Image VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="200" Height="120" Margin="20,0,0,0" Source="Assets/WaiNZLogo.png"></Image>
     </Grid>
 </Page>
