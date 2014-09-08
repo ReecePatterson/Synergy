@@ -10,6 +10,7 @@ using Windows.Storage;
 using System.IO;
 using Windows.UI.Xaml.Controls;
 using System.Diagnostics;
+using Windows.Graphics.Imaging;
 
 namespace RiverWatch_Windows_Phone_App
 {
@@ -70,9 +71,44 @@ namespace RiverWatch_Windows_Phone_App
             return this.descriptionReady;
         }
 
-        public byte[] reportToByteStream()
+        public async byte[] reportToByteStream()
         {
             byte[] finalByteArray = byte[1];
+            String reportString = "";
+
+            // *** convert each field to string base64 ***
+            // *** concat string into one big string ***
+            // *** convert big string to byte[] ***
+
+            // convert image
+            WriteableBitmap yourWb = new WriteableBitmap(this.pollutionImage.DecodePixelWidth, this.pollutionImage.DecodePixelHeight);
+            using (MemoryStream ms = new MemoryStream())
+            {
+                //var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, ms.AsRandomAccessStream());
+                //encoder.SetPixelData(BitmapPixelFormat.Bgra8,
+                //    BitmapAlphaMode.Ignore,
+                //    10,
+                //    10,
+                //    10,
+                //    10,
+                //    yourWb.PixelBuffer.ToArray());
+
+                //await encoder.FlushAsync();
+            }
+
+            // convert geolocation
+            reportString += this.longi+":~:";
+            reportString += this.latit+":~:";
+
+            // convert tags (if any)
+
+            // convert description (if any)
+
+            // convert water quality report (if any)
+
+            // finally, remove last 3 chars, then convert string to byte array
+            reportString = reportString.Substring(0,reportString.Length-3);
+            finalByteArray = GetBytes(reportString);
 
             return finalByteArray;
         }
@@ -80,6 +116,20 @@ namespace RiverWatch_Windows_Phone_App
         public static Report byteStreamToReport()
         {
             return null;
+        }
+
+        static byte[] GetBytes(string str)
+        {
+            byte[] bytes = new byte[str.Length * sizeof(char)];
+            System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
+            return bytes;
+        }
+
+        static string GetString(byte[] bytes)
+        {
+            char[] chars = new char[bytes.Length / sizeof(char)];
+            System.Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
+            return new string(chars);
         }
 
         public void discardReport()
