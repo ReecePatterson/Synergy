@@ -71,9 +71,9 @@ namespace RiverWatch_Windows_Phone_App
             return this.descriptionReady;
         }
 
-        public async byte[] reportToByteStream()
+        public byte[] reportToByteStream()
         {
-            byte[] finalByteArray = byte[1];
+            byte[] finalByteArray = new byte[1];
             String reportString = "";
 
             // *** convert each field to string base64 ***

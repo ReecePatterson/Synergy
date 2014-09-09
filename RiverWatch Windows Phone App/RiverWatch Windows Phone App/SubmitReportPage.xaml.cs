@@ -135,6 +135,9 @@ namespace RiverWatch_Windows_Phone_App
             // ==== actually save the report ====
             // Get the text data from the textbox. 
             byte[] fileBytes = report.reportToByteStream();
+            //Image image = new Image();
+            //image.Source = report.getSource();
+            //ImageConverter convert = new ImageConverter();
 
             // Get the local folder.
             StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
