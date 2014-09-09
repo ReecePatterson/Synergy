@@ -203,113 +203,9 @@ namespace RiverWatch_Windows_Phone_App
                     report.setDescriptionNotReady();
                 }
                 else { 
-                    // need to parse out trailing whitespace 
-                    desc = desc.Trim();
-
-                    // Format description
-                    // The description will have 23 chars per line,
-                    // and 3 lines only. If longer, description will display
-                    // "..." at the end of the third line
-                    String finalDesc = "";
-
-                    int LineCount = 0;
-                    int LineLimit = 3;
-                    Boolean bigDesc = false;
-                    Boolean smallDesc = true;
-
-                    int CharLimit = 23;
-                    char[] delimiterChars = {' '};
-                    String[] sa = desc.Split(delimiterChars);
-
-                    String line = "";
-                    int NoOfChars = 0;
-                    foreach (String str in sa)
-                    {
-                        // get size of str
-                        int len = str.Length;
-
-                        // check if number of characters in word is more than limit
-                        if (len > CharLimit)
-                        {
-                            // need to find out how many chars we can fit on the current line
-                            int spaceLeft = CharLimit - NoOfChars;
-
-                            // we need to split the word and connect using -
-                            String part1 = str.Substring(0, 2)+"-";
-                            int charmark = part1.Length;
-                            String part2 = str.Substring(2, str.Length - 1);
-                            Debug.WriteLine(spaceLeft+" : "+str.Length);
-                            Debug.WriteLine(part1 + " : " + part2);
-                            
-
-                            finalDesc += part1 + "\n";
-
-                            LineCount++;
-                            line = "";
-                            NoOfChars = 0;
-                            smallDesc = false;
-
-                            // check if we can append the second part
-                            // if not, break from loop to replace last three chars with ...
-
-                            if (LineCount >= LineLimit)
-                            {
-                                bigDesc = true;
-                                break;
-                            }
-                            else
-                            {
-                                line += part2+" ";
-                                NoOfChars += part2.Length + 1;
-                                continue;
-                            }
-                        }
-
-                        // get NoOfChars + len
-                        int tempLength = NoOfChars + len;
-
-                        if (tempLength < CharLimit)
-                        {
-                            // we can add this word to the line
-                            line += str + " ";
-                            NoOfChars += len + 1;
-                        }
-                        else
-                        {
-                            // we need to create a new line for the new word
-                            finalDesc += line + "\n";
-                            LineCount++;
-                            line = "";
-                            NoOfChars = 0;
-                            smallDesc = false;
-
-                            if (LineCount >= LineLimit)
-                            {
-                                bigDesc = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (smallDesc)
-                    {
-                        finalDesc += line;
-                    }
-
-                    else if (bigDesc)
-                    {
-                        // remove the ending new line char
-                        finalDesc = finalDesc.Substring(0, finalDesc.Length - 2);
-
-                        // replace with ...
-                        finalDesc += "...";
-                    }
-
                     // need to parse out trailing whitespace
-                    finalDesc = finalDesc.Trim();
-
                     DescriptionToolTip.FontSize = 15;
-                    DescriptionToolTip.Text = finalDesc;
+                    DescriptionToolTip.Text = desc.Trim();
                 }
             }
 
@@ -339,6 +235,7 @@ namespace RiverWatch_Windows_Phone_App
             while (!report.isGeolocationReady())
             {
                 await Task.Delay(2000);
+                //TODO add timeout
             }
             Debug.WriteLine("geolocation ready");
             UpdatePollutionReport();

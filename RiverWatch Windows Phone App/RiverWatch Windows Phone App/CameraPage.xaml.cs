@@ -122,7 +122,7 @@ namespace RiverWatch_Windows_Phone_App
         }
 
         void HardwareButtons_CameraPressed(object sender, CameraEventArgs e) {
-            CaptureImage_Click(this, null);
+            //CaptureImage_Click(this, null);
         }
 
         void HardwareButtons_CameraHalfPressed(object sender, CameraEventArgs e) {
@@ -174,13 +174,12 @@ namespace RiverWatch_Windows_Phone_App
 
         async void CaptureImage_Click(object sender, RoutedEventArgs e)
         {
-            Image i = new Image();
             ImageEncodingProperties imgFormat = ImageEncodingProperties.CreateJpeg();
 
             // create storage file in local app storage
             StorageFile file = await ApplicationData.Current.LocalFolder.CreateFileAsync(
-                "TestPhoto.jpg",
-                CreationCollisionOption.GenerateUniqueName);
+                "CurrentReportPhoto.jpg",
+                CreationCollisionOption.ReplaceExisting);
 
             // take photo
             await mediaCapture.CapturePhotoToStorageFileAsync(imgFormat, file);
@@ -189,8 +188,7 @@ namespace RiverWatch_Windows_Phone_App
             BitmapImage bmpImage = new BitmapImage(new Uri(file.Path));
 
             // imagePreivew is a <Image> object defined in XAML
-            preview.Source = bmpImage;
-            i.Source = bmpImage;
+            //preview.Source = bmpImage;
 
             //PollutionReportPage.setImage(bmpImage);
             Frame.Navigate(typeof(PollutionReportPage),bmpImage);

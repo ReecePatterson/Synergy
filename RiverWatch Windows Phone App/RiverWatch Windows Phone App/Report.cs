@@ -4,7 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
+using Windows.UI.Popups;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.Storage;
+using System.IO;
+using Windows.UI.Xaml.Controls;
+using System.Diagnostics;
+using Windows.Graphics.Imaging;
 
 namespace RiverWatch_Windows_Phone_App
 {
@@ -35,7 +41,7 @@ namespace RiverWatch_Windows_Phone_App
 
         public Boolean isReportReady()
         {
-            if (this.imageReady && this.geolocationReady && this.tagsReady && this.descriptionReady)
+            if (this.imageReady && this.geolocationReady)
             {
                 return true;
             }
@@ -67,16 +73,63 @@ namespace RiverWatch_Windows_Phone_App
 
         public byte[] reportToByteStream()
         {
-            byte[] byteArray = new byte[10];
+            byte[] finalByteArray = new byte[1];
+            String reportString = "";
 
-            // something done here
+            // *** convert each field to string base64 ***
+            // *** concat string into one big string ***
+            // *** convert big string to byte[] ***
 
-            return byteArray;
+            // convert image
+            WriteableBitmap yourWb = new WriteableBitmap(this.pollutionImage.DecodePixelWidth, this.pollutionImage.DecodePixelHeight);
+            using (MemoryStream ms = new MemoryStream())
+            {
+                //var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, ms.AsRandomAccessStream());
+                //encoder.SetPixelData(BitmapPixelFormat.Bgra8,
+                //    BitmapAlphaMode.Ignore,
+                //    10,
+                //    10,
+                //    10,
+                //    10,
+                //    yourWb.PixelBuffer.ToArray());
+
+                //await encoder.FlushAsync();
+            }
+
+            // convert geolocation
+            reportString += this.longi+":~:";
+            reportString += this.latit+":~:";
+
+            // convert tags (if any)
+
+            // convert description (if any)
+
+            // convert water quality report (if any)
+
+            // finally, remove last 3 chars, then convert string to byte array
+            reportString = reportString.Substring(0,reportString.Length-3);
+            finalByteArray = GetBytes(reportString);
+
+            return finalByteArray;
         }
 
-        public void reportToFile()
+        public static Report byteStreamToReport()
         {
+            return null;
+        }
 
+        static byte[] GetBytes(string str)
+        {
+            byte[] bytes = new byte[str.Length * sizeof(char)];
+            System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
+            return bytes;
+        }
+
+        static string GetString(byte[] bytes)
+        {
+            char[] chars = new char[bytes.Length / sizeof(char)];
+            System.Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
+            return new string(chars);
         }
 
         public void discardReport()
@@ -110,6 +163,7 @@ namespace RiverWatch_Windows_Phone_App
             var geolocator = new Geolocator();
             geolocator.DesiredAccuracyInMeters = 80;
             Geoposition position = await geolocator.GetGeopositionAsync();
+            //TODO check that this falls within new zealand!!!
             this.latit = "" + position.Coordinate.Latitude;
             this.longi = "" + position.Coordinate.Longitude;
             this.geolocationReady = true;
@@ -142,6 +196,11 @@ namespace RiverWatch_Windows_Phone_App
             return this.description;
         }
 
+        public String getDate()
+        {
+            return this.date;
+        }
+
         // setters
 
         public Boolean setBitmapImage(BitmapImage bi)
@@ -151,6 +210,9 @@ namespace RiverWatch_Windows_Phone_App
 
             // sneakily start the geolocation task
             this.getGeoPosition();
+
+            DateTime dt = System.DateTime.Now;
+            this.date = dt.ToString("dd_MM_yyyy H_mm_ss");
 
             return true;
         }
