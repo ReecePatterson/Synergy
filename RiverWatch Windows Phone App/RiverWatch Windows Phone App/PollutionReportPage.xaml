@@ -13,7 +13,7 @@
         <Grid x:Name="PhotoGrid" Background="#227fff" VerticalAlignment="Top" Margin="60,50,10,0" Height="90">
             <TextBlock x:Name="ImageToolTip" FontSize="20" Margin="20,18,0,0" Foreground="White">Take a photo</TextBlock>
             <Grid HorizontalAlignment="Right" Width="100" Background="#004cff" Tapped="cameraButton_Tapped">
-                <Image x:Name="cameraButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" Source="Assets/cameraIcon.png" />
+                <Image x:Name="cameraButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" Source="Assets/cameraIconReport.png" />
             </Grid>
             <Image x:Name="imagePreview" HorizontalAlignment="Left" Stretch="UniformToFill" Width="220" Margin="5,5,0,5"/>
         </Grid>
