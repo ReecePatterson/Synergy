@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
@@ -66,6 +67,7 @@ namespace RiverWatch_Windows_Phone_App
             
             // attempt to send
             // http://social.msdn.microsoft.com/forums/windowsapps/en-us/3fbf0af7-fe8d-44d8-85b4-11ff5d56becb/httpwebrequest-in-application-metro
+            CallService();
 
             if (success)
             {
@@ -95,6 +97,14 @@ namespace RiverWatch_Windows_Phone_App
                 // show commandbar
                 this.commandBar.Visibility = Visibility.Visible;
             }
+        }
+
+        public static String CallService(string serviceUrl, string login, string password, string message)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(serviceUrl);
+
+            request.Method = "POST";
+            return "";
         }
 
         private async void SaveButton_Click(object sender, RoutedEventArgs e)
