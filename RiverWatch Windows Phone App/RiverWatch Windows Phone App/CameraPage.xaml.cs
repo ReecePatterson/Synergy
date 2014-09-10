@@ -50,7 +50,7 @@ namespace RiverWatch_Windows_Phone_App
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
             HardwareButtons.CameraPressed += HardwareButtons_CameraPressed;
             HardwareButtons.CameraHalfPressed += HardwareButtons_CameraHalfPressed;
-            HardwareButtons.CameraReleased += HardwareButtons_CameraPressed;
+            HardwareButtons.CameraReleased += HardwareButtons_CameraHalfPressed;
 
             _simpleorientation = SimpleOrientationSensor.GetDefault();
             if (_simpleorientation != null) {
