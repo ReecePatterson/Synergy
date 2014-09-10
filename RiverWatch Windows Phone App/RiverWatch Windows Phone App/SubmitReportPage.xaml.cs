@@ -140,7 +140,7 @@ namespace RiverWatch_Windows_Phone_App
             var localStorage = ApplicationData.Current.LocalFolder;
 
             // create a file to save the report in
-            var file = await localStorage.CreateFileAsync(report.getDate() + ".data",
+            var file = await localStorage.CreateFileAsync(report.getReportName() + ".data",
             CreationCollisionOption.FailIfExists);
 
             // write byte stream to file

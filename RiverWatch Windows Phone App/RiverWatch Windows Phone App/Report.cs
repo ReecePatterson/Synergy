@@ -160,6 +160,11 @@ namespace RiverWatch_Windows_Phone_App
 
 
         // getters
+        public String getReportName()
+        {
+            return "RiverWatchReport_"+this.date+".rwr"; // RiverWatchReport
+        }
+
         public BitmapImage getSource()
         {
             return this.pollutionImage;
@@ -200,6 +205,9 @@ namespace RiverWatch_Windows_Phone_App
 
             // sneakily start the geolocation task
             this.getGeoPosition();
+
+            // the date the photo was taken is in the files name
+            Debug.WriteLine("source:" + bi.UriSource.AbsolutePath);
 
             DateTime dt = System.DateTime.Now;
             this.date = dt.ToString("dd_MM_yyyy H_mm_ss");

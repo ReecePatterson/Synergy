@@ -176,12 +176,13 @@ namespace RiverWatch_Windows_Phone_App
         {
             ImageEncodingProperties imgFormat = ImageEncodingProperties.CreateJpeg();
 
-            // get now's date and time
-            String s = "" + System.DateTime.Now;
+            // find the time and date now
+            DateTime dt = System.DateTime.Now;
+            String date = dt.ToString("dd_MM_yyyy H_mm_ss");
 
-            // create storage file in local app storage
+            // create storage file in local app storage, and name file according to date
             StorageFile file = await ApplicationData.Current.LocalFolder.CreateFileAsync(
-                "RiverWatch_"+s+".jpg",
+                "RiverWatchImage_"+date+".jpg",
                 CreationCollisionOption.ReplaceExisting);
 
             // take photo
@@ -190,7 +191,6 @@ namespace RiverWatch_Windows_Phone_App
             // Get photo as a BitmapImage
             BitmapImage bmpImage = new BitmapImage(new Uri(file.Path));
 
-            // go back to report page and send image source
             Frame.Navigate(typeof(PollutionReportPage),bmpImage);
         }
 
