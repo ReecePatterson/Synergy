@@ -14,7 +14,7 @@
                 <CompositeTransform/>
             </CaptureElement.RenderTransform>
         </CaptureElement>
-        <AppBarButton x:Name="cameraButton" Icon="Camera" VerticalAlignment="Bottom" HorizontalAlignment="Center" IsCompact="True" Click="CaptureImage_Click"/>
+        <Image x:Name="cameraButton" Source="Assets/cameraIcon.png" VerticalAlignment="Bottom" HorizontalAlignment="Center" Tapped="CaptureImage_Click" Height="83" />
         <Image x:Name="preview" Width="200" ></Image>
     </Grid>
 </Page>
