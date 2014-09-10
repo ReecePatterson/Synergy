@@ -209,6 +209,12 @@ namespace RiverWatch_Windows_Phone_App
             // the date the photo was taken is in the files name
             Debug.WriteLine("source:" + bi.UriSource.AbsolutePath);
 
+            String[] sa = bi.UriSource.AbsolutePath.Split(new Char[] {'/','.'});
+
+            // take second to last element
+            Debug.WriteLine(sa[sa.Length - 2]);
+
+            // set the date of the report
             DateTime dt = System.DateTime.Now;
             this.date = dt.ToString("dd_MM_yyyy H_mm_ss");
 
