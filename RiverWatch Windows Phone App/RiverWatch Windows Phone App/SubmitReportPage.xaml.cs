@@ -129,9 +129,8 @@ namespace RiverWatch_Windows_Phone_App
             // hide command bar
             this.commandBar.Visibility = Visibility.Collapsed;
 
+            // wait for a bit
             await Task.Delay(2000);
-
-            // ==== actually save the report ==== 
 
             // get byte stream of report
             byte[] fileBytes = report.reportToByteStream();
@@ -140,7 +139,7 @@ namespace RiverWatch_Windows_Phone_App
             var localStorage = ApplicationData.Current.LocalFolder;
 
             // create a file to save the report in
-            var file = await localStorage.CreateFileAsync(report.getReportName() + ".data",
+            var file = await localStorage.CreateFileAsync(report.getReportName(),
             CreationCollisionOption.FailIfExists);
 
             // write byte stream to file
@@ -148,11 +147,11 @@ namespace RiverWatch_Windows_Phone_App
             {
                 s.Write(fileBytes, 0, fileBytes.Length);
             }
-            
-            // ==================================
+
+            await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
 
             // tell user that report has been saved
-            this.SubmitReportText.Text = "Report Saved\n(Not really...)";
+            this.SubmitReportText.Text = "Report Saved\nNot Really. Eman Deleted it sneakily";
 
             // hide progress ring
             this.SubmitReportProgress.IsActive = false;

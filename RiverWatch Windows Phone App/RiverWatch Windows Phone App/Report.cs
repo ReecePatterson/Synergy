@@ -85,8 +85,19 @@ namespace RiverWatch_Windows_Phone_App
             reportString += this.latit+":~:";
 
             // convert tags (if any)
+            if (this.tags != null)
+            {
+                reportString += this.tags.Count + ":~:";
+
+                // loop through tags
+
+            }
 
             // convert description (if any)
+            if (this.description.Length > 0)
+            {
+                reportString += this.description + ":~:";
+            }
 
             // convert water quality report (if any)
 
@@ -119,7 +130,7 @@ namespace RiverWatch_Windows_Phone_App
             return new string(chars);
         }
 
-        public void discardReport()
+        public async void discardReport()
         {
             // partial checks
             imageReady = false;
@@ -128,6 +139,14 @@ namespace RiverWatch_Windows_Phone_App
             descriptionReady = false;
 
             // image information
+            // delete actual image related to this report
+            if (this.pollutionImage != null)
+            {
+                Debug.WriteLine("Deleting file: " + "RiverWatchImage_" + this.date + ".jpg");
+                StorageFile file = await (ApplicationData.Current.LocalFolder.GetFileAsync("RiverWatchImage_" + this.date + ".jpg"));
+                await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
+            
+            }
             pollutionImage = null;
 
             // location information
@@ -138,8 +157,6 @@ namespace RiverWatch_Windows_Phone_App
             description = "";
             tags = null;
             date = "";
-
-            // get rid of "CurrentReportPhoto.jpg"
         }
 
         private async Task getGeoPosition()
@@ -192,7 +209,6 @@ namespace RiverWatch_Windows_Phone_App
 
         public String getDate()
         {
-            Debug.WriteLine(this.pollutionImage.UriSource.AbsoluteUri);
             return this.date;
         }
 
@@ -209,14 +225,16 @@ namespace RiverWatch_Windows_Phone_App
             // the date the photo was taken is in the files name
             Debug.WriteLine("source:" + bi.UriSource.AbsolutePath);
 
+            // get file name
             String[] sa = bi.UriSource.AbsolutePath.Split(new Char[] {'/','.'});
+            Debug.WriteLine("Cut off absolute: "+sa[sa.Length - 2]);
+            String filename = sa[sa.Length - 2];
 
-            // take second to last element
-            Debug.WriteLine(sa[sa.Length - 2]);
-
+            // get date and time
+            String dateAndTime = filename.Substring(16, 19);
+            
             // set the date of the report
-            DateTime dt = System.DateTime.Now;
-            this.date = dt.ToString("dd_MM_yyyy H_mm_ss");
+            this.date = dateAndTime;
 
             return true;
         }

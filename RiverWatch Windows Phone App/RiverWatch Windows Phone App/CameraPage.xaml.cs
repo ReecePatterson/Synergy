@@ -178,7 +178,7 @@ namespace RiverWatch_Windows_Phone_App
 
             // find the time and date now
             DateTime dt = System.DateTime.Now;
-            String date = dt.ToString("dd_MM_yyyy H_mm_ss");
+            String date = dt.ToString("dd_MM_yyyy_H_mm_ss");
 
             // create storage file in local app storage, and name file according to date
             StorageFile file = await ApplicationData.Current.LocalFolder.CreateFileAsync(
