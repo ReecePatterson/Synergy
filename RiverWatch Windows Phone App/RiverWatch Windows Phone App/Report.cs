@@ -76,25 +76,9 @@ namespace RiverWatch_Windows_Phone_App
             byte[] finalByteArray = new byte[1];
             String reportString = "";
 
-            // *** convert each field to string base64 ***
-            // *** concat string into one big string ***
-            // *** convert big string to byte[] ***
-
-            // convert image
-            WriteableBitmap yourWb = new WriteableBitmap(this.pollutionImage.DecodePixelWidth, this.pollutionImage.DecodePixelHeight);
-            using (MemoryStream ms = new MemoryStream())
-            {
-                //var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, ms.AsRandomAccessStream());
-                //encoder.SetPixelData(BitmapPixelFormat.Bgra8,
-                //    BitmapAlphaMode.Ignore,
-                //    10,
-                //    10,
-                //    10,
-                //    10,
-                //    yourWb.PixelBuffer.ToArray());
-
-                //await encoder.FlushAsync();
-            }
+            // convert image file path
+            String uriToImage = this.pollutionImage.UriSource.AbsolutePath;
+            reportString += uriToImage+":~:";
 
             // convert geolocation
             reportString += this.longi+":~:";
@@ -108,6 +92,9 @@ namespace RiverWatch_Windows_Phone_App
 
             // finally, remove last 3 chars, then convert string to byte array
             reportString = reportString.Substring(0,reportString.Length-3);
+
+            Debug.WriteLine("Report String: "+reportString);
+
             finalByteArray = GetBytes(reportString);
 
             return finalByteArray;
@@ -151,6 +138,8 @@ namespace RiverWatch_Windows_Phone_App
             description = "";
             tags = null;
             date = "";
+
+            // get rid of "CurrentReportPhoto.jpg"
         }
 
         private async Task getGeoPosition()
@@ -198,6 +187,7 @@ namespace RiverWatch_Windows_Phone_App
 
         public String getDate()
         {
+            Debug.WriteLine(this.pollutionImage.UriSource.AbsoluteUri);
             return this.date;
         }
 

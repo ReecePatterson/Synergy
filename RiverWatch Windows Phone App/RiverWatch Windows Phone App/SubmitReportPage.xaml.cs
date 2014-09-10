@@ -100,10 +100,9 @@ namespace RiverWatch_Windows_Phone_App
         private async void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             // check if we can save the report
-            Boolean canSave = false;
+            Boolean canSave = true;
 
             // check if we've got space
-
 
             // if so, save the report
             if (canSave)
@@ -132,29 +131,24 @@ namespace RiverWatch_Windows_Phone_App
 
             await Task.Delay(2000);
 
-            // ==== actually save the report ====
-            // Get the text data from the textbox. 
+            // ==== actually save the report ==== 
+
+            // get byte stream of report
             byte[] fileBytes = report.reportToByteStream();
-            //Image image = new Image();
-            //image.Source = report.getSource();
-            //ImageConverter convert = new ImageConverter();
+            
+            // find local storage
+            var localStorage = ApplicationData.Current.LocalFolder;
 
-            // Get the local folder.
-            StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
+            // create a file to save the report in
+            var file = await localStorage.CreateFileAsync(report.getDate() + ".data",
+            CreationCollisionOption.FailIfExists);
 
-            // Create a new folder name DataFolder.
-            var dataFolder = await local.CreateFolderAsync("RiverWatch_Data",
-                CreationCollisionOption.OpenIfExists);
-
-            // Create a new file named DataFile.txt.
-            var file = await dataFolder.CreateFileAsync(report.getDate()+".txt",
-            CreationCollisionOption.ReplaceExisting);
-
-            // Write the data from the textbox.
+            // write byte stream to file
             using (var s = await file.OpenStreamForWriteAsync())
             {
                 s.Write(fileBytes, 0, fileBytes.Length);
             }
+            
             // ==================================
 
             // tell user that report has been saved
