@@ -13,8 +13,8 @@
             <HubSection Header="Submit Report">
                 <DataTemplate>
                     <Grid>
-                        <TextBlock>Work In Progress</TextBlock>
-                        <Image HorizontalAlignment="Left" Height="320" Margin="10,50,0,0" VerticalAlignment="Top" Width="320" Source="RiverWatchBranding/PollutionReportImg.png" Tapped="PollutionReport_Tapped"/>
+                        <TextBlock>Needs to be able to submit to server once report is complete</TextBlock>
+                        <Image HorizontalAlignment="Left" Height="320" Margin="10,50,0,0" VerticalAlignment="Top" Width="320" Source="Assets/PollutionReportImg.png" Tapped="PollutionReport_Tapped"/>
                     </Grid>
                 </DataTemplate>
             </HubSection>
@@ -23,10 +23,11 @@
                 <DataTemplate>
                     <Grid>
                         <TextBlock>Work In Progress</TextBlock>
-                        <Image HorizontalAlignment="Left" Height="320" Margin="10,50,0,0" VerticalAlignment="Top" Width="320" Source="RiverWatchBranding/WaterQualityReportImg.png" Tapped="WaterQualityReport_Tapped"/>
+                        <Image HorizontalAlignment="Left" Height="320" Margin="10,50,0,0" VerticalAlignment="Top" Width="320" Source="Assets/UnsentReportsImg.png" Tapped="WaterQualityReport_Tapped"/>
                     </Grid>
                 </DataTemplate>
             </HubSection>
         </Hub>
+        <Image VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="200" Height="93" Margin="10,0,0,10" Source="Assets/WaiNZLogo.png"></Image>
     </Grid>
 </Page>

@@ -19,6 +19,7 @@ using Windows.UI.Xaml.Navigation;
 using Windows.Media.Capture;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.Phone.UI.Input;
+using System.Diagnostics;
 
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
@@ -30,22 +31,8 @@ namespace RiverWatch_Windows_Phone_App
     /// </summary>
     public sealed partial class PollutionReportPage : Page
     {
-        // fields
-
-        // image information
-        private static BitmapImage pollutionImage = null;
-        public Boolean imageReady = false;
-
-        // location information
-        public String longi = "";
-        public String latit = "";
-        public Boolean geolocationReady = false;
-
-        // textual information
-        public String description = "";
-        public static List<String> tags = null;
-        public String date = "";
-        public Boolean textReady = false;
+        static Report report = new Report();
+        private Boolean UIReadyToSend = false;
 
         public PollutionReportPage()
         {
@@ -58,8 +45,9 @@ namespace RiverWatch_Windows_Phone_App
             Frame rootFrame = Window.Current.Content as Frame;
             if (rootFrame != null && rootFrame.CanGoBack)
             {
+                report.discardReport();
                 rootFrame.Navigate(typeof(HubPage));
-                e.Handled = true;
+                //e.Handled = true;
             }
         }
 
@@ -70,73 +58,250 @@ namespace RiverWatch_Windows_Phone_App
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            // init geolocation
-            geolocationReady = false;
-            
-            // check if an image is saved, if so, its ready
-            if (pollutionImage != null)
+            if (e == null)
             {
-                // start finding geolocation
-                getGeoPosition();
+                return;
+            }
+            if (e.Parameter is BitmapImage)
+            {
+                Debug.WriteLine("photo");
+                BitmapImage bi = e.Parameter as BitmapImage;
+                report.setBitmapImage(bi);
+            }
+            else if(e.Parameter is List<String>){
+                Debug.WriteLine("tags");
+                List<String> li = e.Parameter as List<String>;
+                report.setTags(li);
+            }
+            else if (e.Parameter is String)
+            {
+                Debug.WriteLine("desc");
+                String s = e.Parameter as String;
+                report.setDescription(s);
+            }
+            //water quality
+            // else
+            
+            UpdatePollutionReport();
+        }
 
-                // remove tool tip for image
-                this.ImageToolTip.Text = "";
-
-                // resize the photo tile and put the image taken on it
-                imagePreview.Source = pollutionImage;
-                
-                // tell user system is looking for location even though we've already started
-                this.GeolocationToolTip.Text = "Loading Coordinates ...";
+        public async void UpdatePollutionReport()
+        {
+            // display image
+            if (report.getSource() == null)
+            {
+                ImageToolTip.Text = "Take a photo";
             }
             else
             {
-                // keep tool tip for image
-                this.ImageToolTip.Text = "Take a photo";
-                // keep tool tip for geolocation
-                this.GeolocationToolTip.Text = "Find location";
+                ImageToolTip.Text = "";
+                imagePreview.Source = report.getSource();
             }
 
-            // check if textual information is filled out, if so, its ready
+            // display geolocation
+            if (!report.isGeolocationReady())
+            {
+                if (report.getSource() == null)
+                {
+                    GeolocationToolTip.FontSize = 20;
+                    GeolocationToolTip.Text = "Awaiting photo";
+                }
+                else
+                {
+                    GeolocationToolTip.FontSize = 20;
+                    GeolocationToolTip.Text = "Finding coordinates...";
 
-            // init datetime
-            this.date = string.Format("{0 : dd/MM/yyyy}", DateTime.Now);
+                    // if we've got an image, start async method that 
+                    // sends request to report class every 10s to see if 
+                    // geolocation is ready to be displayed on UI
+
+                    checkGeolocation();
+                }
+            }
+            else
+            {
+                GeolocationToolTip.FontSize = 15;
+                GeolocationToolTip.Text = "Latitude: " + report.getLatitude() + "\n\nLongitude: " + report.getLongitude();
+            }
+
+            // display tags
+            if (!report.isTagsReady())
+            {
+                TagsToolTip.FontSize = 20;
+                TagsToolTip.Text = "Select tags";
+            }
+            else
+            {
+                // display as much selected tags
+                String t = "";
+                int NoOfTags = report.getTags().Count;
+
+                if (NoOfTags == 0)
+                {
+                    TagsToolTip.FontSize = 20;
+                    TagsToolTip.Text = "Select tags";
+                    report.setTagsNotReady();
+                }
+                else { 
+                    int TagCount = 0;
+                    int TagLimit = 6;
+
+                    int LineCount = 0;
+                    int LineLimit = 2;
+                
+                    foreach (String element in report.getTags())
+                    {
+                        // if we've displayed 6 tags
+                        if (TagCount >= TagLimit)
+                        {
+                            break;
+                        }
+
+                        // if we've got two tags on a line
+                        if (!(LineCount < LineLimit))
+                        {
+                            t += "\n";
+                            LineCount = 0;
+                        }
+
+                        // append tag
+                        t += "#"+element+", ";
+                        LineCount++;
+                        TagCount++;
+                    }
+
+                    // remove extra comma
+                    t = t.Substring(0, t.Length - 2);
+                    Debug.WriteLine(t);
+
+                    // if user selected more than 6 tags, add a ...
+                    if (NoOfTags > 6)
+                    {
+                        t += "...";
+                    }
+
+                    // display tags
+                    TagsToolTip.FontSize = 15;
+                    TagsToolTip.Text = t;
+                }
+            }
+
+            // display description
+            if (!report.isDescriptionReady())
+            {
+                DescriptionToolTip.FontSize = 20;
+                DescriptionToolTip.Text = "Add description";
+            }
+            else
+            {
+                String desc = report.getDescription();
+
+                if (desc.Length == 0)
+                {
+                    DescriptionToolTip.FontSize = 20;
+                    DescriptionToolTip.Text = "Add description";
+                    report.setDescriptionNotReady();
+                }
+                else { 
+                    // need to parse out trailing whitespace
+                    DescriptionToolTip.FontSize = 15;
+                    DescriptionToolTip.Text = desc.Trim();
+                }
+            }
+
+            // if report is complete, we need to compact the grids and display submit button
+            if (report.isReportReady())
+            {
+                if (UIReadyToSend == false)
+                {
+                    UIReadyToSend = true;
+                    Debug.WriteLine("Report is now ready to send");
+                    animateReadyToSend();
+                }
+            }
+            else
+            {
+                if (UIReadyToSend == true) {
+                    UIReadyToSend = false;
+                    Debug.WriteLine("Report is now not ready to send");
+                    animateNotReadyToSend();
+                }
+            }
         }
 
-        private async Task getGeoPosition()
+        private async void checkGeolocation()
         {
-            var geolocator = new Geolocator();
-            geolocator.DesiredAccuracyInMeters = 100;
-            Geoposition position = await geolocator.GetGeopositionAsync();
-            this.latit = "" + position.Coordinate.Latitude;
-            this.longi = "" + position.Coordinate.Longitude;
+            Debug.WriteLine("geolocation search started");
+            while (!report.isGeolocationReady())
+            {
+                await Task.Delay(2000);
+                //TODO add timeout
+            }
+            Debug.WriteLine("geolocation ready");
+            UpdatePollutionReport();
+        }
 
-            // resize the geolocation tile and font, then display the coordinates
-            // 
-            this.GeolocationToolTip.FontSize = 15;
-            this.GeolocationToolTip.Text = "Latitude: " + this.latit + "\n\nLongitude: " + this.longi;
-            geolocationReady = true;
+        private async void animateReadyToSend()
+        {
+            double top = 0;
+            for (int i = 0; i < 10; i++)
+            {
+                // animate geolocation
+                top = GeolocateGrid.Margin.Top;
+                GeolocateGrid.Margin = new Thickness(60, top-1, 10, 0);
+
+                // animate tags
+                top = TagsGrid.Margin.Top;
+                TagsGrid.Margin = new Thickness(60, top - 2, 10, 0);
+
+                // animate description
+                top = DescriptionGrid.Margin.Top;
+                DescriptionGrid.Margin = new Thickness(60, top - 3, 10, 0);
+
+                // animate water quality
+                top = WaterQualityGrid.Margin.Top;
+                WaterQualityGrid.Margin = new Thickness(60, top - 4, 10, 0);
+                
+                await Task.Delay(20);
+            }
+
+            SubmitButton.Visibility = Visibility.Visible;
+        }
+        private async void animateNotReadyToSend()
+        {
+            // not sure if this will be used
+
+            // animate geolocation
+            GeolocateGrid.Margin = new Thickness(60, 160, 10, 0);
+            await Task.Delay(500);
+
+            // animate tags
+            TagsGrid.Margin = new Thickness(60, 270, 10, 0);
+            await Task.Delay(500);
+
+            // animate description
+            DescriptionGrid.Margin = new Thickness(60, 380, 10, 0);
+            await Task.Delay(500);
+
+            // animate water quality
+            WaterQualityGrid.Margin = new Thickness(60, 490, 10, 0);
+            await Task.Delay(500);
+
+            SubmitButton.Visibility = Visibility.Collapsed;
+        }
+
+
+        // ====== click events =======
+
+        private void SubmitReport_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(SubmitReportPage), report);
         }
 
         private async void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
-            pollutionImage = null;
-            Frame.Navigate(typeof(HubPage));
-        }
-
-        private void SubmitReport_Click(object sender, RoutedEventArgs e)
-        {
-            // Gotta collate all the information we need to send to the server...
-
-            // Save information locally on the phone
-            
-            // Send information to WaiNZ server
-
-            // If send was successful, delete report that was saved locally
-        }
-
-        private void AddTags_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(AddTagsPage));
+            // do the same as hardware back button
+            this.HardwareButtons_BackPressed(this, null);
         }
 
         private void cameraButton_Tapped(object sender, TappedRoutedEventArgs e)
@@ -146,29 +311,17 @@ namespace RiverWatch_Windows_Phone_App
         
         private void tagButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            Frame.Navigate(typeof(AddTagsPage));
+            Frame.Navigate(typeof(AddTagsPage),report);
         }
 
         private void descriptionButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            Frame.Navigate(typeof(AddDescriptionPage));
+            Frame.Navigate(typeof(AddDescriptionPage),report);
         }
 
         private void waterQualityButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Frame.Navigate(typeof(WaterQualityReportPage));
-        }
-
-        // ===== public methods =====
-
-        public static void setImage(BitmapImage i)
-        {
-            pollutionImage = i;
-        }
-
-        public static void setTags(List<String> tags)
-        {
-            tags = tags;
         }
 
     }

@@ -5,49 +5,55 @@
     xmlns:local="using:RiverWatch_Windows_Phone_App"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    mc:Ignorable="d">
+
     <Grid>
         <TextBlock x:Name="PageTitle" FontSize="25" Margin="10,0,0,0">Create a Pollution Report</TextBlock>
 
         <Grid x:Name="PhotoGrid" Background="#227fff" VerticalAlignment="Top" Margin="60,50,10,0" Height="90">
-            <TextBlock x:Name="ImageToolTip" FontSize="20" Margin="20,18,0,0">Take a photo</TextBlock>
-            <Grid HorizontalAlignment="Right" Width="100" Background="#004cff">
-                <Image x:Name="cameraButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" Source="Assets/cameraIcon.png" Tapped="cameraButton_Tapped"/>
+            <TextBlock x:Name="ImageToolTip" FontSize="20" Margin="20,18,0,0" Foreground="White">Take a photo</TextBlock>
+            <Grid HorizontalAlignment="Right" Width="100" Background="#004cff" Tapped="cameraButton_Tapped">
+                <Image x:Name="cameraButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" Source="Assets/cameraIcon.png" />
             </Grid>
-            <Image x:Name="imagePreview" HorizontalAlignment="Left" Stretch="UniformToFill" Width="225" Margin="5,5,0,5"/>
+            <Image x:Name="imagePreview" HorizontalAlignment="Left" Stretch="UniformToFill" Width="220" Margin="5,5,0,5"/>
         </Grid>
 
         <Grid x:Name="GeolocateGrid" Background="#227fff" VerticalAlignment="Top" Margin="60,160,10,0" Height="90">
-            <TextBlock x:Name="GeolocationToolTip" FontSize="20" Margin="20,18,0,0">Awaiting Photo</TextBlock>
+            <TextBlock x:Name="GeolocationToolTip" FontSize="20" Margin="20,18,0,0" Foreground="White">Awaiting photo</TextBlock>
             <Grid HorizontalAlignment="Right" Width="100" Background="#004cff">
                 <Image VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" Source="Assets/pinIcon.png"/>
             </Grid>
         </Grid>
 
         <Grid x:Name="TagsGrid" Background="#227fff" VerticalAlignment="Top" Margin="60,270,10,0" Height="90">
-            <TextBlock x:Name="TagsToolTip" FontSize="20" Margin="20,18,0,0">Select Tags</TextBlock>
-            <Grid HorizontalAlignment="Right" Width="100" Background="#004cff">
-                <Image x:Name="tagButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" Source="Assets/cameraIcon.png" Tapped="tagButton_Tapped"/>
+            <TextBlock x:Name="TagsToolTip" FontSize="20" Margin="20,18,100,0" Foreground="White">Select tags</TextBlock>
+            <Grid HorizontalAlignment="Right" Width="100" Background="#004cff" Tapped="tagButton_Tapped">
+                <Image x:Name="tagButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" Source="Assets/hashtagIcon.png"/>
             </Grid>
         </Grid>
 
         <Grid x:Name="DescriptionGrid" Background="#227fff" VerticalAlignment="Top" Margin="60,380,10,0" Height="90">
-            <TextBlock x:Name="DescriptionToolTip" FontSize="20" Margin="20,18,0,0">Add Description</TextBlock>
-            <Grid HorizontalAlignment="Right" Width="100" Background="#004cff">
-                <Image x:Name="descriptionButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" Source="Assets/cameraIcon.png" Tapped="descriptionButton_Tapped"/>
+            <TextBlock x:Name="DescriptionToolTip" FontSize="20" Margin="20,18,100,10" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" Foreground="White">Add description</TextBlock>
+            <Grid HorizontalAlignment="Right" Width="100" Background="#004cff" Tapped="descriptionButton_Tapped">
+                <Image x:Name="descriptionButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" Source="Assets/descriptionIcon.png" Tapped="descriptionButton_Tapped"/>
             </Grid>
         </Grid>
 
-        <Grid x:Name="BluetoothGrid" Background="#227fff" VerticalAlignment="Top" Margin="60,490,10,0" Height="90">
-            <TextBlock x:Name="WaterQualityToolTip" FontSize="18" Margin="20,18,0,0">Measure Water Quality</TextBlock>
-            <Grid HorizontalAlignment="Right" Width="100" Background="#004cff">
-                <Image x:Name="waterQualityButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" Source="Assets/cameraIcon.png" Tapped="waterQualityButton_Tapped"/>
+        <Grid x:Name="WaterQualityGrid" Background="#227fff" VerticalAlignment="Top" Margin="60,490,10,0" Height="90">
+            <TextBlock x:Name="WaterQualityToolTip" FontSize="18" Margin="20,18,0,0" Foreground="White">Measure water quality</TextBlock>
+            <Grid HorizontalAlignment="Right" Width="100" Background="#004cff" Tapped="waterQualityButton_Tapped">
+                <Image x:Name="waterQualityButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" Source="Assets/wandIcon.png"/>
             </Grid>
         </Grid>
 
-        <Image HorizontalAlignment="Left" Margin="9,50,0,0" Height="41" VerticalAlignment="Top" Width="41" Source="Assets/backArrow.png" Tapped="ReturnButton_Click"/>
         <Rectangle HorizontalAlignment="Left" Height="100" Margin="-85,298,0,0" VerticalAlignment="Top" Width="100"/>
+        <AppBarButton x:Name="ReturnButton" HorizontalAlignment="Left" Icon="Back" Label="appbarbutton" Margin="5,40,0,0" VerticalAlignment="Top" IsCompact="True" Click="ReturnButton_Click"/>
+        
+        <AppBarButton x:Name="SubmitButton" Icon="Accept" VerticalAlignment="Bottom" HorizontalAlignment="Right" Visibility="Collapsed" Click="SubmitReport_Click"/>
+
+        
+        
+        
         <!--<Button Content="Submit" HorizontalAlignment="Left" Margin="60,582,0,0" VerticalAlignment="Top" Click="SubmitReport_Click" Width="330"/>-->
     </Grid>
 </Page>

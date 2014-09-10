@@ -9,6 +9,10 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-
+        <TextBlock x:Name="PageTitle" FontSize="25" Margin="10,0,0,0">Incident Description</TextBlock>
+        <Grid x:Name="descriptionGrid" Margin="60,50,0,0">
+            <TextBox x:Name="DescriptionString" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center"  PlaceholderText="Insert your description here" Height="575" Width="340"/>
+        </Grid>
+        <AppBarButton x:Name="ReturnButton" HorizontalAlignment="Left" Icon="Back" Label="appbarbutton" Margin="5,40,0,0" VerticalAlignment="Top" IsCompact="True" Click="AppBarButton_Click"/>
     </Grid>
 </Page>

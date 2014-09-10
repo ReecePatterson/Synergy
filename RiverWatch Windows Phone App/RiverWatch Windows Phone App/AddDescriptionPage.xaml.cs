@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -31,10 +32,12 @@ namespace RiverWatch_Windows_Phone_App
 
         void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
         {
+            //PollutionReportPage.setDescription(DescriptionString.Text);
+
             Frame rootFrame = Window.Current.Content as Frame;
             if (rootFrame != null && rootFrame.CanGoBack)
             {
-                rootFrame.Navigate(typeof(PollutionReportPage));
+                rootFrame.Navigate(typeof(PollutionReportPage), DescriptionString.Text);
                 e.Handled = true;
             }
         }
@@ -46,6 +49,22 @@ namespace RiverWatch_Windows_Phone_App
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            Report report = e.Parameter as Report;
+            String s = report.getDescription();
+
+            DescriptionString.Text = s;
+        }
+
+        private void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            //PollutionReportPage.setDescription(DescriptionString.Text);
+
+            Frame rootFrame = Window.Current.Content as Frame;
+            if (rootFrame != null && rootFrame.CanGoBack)
+            {
+                rootFrame.Navigate(typeof(PollutionReportPage),DescriptionString.Text);
+                
+            }
         }
     }
 }

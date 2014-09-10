@@ -34,7 +34,6 @@ namespace RiverWatch_Windows_Phone_App
         private readonly ObservableDictionary defaultViewModel = new ObservableDictionary();
         private readonly ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView("Resources");
 
-
         public HubPage()
         {
             this.InitializeComponent();

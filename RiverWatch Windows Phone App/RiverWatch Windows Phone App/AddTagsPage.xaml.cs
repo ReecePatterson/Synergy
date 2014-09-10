@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RiverWatch_Windows_Phone_App.Common;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -31,12 +32,7 @@ namespace RiverWatch_Windows_Phone_App
 
         void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
-            if (rootFrame != null && rootFrame.CanGoBack)
-            {
-                rootFrame.Navigate(typeof(PollutionReportPage));
-                e.Handled = true;
-            }
+            AppBarButton_Click(this, null);
         }
 
         /// <summary>
@@ -46,6 +42,91 @@ namespace RiverWatch_Windows_Phone_App
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            Report report = e.Parameter as Report;
+            List<String> li = report.getTags();
+
+            if (li != null)
+            {
+                if (li.Contains("Cattle"))
+                {
+                    tag1.IsChecked = true;
+                }
+                if (li.Contains("Bacteria"))
+                {
+                    tag2.IsChecked = true;
+                }
+                if (li.Contains("Faeces"))
+                {
+                    tag3.IsChecked = true;
+                }
+                if (li.Contains("Waste Spill"))
+                {
+                    tag4.IsChecked = true;
+                }
+                if (li.Contains("Vandalism"))
+                {
+                    tag5.IsChecked = true;
+                }
+                if (li.Contains("River"))
+                {
+                    tag6.IsChecked = true;
+                }
+                if (li.Contains("Lake"))
+                {
+                    tag7.IsChecked = true;
+                }
+                if (li.Contains("Ocean"))
+                {
+                    tag8.IsChecked = true;
+                }
+
+                
+            }
+        }
+
+        private void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            List<String> tags = new List<String>();
+
+            if (tag1.IsChecked == true)
+            {
+                tags.Add(tag1.Content.ToString());
+            }
+            if (tag2.IsChecked == true)
+            {
+                tags.Add(tag2.Content.ToString());
+            }
+            if (tag3.IsChecked == true)
+            {
+                tags.Add(tag3.Content.ToString());
+            }
+            if (tag4.IsChecked == true)
+            {
+                tags.Add(tag4.Content.ToString());
+            }
+            if (tag5.IsChecked == true)
+            {
+                tags.Add(tag5.Content.ToString());
+            }
+            if (tag6.IsChecked == true)
+            {
+                tags.Add(tag6.Content.ToString());
+            }
+            if (tag7.IsChecked == true)
+            {
+                tags.Add(tag7.Content.ToString());
+            }
+            if (tag8.IsChecked == true)
+            {
+                tags.Add(tag8.Content.ToString());
+            }
+
+            Frame rootFrame = Window.Current.Content as Frame;
+            if (rootFrame != null && rootFrame.CanGoBack)
+            {
+                rootFrame.Navigate(typeof(PollutionReportPage), tags);
+                //e.Handled = true;
+            }
         }
 
     }
