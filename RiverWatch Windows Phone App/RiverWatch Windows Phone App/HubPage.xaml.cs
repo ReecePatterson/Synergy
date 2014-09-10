@@ -10,6 +10,7 @@ using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Display;
+using Windows.Phone.UI.Input;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -46,6 +47,9 @@ namespace RiverWatch_Windows_Phone_App
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
+
+            //disable camera button
+            HardwareButtons.CameraReleased += HardwareButtons_DisableCameraButton;
         }
 
         /// <summary>
@@ -171,6 +175,9 @@ namespace RiverWatch_Windows_Phone_App
         private void GroupSection_ItemClick(object sender, RoutedEventArgs e)
         {
             // unused in this branch
+        }
+
+        void HardwareButtons_DisableCameraButton(object sender, CameraEventArgs e) {
         }
     }
 }
