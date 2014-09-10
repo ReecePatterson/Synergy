@@ -38,6 +38,9 @@ namespace RiverWatch_Windows_Phone_App
         {
             this.InitializeComponent();
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+
+            //disable camera button
+            HardwareButtons.CameraReleased += HardwareButtons_DisableCameraButton;
         }
 
         void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
@@ -324,5 +327,7 @@ namespace RiverWatch_Windows_Phone_App
             Frame.Navigate(typeof(WaterQualityReportPage));
         }
 
+        void HardwareButtons_DisableCameraButton(object sender, CameraEventArgs e) {
+        }
     }
 }

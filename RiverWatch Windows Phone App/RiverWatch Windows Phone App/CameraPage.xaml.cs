@@ -56,6 +56,18 @@ namespace RiverWatch_Windows_Phone_App
             if (_simpleorientation != null) {
                 _simpleorientation.OrientationChanged += new TypedEventHandler<SimpleOrientationSensor, SimpleOrientationSensorOrientationChangedEventArgs>(OrientationChanged);
             }
+            
+            DisableNotificationsBar();
+        }
+
+        //for disabling the notifications bar on this page
+        private void DisableNotificationsBar() {
+            DisableNotificationsBarHelper();
+        }
+
+        //helper function for DisableNotificationsBar for calling async function
+        async void DisableNotificationsBarHelper() {
+            await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().HideAsync();
         }
         
         // For orientation Switching
@@ -121,8 +133,14 @@ namespace RiverWatch_Windows_Phone_App
 
         }
 
+        //this field is used to determine if the camera button has been fully pressed. If not then capture an image
+        bool pressed = false;
+
         void HardwareButtons_CameraPressed(object sender, CameraEventArgs e) {
-            //CaptureImage_Click(this, null);
+            if (!pressed) {
+                CaptureImage_Click(this, null);
+                pressed = true;
+            }
         }
 
         void HardwareButtons_CameraHalfPressed(object sender, CameraEventArgs e) {
