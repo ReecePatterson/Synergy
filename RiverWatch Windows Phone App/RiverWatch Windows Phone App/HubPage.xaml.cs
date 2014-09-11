@@ -179,5 +179,15 @@ namespace RiverWatch_Windows_Phone_App
 
         void HardwareButtons_DisableCameraButton(object sender, CameraEventArgs e) {
         }
+
+        private void PollutionReportImage_Holding(object sender, HoldingRoutedEventArgs e)
+        {
+            
+        }
+
+        private void UnsentReportImage_Holding(object sender, HoldingRoutedEventArgs e)
+        {
+
+        }
     }
 }

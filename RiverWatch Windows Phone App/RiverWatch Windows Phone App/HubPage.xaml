@@ -14,7 +14,7 @@
                 <DataTemplate>
                     <Grid>
                         <TextBlock>Needs to be able to submit to server once report is complete</TextBlock>
-                        <Image HorizontalAlignment="Left" Height="320" Margin="10,50,0,0" VerticalAlignment="Top" Width="320" Source="Assets/PollutionReportImg.png" Tapped="PollutionReport_Tapped"/>
+                        <Image x:Name="PollutionReportImage" HorizontalAlignment="Left" Height="320" Margin="10,50,0,0" VerticalAlignment="Top" Width="320" Source="Assets/PollutionReportImg.png" Holding="PollutionReportImage_Holding"  Tapped="PollutionReport_Tapped"/>
                     </Grid>
                 </DataTemplate>
             </HubSection>
@@ -23,7 +23,7 @@
                 <DataTemplate>
                     <Grid>
                         <TextBlock>Work In Progress</TextBlock>
-                        <Image HorizontalAlignment="Left" Height="320" Margin="10,50,0,0" VerticalAlignment="Top" Width="320" Source="Assets/UnsentReportsImg.png" Tapped="WaterQualityReport_Tapped"/>
+                        <Image x:Name="UnsentReportImage" HorizontalAlignment="Left" Height="320" Margin="10,50,0,0" VerticalAlignment="Top" Width="320" Source="Assets/UnsentReportsImg.png" Holding="UnsentReportImage_Holding" Tapped="WaterQualityReport_Tapped"/>
                     </Grid>
                 </DataTemplate>
             </HubSection>
