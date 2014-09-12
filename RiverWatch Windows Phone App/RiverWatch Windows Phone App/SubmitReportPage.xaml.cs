@@ -57,6 +57,18 @@ namespace RiverWatch_Windows_Phone_App
         {
             this.report = e.Parameter as Report;
             attemptSendToServer();
+
+            //if we are coming back to this page from the camera page, the notifications bar will have been disabled so re-enable it
+
+        }
+
+        //used to reenable the notifications bar after navigating back from the camera page
+        private void EnableNotificationsBar() {
+            EnableNotificationsBarHelper();
+        }
+
+        private async void EnableNotificationsBarHelper(){
+            await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ShowAsync();
         }
 
         private async void attemptSendToServer()
@@ -67,7 +79,7 @@ namespace RiverWatch_Windows_Phone_App
             
             // attempt to send
             // http://social.msdn.microsoft.com/forums/windowsapps/en-us/3fbf0af7-fe8d-44d8-85b4-11ff5d56becb/httpwebrequest-in-application-metro
-            CallService();
+            // CallService();
 
             if (success)
             {
