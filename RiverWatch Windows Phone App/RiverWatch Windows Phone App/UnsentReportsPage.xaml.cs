@@ -39,6 +39,12 @@ namespace RiverWatch_Windows_Phone_App
             }
         }
 
+        private async void ReturnButton_Click(object sender, RoutedEventArgs e)
+        {
+            // do the same as hardware back button
+            this.HardwareButtons_BackPressed(this, null);
+        }
+
         /// <summary>
         /// Invoked when this page is about to be displayed in a Frame.
         /// </summary>
