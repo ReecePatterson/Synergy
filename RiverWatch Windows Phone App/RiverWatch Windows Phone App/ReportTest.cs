@@ -11,7 +11,7 @@ namespace RiverWatch_Windows_Phone_App
     class ReportTest
     {
         [TestMethod]
-        public void TestMethod1()
+        public void ReportTest()
         {
          
         }
