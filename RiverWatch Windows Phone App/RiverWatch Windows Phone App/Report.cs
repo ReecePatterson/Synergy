@@ -14,7 +14,7 @@ using Windows.Graphics.Imaging;
 
 namespace RiverWatch_Windows_Phone_App
 {
-    class Report
+    public class Report
     {
         // partial checks
         private Boolean imageReady = false;
