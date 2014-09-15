@@ -69,7 +69,7 @@ namespace RiverWatch_Windows_Phone_App
             {
                 Debug.WriteLine("photo");
                 Uri iu = e.Parameter as Uri;
-                report.setBitmapImageUri(iu);
+                report.setImageUri(iu);
             }
             else if(e.Parameter is List<String>){
                 Debug.WriteLine("tags");

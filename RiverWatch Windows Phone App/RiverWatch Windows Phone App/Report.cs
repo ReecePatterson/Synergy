@@ -214,7 +214,7 @@ namespace RiverWatch_Windows_Phone_App
 
         // setters
 
-        public Boolean setBitmapImageUri(Uri imageUri)
+        public Boolean setImageUri(Uri imageUri)
         {
             this.pollutionImageUri = imageUri;
             this.imageReady = true;
