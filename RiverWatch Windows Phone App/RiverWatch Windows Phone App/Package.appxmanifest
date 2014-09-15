@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
-  <Identity Name="f3edd5e7-f683-4504-a863-3ef5d0632cfe" Publisher="CN=Reece" Version="1.0.0.0" />
+  <Identity Name="f3edd5e7-f683-4504-a863-3ef5d0632cfe" Publisher="CN=WaiNZ" Version="1.0.0.0" />
   <mp:PhoneIdentity PhoneProductId="f3edd5e7-f683-4504-a863-3ef5d0632cfe" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>RiverWatch Windows Phone App</DisplayName>
@@ -15,7 +15,7 @@
     <Resource Language="x-generate" />
   </Resources>
   <Applications>
-    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="MainPage.xaml">
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="HubPage.xaml">
       <m3:VisualElements DisplayName="RiverWatch" Square150x150Logo="Assets\Logo.png" Square44x44Logo="Assets\SmallLogo.png" Description="RiverWatch Windows Phone App" ForegroundText="light" BackgroundColor="#FFFFFF">
         <m3:DefaultTile Square71x71Logo="Assets\Square71x71Logo.png">
         </m3:DefaultTile>
