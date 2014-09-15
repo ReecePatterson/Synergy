@@ -23,7 +23,7 @@ namespace RiverWatch_Windows_Phone_App
         private Boolean descriptionReady = false;
 
         // image information
-        private BitmapImage pollutionImage = null;
+        private Uri pollutionImageUri = null;
 
         // location information
         private String longi = "";
@@ -77,7 +77,7 @@ namespace RiverWatch_Windows_Phone_App
             String reportString = "";
 
             // convert image file path
-            String uriToImage = this.pollutionImage.UriSource.AbsolutePath;
+            String uriToImage = this.pollutionImageUri.AbsolutePath;
             reportString += uriToImage+":~:";
 
             // convert geolocation
@@ -140,14 +140,14 @@ namespace RiverWatch_Windows_Phone_App
 
             // image information
             // delete actual image related to this report
-            if (this.pollutionImage != null)
+            if (this.pollutionImageUri != null)
             {
                 Debug.WriteLine("Deleting file: " + "RiverWatchImage_" + this.date + ".jpg");
                 StorageFile file = await (ApplicationData.Current.LocalFolder.GetFileAsync("RiverWatchImage_" + this.date + ".jpg"));
                 await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
             
             }
-            pollutionImage = null;
+            pollutionImageUri = null;
 
             // location information
             longi = "";
@@ -170,7 +170,7 @@ namespace RiverWatch_Windows_Phone_App
             geolocator.DesiredAccuracyInMeters = 80;
             Geoposition position = await geolocator.GetGeopositionAsync();
             //TODO check that this falls within new zealand!!!
-            this.latit = "" + position.Coordinate.Latitude;
+            this.latit = "" + position.Coordinate.Latitude; //TODO research if this is needs to be changed for updated releases point.position.latitude
             this.longi = "" + position.Coordinate.Longitude;
             this.geolocationReady = true;
         }
@@ -182,9 +182,9 @@ namespace RiverWatch_Windows_Phone_App
             return "RiverWatchReport_"+this.date+".rwr"; // RiverWatchReport
         }
 
-        public BitmapImage getSource()
+        public Uri getImageUri()
         {
-            return this.pollutionImage;
+            return this.pollutionImageUri;
         }
 
         public String getLongitude()
@@ -214,19 +214,19 @@ namespace RiverWatch_Windows_Phone_App
 
         // setters
 
-        public Boolean setBitmapImage(BitmapImage bi)
+        public Boolean setBitmapImageUri(Uri imageUri)
         {
-            this.pollutionImage = bi;
+            this.pollutionImageUri = imageUri;
             this.imageReady = true;
 
             // sneakily start the geolocation task
-            this.getGeoPosition();
+            this.getGeoPosition(); //TODO research how to make await methods in non-async methods and to make it shut up :(
 
             // the date the photo was taken is in the files name
-            Debug.WriteLine("source:" + bi.UriSource.AbsolutePath);
+            Debug.WriteLine("source:" + imageUri.AbsolutePath);
 
             // get file name
-            String[] sa = bi.UriSource.AbsolutePath.Split(new Char[] {'/','.'});
+            String[] sa = imageUri.AbsolutePath.Split(new Char[] {'/','.'});
             Debug.WriteLine("Cut off absolute: "+sa[sa.Length - 2]);
             String filename = sa[sa.Length - 2];
 

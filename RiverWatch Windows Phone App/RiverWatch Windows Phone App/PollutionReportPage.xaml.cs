@@ -65,11 +65,11 @@ namespace RiverWatch_Windows_Phone_App
             {
                 return;
             }
-            if (e.Parameter is BitmapImage)
+            if (e.Parameter is Uri)
             {
                 Debug.WriteLine("photo");
-                BitmapImage bi = e.Parameter as BitmapImage;
-                report.setBitmapImage(bi);
+                Uri iu = e.Parameter as Uri;
+                report.setBitmapImageUri(iu);
             }
             else if(e.Parameter is List<String>){
                 Debug.WriteLine("tags");
@@ -91,20 +91,20 @@ namespace RiverWatch_Windows_Phone_App
         public async void UpdatePollutionReport()
         {
             // display image
-            if (report.getSource() == null)
+            if (report.getImageUri() == null)
             {
                 ImageToolTip.Text = "Take a photo";
             }
             else
             {
                 ImageToolTip.Text = "";
-                imagePreview.Source = report.getSource();
+                imagePreview.Source = new BitmapImage(report.getImageUri());
             }
 
             // display geolocation
             if (!report.isGeolocationReady())
             {
-                if (report.getSource() == null)
+                if (report.getImageUri() == null)
                 {
                     GeolocationToolTip.FontSize = 20;
                     GeolocationToolTip.Text = "Awaiting photo";
