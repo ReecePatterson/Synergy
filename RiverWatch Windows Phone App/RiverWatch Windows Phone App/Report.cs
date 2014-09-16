@@ -90,7 +90,9 @@ namespace RiverWatch_Windows_Phone_App
                 reportString += this.tags.Count + ":~:";
 
                 // loop through tags
-
+                foreach (String tag in tags){
+                    reportString += tag + ":~:";
+                }
             }
 
             // convert description (if any)
