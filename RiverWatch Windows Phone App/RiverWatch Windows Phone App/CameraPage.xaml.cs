@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -207,7 +208,6 @@ namespace RiverWatch_Windows_Phone_App
             await mediaCapture.CapturePhotoToStorageFileAsync(imgFormat, file);
 
             // Get photo as a BitmapImage
-            //BitmapImage bmpImage = new BitmapImage(new Uri(file.Path));
             Uri imageURI = new Uri(file.Path);
 
             Frame.Navigate(typeof(PollutionReportPage),imageURI);
