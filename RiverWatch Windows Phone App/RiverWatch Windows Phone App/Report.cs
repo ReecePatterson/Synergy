@@ -76,9 +76,8 @@ namespace RiverWatch_Windows_Phone_App
             byte[] finalByteArray = new byte[1];
             String reportString = "";
 
-            // convert image file path
-            String uriToImage = this.pollutionImageUri.AbsolutePath;
-            reportString += uriToImage+":~:";
+            // convert image
+            
 
             // convert geolocation
             reportString += this.longi+":~:";
