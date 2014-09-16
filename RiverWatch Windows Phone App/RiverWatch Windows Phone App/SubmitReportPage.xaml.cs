@@ -11,6 +11,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Phone.UI.Input;
 using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -18,7 +19,9 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -86,7 +89,12 @@ namespace RiverWatch_Windows_Phone_App
             //Globals.MemberId = 1;
             int memberId = 2;
 
-
+            //check this tomorrow
+            BitmapImage bitmapImage = new BitmapImage(new Uri("http://i.stack.imgur.com/830Ke.jpg?s=128&g=1"));
+            RandomAccessStreamReference rasr = RandomAccessStreamReference.CreateFromUri(bitmapImage.UriSource);
+            var streamWithContent = await rasr.OpenReadAsync();
+            byte[] buffer = new byte[streamWithContent.Size];
+            await streamWithContent.ReadAsync(buffer.AsBuffer(), (uint)streamWithContent.Size, InputStreamOptions.None);
             
 
 
