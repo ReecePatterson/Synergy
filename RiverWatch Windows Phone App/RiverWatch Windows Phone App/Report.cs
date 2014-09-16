@@ -11,6 +11,8 @@ using System.IO;
 using Windows.UI.Xaml.Controls;
 using System.Diagnostics;
 using Windows.Graphics.Imaging;
+using Windows.Storage.Streams;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace RiverWatch_Windows_Phone_App
 {
@@ -77,7 +79,7 @@ namespace RiverWatch_Windows_Phone_App
             String reportString = "";
 
             // convert image
-            
+            convertImageToByteStream(finalByteArray);
 
             // convert geolocation
             reportString += this.longi+":~:";
@@ -110,6 +112,21 @@ namespace RiverWatch_Windows_Phone_App
             finalByteArray = GetBytes(reportString);
 
             return finalByteArray;
+        }
+
+        private async void convertImageToByteStream(byte[] byteArray)
+        {
+            BitmapImage bitmapImage = new BitmapImage(this.pollutionImageUri);
+            RandomAccessStreamReference rasr = RandomAccessStreamReference.CreateFromUri(bitmapImage.UriSource);
+            var streamWithContent = await rasr.OpenReadAsync();
+            byte[] buffer = new byte[streamWithContent.Size];
+            await streamWithContent.ReadAsync(buffer.AsBuffer(), (uint)streamWithContent.Size, InputStreamOptions.None);
+
+            // testing
+            foreach (byte b in buffer)
+            {
+                Debug.WriteLine(b);
+            }
         }
 
         public static Report byteStreamToReport()
