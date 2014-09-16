@@ -58,7 +58,7 @@ namespace RiverWatch_Windows_Phone_App
                 _simpleorientation.OrientationChanged += new TypedEventHandler<SimpleOrientationSensor, SimpleOrientationSensorOrientationChangedEventArgs>(OrientationChanged);
             }
             
-            DisableNotificationsBar();
+            //DisableNotificationsBar();
         }
 
         //for disabling the notifications bar on this page
