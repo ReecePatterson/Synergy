@@ -14,7 +14,7 @@
                 <CompositeTransform/>
             </CaptureElement.RenderTransform>
         </CaptureElement>
-        <Image x:Name="cameraButton" Source="Assets/cameraIcon.png" VerticalAlignment="Bottom" HorizontalAlignment="Center" Tapped="CaptureImage_Click" Width="83" Height="83" />
+        <Image x:Name="cameraButton" Source="Assets/cameraIcon.png" VerticalAlignment="Bottom" HorizontalAlignment="Center" Tapped="CaptureImage_Click" Width="83" Height="83" RenderTransformOrigin="0.5,0.5" />
         <Image x:Name="preview" Width="200" ></Image>
     </Grid>
 </Page>
