@@ -142,11 +142,16 @@ namespace RiverWatch_Windows_Phone_App
             // delete actual image related to this report
             if (this.pollutionImageUri != null)
             {
-                Debug.WriteLine("Deleting file: " + "RiverWatchImage_" + this.date + ".jpg");
-                StorageFile file = await (ApplicationData.Current.LocalFolder.GetFileAsync("RiverWatchImage_" + this.date + ".jpg"));
-                await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
-            
+                try { 
+                    Debug.WriteLine("Deleting file: " + "RiverWatchImage_" + this.date + ".jpg");
+                    StorageFile file = await (ApplicationData.Current.LocalFolder.GetFileAsync("RiverWatchImage_" + this.date + ".jpg"));
+                    await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                }
+                catch (FileNotFoundException e) {
+                    // if a file is not found, it's already deleted
+                }
             }
+
             pollutionImageUri = null;
 
             // location information

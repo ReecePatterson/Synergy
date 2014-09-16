@@ -7,6 +7,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Icon="Accept" Label="appbarbutton"/>
+            <AppBarButton Icon="Cancel" Label="appbarbutton"/>
+        </CommandBar>
+    </Page.BottomAppBar>
 
     <Grid>
         <TextBlock x:Name="PageTitle" FontSize="25" Margin="10,0,0,0">Unsent Pollution Reports</TextBlock>
