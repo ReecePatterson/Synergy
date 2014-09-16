@@ -110,6 +110,7 @@
     <Compile Include="UnsentReportsPage.xaml.cs">
       <DependentUpon>UnsentReportsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UploadReport.cs" />
     <Compile Include="WaterQualityReportPage.xaml.cs">
       <DependentUpon>WaterQualityReportPage.xaml</DependentUpon>
     </Compile>

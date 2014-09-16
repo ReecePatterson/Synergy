@@ -45,13 +45,9 @@ namespace RiverWatch_Windows_Phone_App
 
         void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
-            if (rootFrame != null && rootFrame.CanGoBack)
-            {
-                report.discardReport();
-                rootFrame.Navigate(typeof(HubPage));
-                //e.Handled = true;
-            }
+            //Debug.WriteLine("Hardware Back Pressed");
+            this.ReturnButton_Click(this, null);
+            e.Handled = true;
         }
 
         /// <summary>
@@ -88,7 +84,7 @@ namespace RiverWatch_Windows_Phone_App
             UpdatePollutionReport();
         }
 
-        public async void UpdatePollutionReport()
+        public void UpdatePollutionReport()
         {
             // display image
             if (report.getImageUri() == null)
@@ -301,10 +297,15 @@ namespace RiverWatch_Windows_Phone_App
             Frame.Navigate(typeof(SubmitReportPage), report);
         }
 
-        private async void ReturnButton_Click(object sender, RoutedEventArgs e)
+        private void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
-            // do the same as hardware back button
-            this.HardwareButtons_BackPressed(this, null);
+            
+            Frame rootFrame = Window.Current.Content as Frame;
+            if (rootFrame != null && rootFrame.CanGoBack) {
+                report.discardReport();
+
+                rootFrame.Navigate(typeof(HubPage));
+            }
         }
 
         private void cameraButton_Tapped(object sender, TappedRoutedEventArgs e)
