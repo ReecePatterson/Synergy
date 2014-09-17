@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -215,7 +216,7 @@ namespace RiverWatch_Windows_Phone_App
                 HttpResponseMessage response = await httpClient.SendRequestAsync(msg).AsTask();
                 */
 
-
+                /*
                 Debug.WriteLine("starting upload");
                 HttpClient client = new HttpClient();
                 client.BaseAddress = uploadAddress;
@@ -237,8 +238,26 @@ namespace RiverWatch_Windows_Phone_App
                 var response = await client.PostAsync(uploadAddress, form);
 
                 Debug.WriteLine(response);
-                //mytextblock.Text = response.Content.ReadAsStringAsync();
+                */
 
+                HttpClient client = new HttpClient();
+                client.BaseAddress = uploadAddress;
+                HttpRequestMessage request = new HttpRequestMessage();
+
+                MultipartFormDataContent mfdc = new MultipartFormDataContent();
+                mfdc.Add(new StringContent(await report.convertToSend()), name: "data");
+
+                //var content = new StringContent(await report.convertToSend()));
+
+                mfdc.Add(new StringContent(await report.convertImage()), name: "image");
+                //mfdc.Add(new StreamContent(content: new MemoryStream(Encoding.UTF8.GetBytes("This is from a file"))),
+                //        name: "Data",
+                //        fileName: "File1.txt");
+                //mfdc.
+
+                HttpResponseMessage response = await client.PostAsync(uploadAddress, mfdc);
+                //mytextblock.Text = response.Content.ReadAsStringAsync();
+                Debug.WriteLine(response);
 
 
                 if (response.IsSuccessStatusCode) {
