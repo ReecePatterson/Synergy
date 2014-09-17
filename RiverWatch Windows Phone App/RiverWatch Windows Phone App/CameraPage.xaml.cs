@@ -210,7 +210,7 @@ namespace RiverWatch_Windows_Phone_App
             // Get photo as a BitmapImage
             Uri imageURI = new Uri(file.Path);
 
-            Frame.Navigate(typeof(PollutionReportPage),imageURI);
+            Frame.Navigate(typeof(PollutionReportPage),file);
         }
 
     }

@@ -25,7 +25,7 @@ namespace RiverWatch_Windows_Phone_App
         private Boolean descriptionReady = false;
 
         // image information
-        private Uri pollutionImageUri = null;
+        private StorageFile pollutionImage = null;
 
         // location information
         private String longi = "";
@@ -76,6 +76,10 @@ namespace RiverWatch_Windows_Phone_App
             return this.descriptionReady;
         }
 
+        //public StorageFile saveReportToFile() {
+            //StorageFile sf = ApplicationData.Current.LocalFolder.CreateFileAsync("");
+        //}
+
         public byte[] reportToByteStream()
         {
             byte[] finalByteArray = new byte[1];
@@ -118,11 +122,19 @@ namespace RiverWatch_Windows_Phone_App
         }
 
         private async void convertImageToByteStream(){
-            BitmapImage bitmapImage = new BitmapImage(this.pollutionImageUri);
-            RandomAccessStreamReference rasr = RandomAccessStreamReference.CreateFromUri(bitmapImage.UriSource);
-            var streamWithContent = await rasr.OpenReadAsync();
-            imageByte = new byte[streamWithContent.Size];
-            await streamWithContent.ReadAsync(imageByte.AsBuffer(), (uint)streamWithContent.Size, InputStreamOptions.None);
+
+            try {
+                //BitmapImage bitmapImage = new BitmapImage(new Uri(this.pollutionImage.Path));
+                RandomAccessStreamReference rasr = RandomAccessStreamReference.CreateFromFile(this.getImage());
+                var streamWithContent = await rasr.OpenReadAsync();
+                imageByte = new byte[streamWithContent.Size];
+                await streamWithContent.ReadAsync(imageByte.AsBuffer(), (uint)streamWithContent.Size, InputStreamOptions.None);
+            }
+            catch (FileNotFoundException e) {
+                Debug.WriteLine(e.StackTrace+"");
+            }
+            
+            
         }
 
         public static Report byteStreamToReport()
@@ -154,7 +166,7 @@ namespace RiverWatch_Windows_Phone_App
 
             // image information
             // delete actual image related to this report
-            if (this.pollutionImageUri != null)
+            if (this.pollutionImage != null)
             {
                 try { 
                     Debug.WriteLine("Deleting file: " + "RiverWatchImage_" + this.date + ".jpg");
@@ -166,7 +178,7 @@ namespace RiverWatch_Windows_Phone_App
                 }
             }
 
-            pollutionImageUri = null;
+            pollutionImage = null;
 
             // location information
             longi = "";
@@ -201,9 +213,9 @@ namespace RiverWatch_Windows_Phone_App
             return "RiverWatchReport_"+this.date+".rwr"; // RiverWatchReport
         }
 
-        public Uri getImageUri()
+        public StorageFile getImage()
         {
-            return this.pollutionImageUri;
+            return this.pollutionImage;
         }
 
         public String getLongitude()
@@ -233,28 +245,24 @@ namespace RiverWatch_Windows_Phone_App
 
         // setters
 
-        public Boolean setImageUri(Uri imageUri)
+        public Boolean setImage(StorageFile imageFile)
         {
-            this.pollutionImageUri = imageUri;
+            this.pollutionImage = imageFile;
             this.imageReady = true;
 
             // sneakily start the geolocation task
             this.getGeoPosition(); //TODO research how to make await methods in non-async methods and to make it shut up :(
 
             // the date the photo was taken is in the files name
-            Debug.WriteLine("source:" + imageUri.AbsolutePath);
+            Debug.WriteLine("source:" + imageFile.Path);
 
             // get file name
-            String[] sa = imageUri.AbsolutePath.Split(new Char[] {'/','.'});
-            Debug.WriteLine("Cut off absolute: "+sa[sa.Length - 2]);
-            String filename = sa[sa.Length - 2];
+            //String[] sa = imageUri.AbsolutePath.Split(new Char[] {'/','.'});
+            //Debug.WriteLine("Cut off absolute: "+sa[sa.Length - 2]);
+            String filename = imageFile.Name;
 
             // get date and time
-            Debug.WriteLine("dfa;kdjf;adjfiof" + filename);
-            String dateAndTime = filename.Substring(16, 19);
-            
-            // set the date of the report
-            this.date = dateAndTime;
+            this.date = filename.Substring(16, 19); //TODO find a nicer way to do this
 
             return true;
         }

@@ -20,6 +20,7 @@ using Windows.Media.Capture;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.Phone.UI.Input;
 using System.Diagnostics;
+using Windows.Storage;
 
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
@@ -61,11 +62,11 @@ namespace RiverWatch_Windows_Phone_App
             {
                 return;
             }
-            if (e.Parameter is Uri)
+            if (e.Parameter is StorageFile)
             {
                 Debug.WriteLine("photo");
-                Uri iu = e.Parameter as Uri;
-                report.setImageUri(iu);
+                StorageFile imageFile = e.Parameter as StorageFile;
+                report.setImage(imageFile);
             }
             else if(e.Parameter is List<String>){
                 Debug.WriteLine("tags");
@@ -87,20 +88,20 @@ namespace RiverWatch_Windows_Phone_App
         public void UpdatePollutionReport()
         {
             // display image
-            if (report.getImageUri() == null)
+            if (report.getImage() == null)
             {
                 ImageToolTip.Text = "Take a photo";
             }
             else
             {
                 ImageToolTip.Text = "";
-                imagePreview.Source = new BitmapImage(report.getImageUri());
+                imagePreview.Source = new BitmapImage(new Uri(report.getImage().Path));
             }
 
             // display geolocation
             if (!report.isGeolocationReady())
             {
-                if (report.getImageUri() == null)
+                if (report.getImage() == null)
                 {
                     GeolocationToolTip.FontSize = 20;
                     GeolocationToolTip.Text = "Awaiting photo";
