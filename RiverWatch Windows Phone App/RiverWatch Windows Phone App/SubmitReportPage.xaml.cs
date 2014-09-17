@@ -90,13 +90,18 @@ namespace RiverWatch_Windows_Phone_App
             int memberId = 2;
 
             //check this tomorrow
-            BitmapImage bitmapImage = new BitmapImage(new Uri("http://i.stack.imgur.com/830Ke.jpg?s=128&g=1"));
-            RandomAccessStreamReference rasr = RandomAccessStreamReference.CreateFromUri(bitmapImage.UriSource);
-            var streamWithContent = await rasr.OpenReadAsync();
-            byte[] buffer = new byte[streamWithContent.Size];
+            //BitmapImage bitmapImage = new BitmapImage(new Uri("https://lh6.googleusercontent.com/ImYzXmXzbrWHt5wsrRkN_53OWH9nP6y_jqvH3nbXIQ=s207-p-no?s=128&g=1")); 
+            BitmapImage bitmapImage = new BitmapImage(report.getImageUri()); 
+            RandomAccessStreamReference rasr = RandomAccessStreamReference.CreateFromUri(bitmapImage.UriSource); 
+            var streamWithContent = await rasr.OpenReadAsync(); 
+            byte[] buffer = new byte[streamWithContent.Size]; 
             await streamWithContent.ReadAsync(buffer.AsBuffer(), (uint)streamWithContent.Size, InputStreamOptions.None);
-            
 
+            foreach (byte b in buffer) {
+                this.testText.Text += b + "";
+            }
+
+            success = true;
 
             // attempt to send
             // http://social.msdn.microsoft.com/forums/windowsapps/en-us/3fbf0af7-fe8d-44d8-85b4-11ff5d56becb/httpwebrequest-in-application-metro
