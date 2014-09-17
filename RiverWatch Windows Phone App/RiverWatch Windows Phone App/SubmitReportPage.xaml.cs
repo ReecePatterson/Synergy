@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
@@ -19,8 +21,6 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
-using Windows.Web.Http;
-using Windows.Web.Http.Headers;
 
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
@@ -198,14 +198,48 @@ namespace RiverWatch_Windows_Phone_App
                  * */
 
                 //string js = @"[{""userName"":""jerin"",""userId"":""a""}]";
+
+
+
+
+                /*
                 Debug.WriteLine("starting upload");
                 //string js = upload.ToString();
                 string js = await report.convertToSend();
                 HttpClient httpClient = new HttpClient();
                 HttpRequestMessage msg = new HttpRequestMessage(new HttpMethod("POST"), uploadAddress);
                 msg.Content = new HttpStringContent(js);
-                msg.Content.Headers.ContentType = new HttpMediaTypeHeaderValue("application/json");
+                
+                Debug.WriteLine("This is js: " + js);
+                msg.Content.Headers.ContentType = new HttpMediaTypeHeaderValue("image/jpeg");
                 HttpResponseMessage response = await httpClient.SendRequestAsync(msg).AsTask();
+                */
+
+
+                Debug.WriteLine("starting upload");
+                HttpClient client = new HttpClient();
+                client.BaseAddress = uploadAddress;
+                MultipartFormDataContent form = new MultipartFormDataContent();
+                HttpContent content = new StringContent(await report.convertToSend());
+                form.Add(content, "data");
+                var stream = await report.getImage().OpenStreamForReadAsync();
+                
+                var streamcontent = new StreamContent(stream);
+                streamcontent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data") {
+                    Name = "photo",
+                    FileName = report.getImage().Name
+                };
+                streamcontent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
+
+                form.Add(content);
+                form.Add(streamcontent);
+                Debug.WriteLine(form.ReadAsStringAsync());
+                var response = await client.PostAsync(uploadAddress, form);
+
+                Debug.WriteLine(response);
+                //mytextblock.Text = response.Content.ReadAsStringAsync();
+
+
 
                 if (response.IsSuccessStatusCode) {
                     //Debug.WriteLine(response.ReasonPhrase);

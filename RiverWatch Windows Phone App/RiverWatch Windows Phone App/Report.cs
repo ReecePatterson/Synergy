@@ -126,10 +126,21 @@ namespace RiverWatch_Windows_Phone_App
             //String s = "@\"[{\"\"image\"\":\"\"" + imageBase64String + "\"\", \"\"geolocation\"\":{\"\"lat\"\":" + getLatitude()
             //    + "\"\",\"\"long\"\":" + getLongitude() + "\"\"}\"\"}]\""; 
 
-            String s = "{\"image\":\"" + imageBase64String + "\",\"geolocation\":{\"lat\":" + getLatitude()
-                + ",\"long\":" + getLongitude() + "}}";
+            //String s = "{\"image\":\"" + imageBase64String + "\",\"geolocation\":{\"lat\":" + getLatitude()
+             //   + ",\"long\":" + getLongitude() + "}}";
+            String s = "{\"geolocation\":{\"lat\":" + getLatitude() + ",\"long\":" + getLongitude() + "}}";
 
             return s;
+        }
+
+        public async Task<String> convertImage() {
+            RandomAccessStreamReference rasr = RandomAccessStreamReference.CreateFromFile(getImage());
+            var streamWithContent = await rasr.OpenReadAsync();
+            byte[] buffer = new byte[streamWithContent.Size];
+            await streamWithContent.ReadAsync(buffer.AsBuffer(), (uint)streamWithContent.Size, InputStreamOptions.None);
+
+            // Convert byte[] to Base64 String
+            return Convert.ToBase64String(buffer);
         }
 
         public static Report byteStreamToReport()
