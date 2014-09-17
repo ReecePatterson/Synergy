@@ -199,15 +199,18 @@ namespace RiverWatch_Windows_Phone_App
 
                 //string js = @"[{""userName"":""jerin"",""userId"":""a""}]";
                 Debug.WriteLine("starting upload");
-                string js = upload.ToString();
+                //string js = upload.ToString();
+                string js = await report.convertToSend();
                 HttpClient httpClient = new HttpClient();
                 HttpRequestMessage msg = new HttpRequestMessage(new HttpMethod("POST"), uploadAddress);
                 msg.Content = new HttpStringContent(js);
                 msg.Content.Headers.ContentType = new HttpMediaTypeHeaderValue("application/json");
                 HttpResponseMessage response = await httpClient.SendRequestAsync(msg).AsTask();
 
-                if (response.IsSuccessStatusCode)
-                    Debug.WriteLine("poopies works");
+                if (response.IsSuccessStatusCode) {
+                    //Debug.WriteLine(response.ReasonPhrase);
+                    Debug.WriteLine(response.ToString());
+                }
 
             }catch (FileNotFoundException e) {
                 Debug.WriteLine(e.StackTrace + "");
@@ -376,6 +379,9 @@ namespace RiverWatch_Windows_Phone_App
             public string Image { get; set; }
             public string Latitude { get; set; }
             public string Longitude { get; set; }
+            public string Description { get; set; }
+
+
         }
     }
 }

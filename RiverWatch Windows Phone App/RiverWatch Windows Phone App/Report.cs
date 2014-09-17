@@ -110,6 +110,28 @@ namespace RiverWatch_Windows_Phone_App
             return GetBytes(returnString);
         }
 
+        public async Task<string> convertToSend() {
+            RandomAccessStreamReference rasr = RandomAccessStreamReference.CreateFromFile(getImage());
+            var streamWithContent = await rasr.OpenReadAsync();
+            byte[] buffer = new byte[streamWithContent.Size];
+            await streamWithContent.ReadAsync(buffer.AsBuffer(), (uint)streamWithContent.Size, InputStreamOptions.None);
+
+            // Convert byte[] to Base64 String
+            string imageBase64String = Convert.ToBase64String(buffer);
+
+            string js = @"[{""userName"":""jerin"",""userId"":""a""}]";
+            //String s = "@\"[{\"\"image\"\":\"\"" + imageBase64String + "\"\",\"\"long\"\":\"\"" + getLongitude() 
+            //    + "\"\",\"\"lat\"\":\"\"" + getLatitude();
+
+            //String s = "@\"[{\"\"image\"\":\"\"" + imageBase64String + "\"\", \"\"geolocation\"\":{\"\"lat\"\":" + getLatitude()
+            //    + "\"\",\"\"long\"\":" + getLongitude() + "\"\"}\"\"}]\""; 
+
+            String s = "{\"image\":\"" + imageBase64String + "\",\"geolocation\":{\"lat\":" + getLatitude()
+                + ",\"long\":" + getLongitude() + "}\"}";
+
+            return s;
+        }
+
         public static Report byteStreamToReport()
         {
             return null;
