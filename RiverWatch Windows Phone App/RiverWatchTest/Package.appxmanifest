@@ -16,7 +16,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="vstest.executionengine.appcontainer.exe" EntryPoint="Microsoft.VisualStudio.TestPlatform.TestExecutor.AppContainer.App">
-      <m3:VisualElements DisplayName="RiverWatchTest" Square150x150Logo="Assets\Logo.png" Square44x44Logo="Assets\SmallLogo.png" Description="RiverWatchTest" ForegroundText="light" BackgroundColor="#464646">
+      <m3:VisualElements DisplayName="RiverWatchTest" Square150x150Logo="Assets\Logo.png" Square44x44Logo="Assets\SmallLogo.png" Description="RiverWatchTest" ForegroundText="light" BackgroundColor="#ffffff">
         <m3:DefaultTile Wide310x150Logo="Assets\WideLogo.png" Square71x71Logo="Assets\Square71x71Logo.png">
         </m3:DefaultTile>
         <m3:SplashScreen Image="Assets\SplashScreen.png" />
