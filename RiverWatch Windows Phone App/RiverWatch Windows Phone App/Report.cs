@@ -127,7 +127,7 @@ namespace RiverWatch_Windows_Phone_App
             //    + "\"\",\"\"long\"\":" + getLongitude() + "\"\"}\"\"}]\""; 
 
             String s = "{\"image\":\"" + imageBase64String + "\",\"geolocation\":{\"lat\":" + getLatitude()
-                + ",\"long\":" + getLongitude() + "}\"}";
+                + ",\"long\":" + getLongitude() + "}}";
 
             return s;
         }
