@@ -36,6 +36,9 @@ namespace RiverWatch_Windows_Phone_App
         private List<String> tags = null;
         private String date = "";
 
+        //byte info
+        byte[] imageByte;
+
         public Report()
         {
 
@@ -79,7 +82,7 @@ namespace RiverWatch_Windows_Phone_App
             String reportString = "";
 
             // convert image
-            convertImageToByteStream(finalByteArray);
+            convertImageToByteStream();
 
             // convert geolocation
             reportString += this.longi+":~:";
@@ -114,34 +117,12 @@ namespace RiverWatch_Windows_Phone_App
             return finalByteArray;
         }
 
-        private async void convertImageToByteStream(byte[] byteArray)
-        {
-            WriteableBitmap yourWb = new WriteableBitmap(10, 10);
-            using (MemoryStream ms = new MemoryStream()) {
-                var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, ms.AsRandomAccessStream());
-                encoder.SetPixelData(BitmapPixelFormat.Bgra8,
-                    BitmapAlphaMode.Ignore,
-                    10,
-                    10,
-                    10,
-                    10,
-                    yourWb.PixelBuffer.ToArray());
-
-                await encoder.FlushAsync();
-            }
-
-
-            //BitmapImage bitmapImage = new BitmapImage(this.pollutionImageUri);
-            //RandomAccessStreamReference rasr = RandomAccessStreamReference.CreateFromUri(bitmapImage.UriSource);
-            //var streamWithContent = await rasr.OpenReadAsync();
-            //byte[] buffer = new byte[streamWithContent.Size];
-            //await streamWithContent.ReadAsync(buffer.AsBuffer(), (uint)streamWithContent.Size, InputStreamOptions.None);
-
-            // testing
-            //foreach (byte b in buffer)
-            //{
-            //    Debug.WriteLine(b);
-            //}
+        private async void convertImageToByteStream(){
+            BitmapImage bitmapImage = new BitmapImage(this.pollutionImageUri);
+            RandomAccessStreamReference rasr = RandomAccessStreamReference.CreateFromUri(bitmapImage.UriSource);
+            var streamWithContent = await rasr.OpenReadAsync();
+            imageByte = new byte[streamWithContent.Size];
+            await streamWithContent.ReadAsync(imageByte.AsBuffer(), (uint)streamWithContent.Size, InputStreamOptions.None);
         }
 
         public static Report byteStreamToReport()

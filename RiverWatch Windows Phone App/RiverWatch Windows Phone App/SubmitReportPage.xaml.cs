@@ -90,7 +90,8 @@ namespace RiverWatch_Windows_Phone_App
             int memberId = 2;
 
             //check this tomorrow
-            BitmapImage bitmapImage = new BitmapImage(new Uri("https://lh6.googleusercontent.com/ImYzXmXzbrWHt5wsrRkN_53OWH9nP6y_jqvH3nbXIQ=s207-p-no?s=128&g=1")); 
+            //BitmapImage bitmapImage = new BitmapImage(new Uri("https://lh6.googleusercontent.com/ImYzXmXzbrWHt5wsrRkN_53OWH9nP6y_jqvH3nbXIQ=s207-p-no?s=128&g=1")); 
+            BitmapImage bitmapImage = new BitmapImage(report.getImageUri()); 
             RandomAccessStreamReference rasr = RandomAccessStreamReference.CreateFromUri(bitmapImage.UriSource); 
             var streamWithContent = await rasr.OpenReadAsync(); 
             byte[] buffer = new byte[streamWithContent.Size]; 
