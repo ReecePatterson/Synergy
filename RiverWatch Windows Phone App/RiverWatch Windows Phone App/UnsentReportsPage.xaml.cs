@@ -39,7 +39,7 @@ namespace RiverWatch_Windows_Phone_App
             }
         }
 
-        private async void ReturnButton_Click(object sender, RoutedEventArgs e)
+        private void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
             // do the same as hardware back button
             this.HardwareButtons_BackPressed(this, null);
@@ -52,6 +52,7 @@ namespace RiverWatch_Windows_Phone_App
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+
         }
     }
 }
