@@ -126,7 +126,7 @@ namespace RiverWatch_Windows_Phone_App
 
             //success = true;
 
-            success = tryUpload().Result;
+            success = (await tryUpload());
 
             // attempt to send
             // http://social.msdn.microsoft.com/forums/windowsapps/en-us/3fbf0af7-fe8d-44d8-85b4-11ff5d56becb/httpwebrequest-in-application-metro
@@ -198,6 +198,7 @@ namespace RiverWatch_Windows_Phone_App
                  * */
 
                 //string js = @"[{""userName"":""jerin"",""userId"":""a""}]";
+                Debug.WriteLine("starting upload");
                 string js = upload.ToString();
                 HttpClient httpClient = new HttpClient();
                 HttpRequestMessage msg = new HttpRequestMessage(new HttpMethod("POST"), uploadAddress);
@@ -215,12 +216,12 @@ namespace RiverWatch_Windows_Phone_App
             return true;
         }
 
-        public static String CallService(string serviceUrl, string login, string password, string message)
-        {
-            //HttpWebRequest request = (HttpWebRequest)WebRequest.Create(serviceUrl);
-            //
-            //request.Method = "POST";
-           // return "";
+        private async void SaveButton_Click(object sender, RoutedEventArgs e) {
+            // not used
+        }
+
+        private async void DiscardButton_Click(object sender, RoutedEventArgs e) {
+            // not used
         }
 
         private async void YesButton_Click(object sender, RoutedEventArgs e)
