@@ -190,7 +190,7 @@ namespace RiverWatch_Windows_Phone_App
                 /*
                 HttpResponseMessage response; //store respose from server here
                 HttpClient client = new HttpClient();
-                client.BaseAddress = uploadAddress;
+                client.BaseAddress = uploadAddr-ess;
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 response = await client.PostAsJsonAsync("api/image", upload);
