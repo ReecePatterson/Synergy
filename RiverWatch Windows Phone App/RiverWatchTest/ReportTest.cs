@@ -17,7 +17,7 @@ namespace RiverWatchTest
         DateTime dt = System.DateTime.Now;
 
         [TestMethod]
-        public async Task GeoAfterImageTest()
+        public async Task GeoAfterImageTest1()
         {            
             String date = dt.ToString("dd_MM_yyyy_H_mm_ss");
             Report r = new Report();
@@ -28,8 +28,22 @@ namespace RiverWatchTest
             {
                 await Task.Delay(2000);
             }
-            Assert.AreNotEqual(r.getLatitude(), "");
             Assert.AreNotEqual(r.getLongitude(), "");
+        }
+
+        [TestMethod]
+        public async Task GeoAfterImageTest2()
+        {
+            String date = dt.ToString("dd_MM_yyyy_H_mm_ss");
+            Report r = new Report();
+            var localStorage = ApplicationData.Current.LocalFolder;
+            var file = await localStorage.CreateFileAsync("RiverWatchImage_" + date + ".jpg");
+            r.setImage(file);
+            while (!r.isGeolocationReady())
+            {
+                await Task.Delay(2000);
+            }
+            Assert.AreNotEqual(r.getLatitude(), "");
         }
 
         [TestMethod]
@@ -87,17 +101,23 @@ namespace RiverWatchTest
                 await Task.Delay(2000);
             }
             r.discardReport(true);
+            bool filePresent = await IsFilePresent("RiverWatchImage_" + date + ".jpg");
+
+            Assert.AreEqual(filePresent, false);
+        }
+
+        public async Task<bool> IsFilePresent(string fileName)
+        {
             try
             {
-                StorageFile getfile = await (ApplicationData.Current.LocalFolder.GetFileAsync("RiverWatchImage_" + date + ".jpg"));
+                StorageFile getfile = await (ApplicationData.Current.LocalFolder.GetFileAsync(fileName));
                 await getfile.DeleteAsync(StorageDeleteOption.PermanentDelete);
-                Assert.Fail();
+                return true;
             }
             catch (FileNotFoundException e)
             {
-                Assert.AreEqual(0,0);
+                return false;
             }
-            
         }
     }
 }
