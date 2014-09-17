@@ -265,7 +265,7 @@ namespace RiverWatch_Windows_Phone_App
             this.CommandBar.Visibility = Visibility.Collapsed;
 
             // wait for a bit
-            await Task.Delay(2000);
+            //await Task.Delay(2000);
 
             // get byte stream of report
             byte[] fileBytes = report.convertToSave();

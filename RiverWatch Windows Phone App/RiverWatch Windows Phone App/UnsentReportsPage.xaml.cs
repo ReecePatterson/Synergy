@@ -92,6 +92,12 @@ namespace RiverWatch_Windows_Phone_App
             for (int i = 0; i < reports.Count;i++ )
             {
                 //Read file, split itno info bits.
+                string fileContent;
+                using (StreamReader sr = new StreamReader(await reports.ElementAt(i).OpenStreamForReadAsync()))
+                {
+                    fileContent = await sr.ReadToEndAsync();
+                }
+                Debug.WriteLine(fileContent + "\n");
                 //create preview
                 //Delete Button
                 Image deleteImage = new Image();
