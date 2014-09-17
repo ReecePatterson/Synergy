@@ -303,7 +303,7 @@ namespace RiverWatch_Windows_Phone_App
             
             Frame rootFrame = Window.Current.Content as Frame;
             if (rootFrame != null && rootFrame.CanGoBack) {
-                report.discardReport();
+                report.discardReport(true);
 
                 rootFrame.Navigate(typeof(HubPage));
             }

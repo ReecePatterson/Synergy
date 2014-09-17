@@ -60,7 +60,15 @@ namespace RiverWatch_Windows_Phone_App
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             this.report = e.Parameter as Report;
-            attemptSendToServer();
+
+            // ask user if they want to send
+            this.SubmitReportText.Text = "Do you want to send\nthis report now?";
+
+            // show commandbar
+            this.CommandBar.Visibility = Visibility.Visible;
+
+
+            //attemptSendToServer();
 
             //if we are coming back to this page from the camera page, the notifications bar will have been disabled so re-enable it
 
@@ -89,24 +97,30 @@ namespace RiverWatch_Windows_Phone_App
             //Globals.MemberId = 1;
             int memberId = 2;
 
-            byte[] buffer = new byte[1];
+            /*
+            byte[] buffer;
 
             try { 
                 RandomAccessStreamReference rasr = RandomAccessStreamReference.CreateFromFile(report.getImage()); 
                 var streamWithContent = await rasr.OpenReadAsync(); 
                 buffer = new byte[streamWithContent.Size]; 
                 await streamWithContent.ReadAsync(buffer.AsBuffer(), (uint)streamWithContent.Size, InputStreamOptions.None);
+
+
             }
             catch (FileNotFoundException e) {
                 Debug.WriteLine(e.StackTrace + "");
                 success = false;
             }
 
-            //foreach (byte b in buffer) {
-            //   this.testText.Text += b + "";
-            //}
+            foreach (byte b in buffer) {
+               //this.testText.Text += b + "";
+            }
+            */
 
-            success = true;
+            //success = true;
+
+            success = tryUpload().Result;
 
             // attempt to send
             // http://social.msdn.microsoft.com/forums/windowsapps/en-us/3fbf0af7-fe8d-44d8-85b4-11ff5d56becb/httpwebrequest-in-application-metro
@@ -124,7 +138,7 @@ namespace RiverWatch_Windows_Phone_App
                 
                 // wait for a bit, discard report, then go back to hub
                 await Task.Delay(2000);
-                report.discardReport();
+                report.discardReport(true);
                 Frame.Navigate(typeof(HubPage));
             }
             else
@@ -138,8 +152,36 @@ namespace RiverWatch_Windows_Phone_App
                 // display ! icon
 
                 // show commandbar
-                this.commandBar.Visibility = Visibility.Visible;
+                //this.commandBar.Visibility = Visibility.Visible;
             }
+        }
+
+        private async Task<Boolean> tryUpload() {
+            byte[] buffer;
+
+            try {
+                RandomAccessStreamReference rasr = RandomAccessStreamReference.CreateFromFile(report.getImage());
+                var streamWithContent = await rasr.OpenReadAsync();
+                buffer = new byte[streamWithContent.Size];
+                await streamWithContent.ReadAsync(buffer.AsBuffer(), (uint)streamWithContent.Size, InputStreamOptions.None);
+
+                // Convert byte[] to Base64 String
+                string imageBase64String = Convert.ToBase64String(buffer);
+
+                //create Report object to convert to json
+                var upload = new UploadReport() { Image = imageBase64String, Latitude = report.getLatitude(), Longitude = report.getLongitude() };
+
+                //response = await client.PostAsJsonAsync("api/products", gizmo);
+                //if (response.IsSuccessStatusCode) {
+                    // Get the URI of the created resource.
+                //    Uri gizmoUrl = response.Headers.Location;
+                //}
+
+            }catch (FileNotFoundException e) {
+                Debug.WriteLine(e.StackTrace + "");
+            }
+
+            return true;
         }
 
         public static String CallService(string serviceUrl, string login, string password, string message)
@@ -180,20 +222,17 @@ namespace RiverWatch_Windows_Phone_App
             this.SubmitReportProgress.IsActive = true;
 
             // hide command bar
-            this.commandBar.Visibility = Visibility.Collapsed;
+            this.CommandBar.Visibility = Visibility.Collapsed;
 
             // wait for a bit
             await Task.Delay(2000);
 
             // get byte stream of report
-            byte[] fileBytes = report.reportToByteStream();
-            
-            // find local storage
-            var localStorage = ApplicationData.Current.LocalFolder;
+            byte[] fileBytes = report.convertToSave();
 
-            // create a file to save the report in
-            var file = await localStorage.CreateFileAsync(report.getReportName(),
-            CreationCollisionOption.FailIfExists);
+            // create a file to save the report in, put in unsent reports
+            StorageFolder unsentFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Unsent_Reports", CreationCollisionOption.OpenIfExists);
+            var file = await unsentFolder.CreateFileAsync(report.getReportName(),CreationCollisionOption.ReplaceExisting);
 
             // write byte stream to file
             using (var s = await file.OpenStreamForWriteAsync())
@@ -201,10 +240,10 @@ namespace RiverWatch_Windows_Phone_App
                 s.Write(fileBytes, 0, fileBytes.Length);
             }
 
-            await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
+            //await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
 
             // tell user that report has been saved
-            this.SubmitReportText.Text = "Report Saved\nNot Really. Eman Deleted it sneakily";
+            this.SubmitReportText.Text = "Report Saved";
 
             // hide progress ring
             this.SubmitReportProgress.IsActive = false;
@@ -212,7 +251,7 @@ namespace RiverWatch_Windows_Phone_App
             await Task.Delay(2000);
 
             // discard report and go back to hub
-            report.discardReport();
+            report.discardReport(false);
             Frame.Navigate(typeof(HubPage));
         }
 
@@ -230,7 +269,7 @@ namespace RiverWatch_Windows_Phone_App
         private void UnableToSaveInvokedHandler(IUICommand command)
         {
             // discard report and go back to hub
-            report.discardReport();
+            report.discardReport(true);
             Frame.Navigate(typeof(HubPage));
             
         }
@@ -271,13 +310,19 @@ namespace RiverWatch_Windows_Phone_App
             if (command.Label.Equals("Yes"))
             {
                 // discard report and go back to hub
-                report.discardReport();
+                report.discardReport(true);
                 Frame.Navigate(typeof(HubPage));
             }
             else
             {
                 // Do nothing
             }
+        }
+
+        class UploadReport {
+            public string Image { get; set; }
+            public string Latitude { get; set; }
+            public string Longitude { get; set; }
         }
     }
 }

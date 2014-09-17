@@ -80,61 +80,30 @@ namespace RiverWatch_Windows_Phone_App
             //StorageFile sf = ApplicationData.Current.LocalFolder.CreateFileAsync("");
         //}
 
-        public byte[] reportToByteStream()
+        public byte[] convertToSave()
         {
-            byte[] finalByteArray = new byte[1];
-            String reportString = "";
-
-            // convert image
-            convertImageToByteStream();
-
-            // convert geolocation
-            reportString += this.longi+":~:";
-            reportString += this.latit+":~:";
-
-            // convert tags (if any)
-            if (this.tags != null)
-            {
-                reportString += this.tags.Count + ":~:";
-
-                // loop through tags
-                foreach (String tag in tags){
-                    reportString += tag + ":~:";
-                }
-            }
-
-            // convert description (if any)
-            if (this.description.Length > 0)
-            {
-                reportString += this.description + ":~:";
-            }
-
-            // convert water quality report (if any)
-
-            // finally, remove last 3 chars, then convert string to byte array
-            reportString = reportString.Substring(0,reportString.Length-3);
-
-            Debug.WriteLine("Report String: "+reportString);
-
-            finalByteArray = GetBytes(reportString);
-
-            return finalByteArray;
-        }
-
-        private async void convertImageToByteStream(){
-
-            try {
-                //BitmapImage bitmapImage = new BitmapImage(new Uri(this.pollutionImage.Path));
-                RandomAccessStreamReference rasr = RandomAccessStreamReference.CreateFromFile(this.getImage());
-                var streamWithContent = await rasr.OpenReadAsync();
-                imageByte = new byte[streamWithContent.Size];
-                await streamWithContent.ReadAsync(imageByte.AsBuffer(), (uint)streamWithContent.Size, InputStreamOptions.None);
-            }
-            catch (FileNotFoundException e) {
-                Debug.WriteLine(e.StackTrace+"");
-            }
+            String returnString = "";
             
-            
+            // write path
+            returnString += this.pollutionImage.Path + ":~:";
+
+            // write geo
+            returnString += this.latit + ":~:";
+            returnString += this.longi + ":~:";
+
+            // write tags if any
+            returnString += this.tags.Count + ":~:";
+
+            foreach (String t in tags) {
+                returnString += t + ":~:";
+            }
+
+            // write desc if any
+            returnString += this.description;
+
+            // write water quality report
+
+            return GetBytes(returnString);
         }
 
         public static Report byteStreamToReport()
@@ -156,7 +125,7 @@ namespace RiverWatch_Windows_Phone_App
             return new string(chars);
         }
 
-        public async void discardReport()
+        public async void discardReport(Boolean deleteImage)
         {
             // partial checks
             imageReady = false;
@@ -166,15 +135,17 @@ namespace RiverWatch_Windows_Phone_App
 
             // image information
             // delete actual image related to this report
-            if (this.pollutionImage != null)
-            {
-                try { 
-                    Debug.WriteLine("Deleting file: " + "RiverWatchImage_" + this.date + ".jpg");
-                    StorageFile file = await (ApplicationData.Current.LocalFolder.GetFileAsync("RiverWatchImage_" + this.date + ".jpg"));
-                    await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
-                }
-                catch (FileNotFoundException e) {
-                    // if a file is not found, it's already deleted
+            if (deleteImage) { 
+                if (this.pollutionImage != null)
+                {
+                    try { 
+                        Debug.WriteLine("Deleting file: " + "RiverWatchImage_" + this.date + ".jpg");
+                        StorageFile file = await (ApplicationData.Current.LocalFolder.GetFileAsync("RiverWatchImage_" + this.date + ".jpg"));
+                        await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                    }
+                    catch (FileNotFoundException e) {
+                        // if a file is not found, it's already deleted
+                    }
                 }
             }
 
@@ -210,7 +181,7 @@ namespace RiverWatch_Windows_Phone_App
         // getters
         public String getReportName()
         {
-            return "RiverWatchReport_"+this.date+".rwr"; // RiverWatchReport
+            return "RiverWatchReport_"+this.date+".txt"; // RiverWatchReport
         }
 
         public StorageFile getImage()
