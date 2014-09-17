@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
@@ -21,6 +19,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using Windows.Web.Http;
+using Windows.Web.Http.Headers;
 
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
@@ -34,7 +34,6 @@ namespace RiverWatch_Windows_Phone_App
     {
         private Report report;
         private Boolean atSend = true;
-        private Boolean atSave = true;
 
         public SubmitReportPage()
         {
@@ -64,7 +63,6 @@ namespace RiverWatch_Windows_Phone_App
             this.report = e.Parameter as Report;
 
             atSend = true;
-            atSave = true;
 
             // ask user if they want to send
             this.SubmitReportText.Text = "Do you want to send\nthis report now?";
@@ -89,9 +87,7 @@ namespace RiverWatch_Windows_Phone_App
         private async void EnableNotificationsBarHelper(){
             await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ShowAsync();
         }
-
-        private static HttpClient _client;
-        private readonly Uri uploadAddress = new Uri("http://www-test.wainz.org.nz/api/image");
+ 
 
         private async void attemptSendToServer()
         {
@@ -103,7 +99,7 @@ namespace RiverWatch_Windows_Phone_App
             await Task.Delay(2000); //TODO increase this at end
 
             //convert to json and upload to server
-            _client = new HttpClient();
+            //_client = new HttpClient();
             //Globals.MemberId = 1;
             int memberId = 2;
 
@@ -130,7 +126,7 @@ namespace RiverWatch_Windows_Phone_App
 
             //success = true;
 
-            success = tryUpload().Result;
+            success = (await tryUpload());
 
             // attempt to send
             // http://social.msdn.microsoft.com/forums/windowsapps/en-us/3fbf0af7-fe8d-44d8-85b4-11ff5d56becb/httpwebrequest-in-application-metro
@@ -168,6 +164,8 @@ namespace RiverWatch_Windows_Phone_App
             this.SubmitReportProgress.IsActive = false;
         }
 
+        private readonly Uri uploadAddress = new Uri("http://www-test.wainz.org.nz/api/image");
+
         private async Task<Boolean> tryUpload() {
             byte[] buffer;
 
@@ -189,6 +187,28 @@ namespace RiverWatch_Windows_Phone_App
                 //    Uri gizmoUrl = response.Headers.Location;
                 //}
 
+                /*
+                HttpResponseMessage response; //store respose from server here
+                HttpClient client = new HttpClient();
+                client.BaseAddress = uploadAddress;
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                response = await client.PostAsJsonAsync("api/image", upload);
+                //api/image
+                 * */
+
+                //string js = @"[{""userName"":""jerin"",""userId"":""a""}]";
+                Debug.WriteLine("starting upload");
+                string js = upload.ToString();
+                HttpClient httpClient = new HttpClient();
+                HttpRequestMessage msg = new HttpRequestMessage(new HttpMethod("POST"), uploadAddress);
+                msg.Content = new HttpStringContent(js);
+                msg.Content.Headers.ContentType = new HttpMediaTypeHeaderValue("application/json");
+                HttpResponseMessage response = await httpClient.SendRequestAsync(msg).AsTask();
+
+                if (response.IsSuccessStatusCode)
+                    Debug.WriteLine("poopies works");
+
             }catch (FileNotFoundException e) {
                 Debug.WriteLine(e.StackTrace + "");
             }
@@ -196,12 +216,12 @@ namespace RiverWatch_Windows_Phone_App
             return true;
         }
 
-        public static String CallService(string serviceUrl, string login, string password, string message)
-        {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(serviceUrl);
+        private async void SaveButton_Click(object sender, RoutedEventArgs e) {
+            // not used
+        }
 
-            request.Method = "POST";
-            return "";
+        private async void DiscardButton_Click(object sender, RoutedEventArgs e) {
+            // not used
         }
 
         private async void YesButton_Click(object sender, RoutedEventArgs e)
@@ -230,8 +250,6 @@ namespace RiverWatch_Windows_Phone_App
                     this.SubmitReportProgress.IsActive = false;
                     notifyUnableToSave();
                 }
-
-                this.atSave = false;
             }
         }
 
@@ -309,7 +327,6 @@ namespace RiverWatch_Windows_Phone_App
             else {
                 // ask user if they are sure they want to discard the report
                 promptAreYouSure();
-                this.atSave = false;
             }
 
             
