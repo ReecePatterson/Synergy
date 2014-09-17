@@ -82,7 +82,7 @@ namespace RiverWatch_Windows_Phone_App
         {
             this.SubmitReportText.Text = "Submitting your report\nto WaiNZ";
             Boolean success = false;
-            await Task.Delay(2000);
+            await Task.Delay(2000); //TODO increase this at end
 
             //convert to json and upload to server
             _client = new HttpClient();
@@ -92,7 +92,6 @@ namespace RiverWatch_Windows_Phone_App
             byte[] buffer = new byte[1];
 
             try { 
-                //BitmapImage bitmapImage = new BitmapImage(new Uri(report.getImage().Path)); 
                 RandomAccessStreamReference rasr = RandomAccessStreamReference.CreateFromFile(report.getImage()); 
                 var streamWithContent = await rasr.OpenReadAsync(); 
                 buffer = new byte[streamWithContent.Size]; 
@@ -100,11 +99,12 @@ namespace RiverWatch_Windows_Phone_App
             }
             catch (FileNotFoundException e) {
                 Debug.WriteLine(e.StackTrace + "");
+                success = false;
             }
 
-            foreach (byte b in buffer) {
-                this.testText.Text += b + "";
-            }
+            //foreach (byte b in buffer) {
+            //   this.testText.Text += b + "";
+            //}
 
             success = true;
 
