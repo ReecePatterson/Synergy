@@ -19,10 +19,6 @@
         <AppBarButton x:Name="ReturnButton" HorizontalAlignment="Left" Icon="Back" Label="appbarbutton" Margin="5,40,0,0" VerticalAlignment="Top" IsCompact="True" Click="ReturnButton_Click"/>
 
         <ListView x:Name="UnsentRportList" Margin="60,50,10,10" SelectionMode="None" FontSize="25" Background="Transparent" RequestedTheme="Default" ShowsScrollingPlaceholders="False">
-            <ListViewItem>
-                <Grid Background="#FFEE1616" Width="100" Height="50"/>           </ListViewItem>
-            <ListViewItem Content="Test2"/>
-            <ListViewItem Content="Test 3"/>
         </ListView>
 
     </Grid>

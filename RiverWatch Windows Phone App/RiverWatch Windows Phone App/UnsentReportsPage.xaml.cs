@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -43,11 +44,12 @@ namespace RiverWatch_Windows_Phone_App
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
             try
             {
-                deleteImageSource = new BitmapImage(new Uri("/Assets/deleteIcon.png", UriKind.Relative));
+                deleteImageSource = new BitmapImage();
+                deleteImageSource.UriSource = (new Uri(@"ms-appx:///Assets/deleteIcon.png"));
             }
             catch (ArgumentException e)
             {
-                //image not found!
+                Debug.WriteLine("DELETE IMAGE FAILED TO LOAD");//image not found!
             }
         }
 
@@ -89,6 +91,7 @@ namespace RiverWatch_Windows_Phone_App
             reports = await unsentReportFolder.GetFilesAsync();
             for (int i = 0; i < reports.Count;i++ )
             {
+                //Read file, split itno info bits.
                 //create preview
                 //Delete Button
                 Image deleteImage = new Image();
@@ -114,13 +117,16 @@ namespace RiverWatch_Windows_Phone_App
                 previewImage.Margin = new Thickness(5,5,0,5);
                 //get image source from file
 
+
+                //Surrounding grid
                 Grid currItemGrid = new Grid();
                 currItemGrid.Background = new SolidColorBrush(itemBackground);
                 currItemGrid.VerticalAlignment = VerticalAlignment.Top;
-                currItemGrid.Margin = new Thickness(60, 50, 10, 0);
+                currItemGrid.Margin = new Thickness(0, 0, 0, 0);
                 currItemGrid.Height = 90;
-                currItemGrid.Children.Add(previewImage);
+                currItemGrid.Width = deleteImageBound.Width + previewImage.Width;
                 currItemGrid.Children.Add(deleteImageBound);
+                currItemGrid.Children.Add(previewImage);
 
                 //List View Item (outer wrapper)
                 ListViewItem currFileItem = new ListViewItem();
