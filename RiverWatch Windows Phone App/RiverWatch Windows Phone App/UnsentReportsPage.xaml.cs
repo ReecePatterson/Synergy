@@ -92,51 +92,29 @@ namespace RiverWatch_Windows_Phone_App
             for (int i = 0; i < reports.Count;i++ )
             {
                 //Read file, split itno info bits.
+                StorageFile currFile = reports.ElementAt(i);
                 string fileContent;
-                using (StreamReader sr = new StreamReader(await reports.ElementAt(i).OpenStreamForReadAsync()))
+                using (StreamReader s = new StreamReader(await currFile.OpenStreamForReadAsync()))
                 {
-                    fileContent = await sr.ReadToEndAsync();
+                    fileContent = await s.ReadToEndAsync();
                 }
                 Debug.WriteLine(fileContent + "\n");
+                string[] reportComponents = fileContent.Split(new String[]{":~:"},StringSplitOptions.None);
                 //create preview
-                //Delete Button
-                Image deleteImage = new Image();
-                deleteImage.VerticalAlignment = VerticalAlignment.Center;
-                deleteImage.HorizontalAlignment = HorizontalAlignment.Center;
-                deleteImage.Height = 60;
-                deleteImage.Width = 60;
-                deleteImage.Source = deleteImageSource;
-
-                Grid deleteImageBound = new Grid();
-                //Set a unique name linking to report
-                deleteImageBound.HorizontalAlignment = HorizontalAlignment.Right;
-                deleteImageBound.Width = 100;
-                deleteImageBound.Background = new SolidColorBrush(deleteBackground);
-                deleteImageBound.Tapped += DeleteReport_Click;
-                deleteImageBound.Children.Add(deleteImage);
 
                 //image block preview
                 Image previewImage = new Image();
+                previewImage.Source = new BitmapImage(new Uri(reportComponents[0]));
                 previewImage.HorizontalAlignment = HorizontalAlignment.Left;
                 previewImage.Stretch = Stretch.UniformToFill;
-                previewImage.Width = 220;
-                previewImage.Margin = new Thickness(5,5,0,5);
-                //get image source from file
-
-
-                //Surrounding grid
-                Grid currItemGrid = new Grid();
-                currItemGrid.Background = new SolidColorBrush(itemBackground);
-                currItemGrid.VerticalAlignment = VerticalAlignment.Top;
-                currItemGrid.Margin = new Thickness(0, 0, 0, 0);
-                currItemGrid.Height = 90;
-                currItemGrid.Width = deleteImageBound.Width + previewImage.Width;
-                currItemGrid.Children.Add(deleteImageBound);
-                currItemGrid.Children.Add(previewImage);
+                previewImage.Margin = new Thickness(5,5,5,5);
 
                 //List View Item (outer wrapper)
                 ListViewItem currFileItem = new ListViewItem();
-                currFileItem.Content = currItemGrid;
+                currFileItem.Background = new SolidColorBrush(itemBackground);
+                currFileItem.Content = previewImage;
+                currFileItem.Height = 100;
+                currFileItem.Margin = new Thickness(0, 5, 0, 5);
 
                 reportItems.Add(currFileItem);
             }
