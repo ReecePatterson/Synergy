@@ -96,6 +96,10 @@ namespace RiverWatch_Windows_Phone_App
             byte[] buffer = new byte[streamWithContent.Size]; 
             await streamWithContent.ReadAsync(buffer.AsBuffer(), (uint)streamWithContent.Size, InputStreamOptions.None);
 
+            foreach (byte b in buffer) {
+                this.testText.Text += b + "";
+            }
+
             success = true;
 
             // attempt to send
