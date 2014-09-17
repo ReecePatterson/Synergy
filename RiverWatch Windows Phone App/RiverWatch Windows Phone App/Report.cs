@@ -254,6 +254,7 @@ namespace RiverWatch_Windows_Phone_App
             String filename = sa[sa.Length - 2];
 
             // get date and time
+            Debug.WriteLine("dfa;kdjf;adjfiof" + filename);
             String dateAndTime = filename.Substring(16, 19);
             
             // set the date of the report
