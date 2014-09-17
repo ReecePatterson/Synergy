@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
@@ -31,7 +32,10 @@ namespace RiverWatch_Windows_Phone_App
         private List<ListViewItem> reportItems = new List<ListViewItem>();
 
         //Page design for dynamically changing it
+        private BitmapImage deleteImageSource = new BitmapImage(new Uri("Assets/deleteIcon.png"));
+        private Color deleteBackground = Color.FromArgb(0xFF, 0x5F, 0x9F, 0x9F);//#5F9F9F
         private Color itemBackground = Color.FromArgb(0xFF, 0xAD, 0xD8, 0xE6);//"#ADD8E6"
+
 
         public UnsentReportsPage()
         {
@@ -67,6 +71,8 @@ namespace RiverWatch_Windows_Phone_App
 
         private async Task refreshReportList()
         {
+            reportItems.Clear();
+            
             StorageFolder unsentReportFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Unsent_Reports", CreationCollisionOption.OpenIfExists);
             reports = await unsentReportFolder.GetFilesAsync();
             for (int i = 0; i < reports.Count;i++ )
@@ -74,17 +80,48 @@ namespace RiverWatch_Windows_Phone_App
                 //create preview
                 //Delete Button
                 Image deleteImage = new Image();
-                //deleteImage.n
+                deleteImage.VerticalAlignment = VerticalAlignment.Center;
+                deleteImage.HorizontalAlignment = HorizontalAlignment.Center;
+                deleteImage.Height = 60;
+                deleteImage.Width = 60;
+                deleteImage.Source = deleteImageSource;
+
+                Grid deleteImageBound = new Grid();
+                //Set a unique name linking to report
+                deleteImageBound.HorizontalAlignment = HorizontalAlignment.Right;
+                deleteImageBound.Width = 100;
+                deleteImageBound.Background = new SolidColorBrush(deleteBackground);
+                deleteImageBound.Tapped += DeleteReport_Click;
+                deleteImageBound.Children.Add(deleteImage);
+
                 //image block preview
-                
+                Image previewImage = new Image();
+                previewImage.HorizontalAlignment = HorizontalAlignment.Left;
+                previewImage.Stretch = Stretch.UniformToFill;
+                previewImage.Width = 220;
+                previewImage.Margin = new Thickness(5,5,0,5);
+                //get image source from file
+
+                Grid currItemGrid = new Grid();
+                currItemGrid.Background = new SolidColorBrush(itemBackground);
+                currItemGrid.VerticalAlignment = VerticalAlignment.Top;
+                currItemGrid.Margin = new Thickness(60, 50, 10, 0);
+                currItemGrid.Height = 90;
+                currItemGrid.Children.Add(previewImage);
+                currItemGrid.Children.Add(deleteImageBound);
+
                 //List View Item (outer wrapper)
                 ListViewItem currFileItem = new ListViewItem();
-                currFileItem.Background = new SolidColorBrush(itemBackground);
-
+                currFileItem.Content = currItemGrid;
 
                 reportItems.Add(currFileItem);
             }
             UnsentRportList.ItemsSource = reportItems;
+        }
+
+        private void DeleteReport_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
