@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Phone.UI.Input;
+using Windows.Storage;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -23,6 +26,13 @@ namespace RiverWatch_Windows_Phone_App
     /// </summary>
     public sealed partial class UnsentReportsPage : Page
     {
+        
+        private IReadOnlyList<StorageFile> reports;
+        private List<ListViewItem> reportItems = new List<ListViewItem>();
+
+        //Page design for dynamically changing it
+        private Color itemBackground = Color.FromArgb(0xFF, 0xAD, 0xD8, 0xE6);//"#ADD8E6"
+
         public UnsentReportsPage()
         {
             this.InitializeComponent();
@@ -50,9 +60,31 @@ namespace RiverWatch_Windows_Phone_App
         /// </summary>
         /// <param name="e">Event data that describes how this page was reached.
         /// This parameter is typically used to configure the page.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
+            await refreshReportList();
+        }
 
+        private async Task refreshReportList()
+        {
+            StorageFolder unsentReportFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Unsent_Reports", CreationCollisionOption.OpenIfExists);
+            reports = await unsentReportFolder.GetFilesAsync();
+            for (int i = 0; i < reports.Count;i++ )
+            {
+                //create preview
+                //Delete Button
+                Image deleteImage = new Image();
+                //deleteImage.n
+                //image block preview
+                
+                //List View Item (outer wrapper)
+                ListViewItem currFileItem = new ListViewItem();
+                currFileItem.Background = new SolidColorBrush(itemBackground);
+
+
+                reportItems.Add(currFileItem);
+            }
+            UnsentRportList.ItemsSource = reportItems;
         }
     }
 }

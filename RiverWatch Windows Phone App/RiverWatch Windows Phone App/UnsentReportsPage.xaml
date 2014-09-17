@@ -18,7 +18,7 @@
         <TextBlock x:Name="PageTitle" FontSize="25" Margin="10,0,0,0">Unsent Pollution Reports</TextBlock>
         <AppBarButton x:Name="ReturnButton" HorizontalAlignment="Left" Icon="Back" Label="appbarbutton" Margin="5,40,0,0" VerticalAlignment="Top" IsCompact="True" Click="ReturnButton_Click"/>
 
-        <ListView Margin="60,50,10,10" SelectionMode="None" FontSize="25" Background="Transparent" RequestedTheme="Default" ShowsScrollingPlaceholders="False">
+        <ListView x:Name="UnsentRportList" Margin="60,50,10,10" SelectionMode="None" FontSize="25" Background="Transparent" RequestedTheme="Default" ShowsScrollingPlaceholders="False">
             <ListViewItem Content="Test1"></ListViewItem>
             <ListViewItem Content="Test2"/>
             <ListViewItem Content="Test 3"/>
