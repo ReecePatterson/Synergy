@@ -89,13 +89,18 @@ namespace RiverWatch_Windows_Phone_App
             //Globals.MemberId = 1;
             int memberId = 2;
 
-            //check this tomorrow
-            //BitmapImage bitmapImage = new BitmapImage(new Uri("https://lh6.googleusercontent.com/ImYzXmXzbrWHt5wsrRkN_53OWH9nP6y_jqvH3nbXIQ=s207-p-no?s=128&g=1")); 
-            BitmapImage bitmapImage = new BitmapImage(report.getImageUri()); 
-            RandomAccessStreamReference rasr = RandomAccessStreamReference.CreateFromUri(bitmapImage.UriSource); 
-            var streamWithContent = await rasr.OpenReadAsync(); 
-            byte[] buffer = new byte[streamWithContent.Size]; 
-            await streamWithContent.ReadAsync(buffer.AsBuffer(), (uint)streamWithContent.Size, InputStreamOptions.None);
+            byte[] buffer = new byte[1];
+
+            try { 
+                //BitmapImage bitmapImage = new BitmapImage(new Uri(report.getImage().Path)); 
+                RandomAccessStreamReference rasr = RandomAccessStreamReference.CreateFromFile(report.getImage()); 
+                var streamWithContent = await rasr.OpenReadAsync(); 
+                buffer = new byte[streamWithContent.Size]; 
+                await streamWithContent.ReadAsync(buffer.AsBuffer(), (uint)streamWithContent.Size, InputStreamOptions.None);
+            }
+            catch (FileNotFoundException e) {
+                Debug.WriteLine(e.StackTrace + "");
+            }
 
             foreach (byte b in buffer) {
                 this.testText.Text += b + "";
