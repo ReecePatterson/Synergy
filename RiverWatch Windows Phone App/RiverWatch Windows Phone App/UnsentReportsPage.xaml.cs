@@ -32,7 +32,7 @@ namespace RiverWatch_Windows_Phone_App
         private List<ListViewItem> reportItems = new List<ListViewItem>();
 
         //Page design for dynamically changing it
-        private BitmapImage deleteImageSource = new BitmapImage(new Uri("Assets/deleteIcon.png"));
+        private BitmapImage deleteImageSource = new BitmapImage();
         private Color deleteBackground = Color.FromArgb(0xFF, 0x5F, 0x9F, 0x9F);//#5F9F9F
         private Color itemBackground = Color.FromArgb(0xFF, 0xAD, 0xD8, 0xE6);//"#ADD8E6"
 
@@ -41,6 +41,14 @@ namespace RiverWatch_Windows_Phone_App
         {
             this.InitializeComponent();
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+            try
+            {
+                deleteImageSource = new BitmapImage(new Uri("/Assets/deleteIcon.png", UriKind.Relative));
+            }
+            catch (ArgumentException e)
+            {
+                //image not found!
+            }
         }
 
         void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
@@ -56,7 +64,11 @@ namespace RiverWatch_Windows_Phone_App
         private void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
             // do the same as hardware back button
-            this.HardwareButtons_BackPressed(this, null);
+            Frame rootFrame = Window.Current.Content as Frame;
+            if (rootFrame != null && rootFrame.CanGoBack)
+            {
+                rootFrame.Navigate(typeof(HubPage));
+            }
         }
 
         /// <summary>
