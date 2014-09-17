@@ -270,7 +270,14 @@ namespace RiverWatch_Windows_Phone_App
         public Boolean setTags(List<String> taglist)
         {
             this.tags = taglist;
-            this.tagsReady = true;
+            if (taglist.Count != 0)
+            {
+                this.tagsReady = true;
+            }
+            else
+            {
+                this.tagsReady = false;
+            }
             return true;
         }
 
