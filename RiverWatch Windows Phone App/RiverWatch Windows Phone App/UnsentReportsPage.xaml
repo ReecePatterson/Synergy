@@ -9,8 +9,8 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton Icon="Accept" Label="appbarbutton"/>
-            <AppBarButton Icon="Cancel" Label="appbarbutton"/>
+            <AppBarButton Icon="Send" Label="Send All"/>
+            <AppBarButton Icon="Delete" Label="Delete All"/>
         </CommandBar>
     </Page.BottomAppBar>
 
@@ -19,7 +19,7 @@
         <AppBarButton x:Name="ReturnButton" HorizontalAlignment="Left" Icon="Back" Label="appbarbutton" Margin="5,40,0,0" VerticalAlignment="Top" IsCompact="True" Click="ReturnButton_Click"/>
 
         <ListView Margin="60,50,10,10" SelectionMode="None" FontSize="25" Background="Transparent" RequestedTheme="Default" ShowsScrollingPlaceholders="False">
-            <ListViewItem Content="Test1"/>
+            <ListViewItem Content="Test1"></ListViewItem>
             <ListViewItem Content="Test2"/>
             <ListViewItem Content="Test 3"/>
         </ListView>

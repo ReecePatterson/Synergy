@@ -116,17 +116,32 @@ namespace RiverWatch_Windows_Phone_App
 
         private async void convertImageToByteStream(byte[] byteArray)
         {
-            BitmapImage bitmapImage = new BitmapImage(this.pollutionImageUri);
-            RandomAccessStreamReference rasr = RandomAccessStreamReference.CreateFromUri(bitmapImage.UriSource);
-            var streamWithContent = await rasr.OpenReadAsync();
-            byte[] buffer = new byte[streamWithContent.Size];
-            await streamWithContent.ReadAsync(buffer.AsBuffer(), (uint)streamWithContent.Size, InputStreamOptions.None);
+            WriteableBitmap yourWb = new WriteableBitmap(10, 10);
+            using (MemoryStream ms = new MemoryStream()) {
+                var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, ms.AsRandomAccessStream());
+                encoder.SetPixelData(BitmapPixelFormat.Bgra8,
+                    BitmapAlphaMode.Ignore,
+                    10,
+                    10,
+                    10,
+                    10,
+                    yourWb.PixelBuffer.ToArray());
+
+                await encoder.FlushAsync();
+            }
+
+
+            //BitmapImage bitmapImage = new BitmapImage(this.pollutionImageUri);
+            //RandomAccessStreamReference rasr = RandomAccessStreamReference.CreateFromUri(bitmapImage.UriSource);
+            //var streamWithContent = await rasr.OpenReadAsync();
+            //byte[] buffer = new byte[streamWithContent.Size];
+            //await streamWithContent.ReadAsync(buffer.AsBuffer(), (uint)streamWithContent.Size, InputStreamOptions.None);
 
             // testing
-            foreach (byte b in buffer)
-            {
-                Debug.WriteLine(b);
-            }
+            //foreach (byte b in buffer)
+            //{
+            //    Debug.WriteLine(b);
+            //}
         }
 
         public static Report byteStreamToReport()
