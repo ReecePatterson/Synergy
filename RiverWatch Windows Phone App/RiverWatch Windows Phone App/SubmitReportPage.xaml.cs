@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
@@ -21,6 +19,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using Windows.Web.Http;
+using Windows.Web.Http.Headers;
 
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
@@ -33,6 +33,7 @@ namespace RiverWatch_Windows_Phone_App
     public sealed partial class SubmitReportPage : Page
     {
         private Report report;
+        private Boolean atSend = true;
 
         public SubmitReportPage()
         {
@@ -61,11 +62,15 @@ namespace RiverWatch_Windows_Phone_App
         {
             this.report = e.Parameter as Report;
 
+            atSend = true;
+
             // ask user if they want to send
             this.SubmitReportText.Text = "Do you want to send\nthis report now?";
 
             // show commandbar
             this.CommandBar.Visibility = Visibility.Visible;
+            this.SubmitReportProgress.IsActive = false;
+
 
 
             //attemptSendToServer();
@@ -82,18 +87,19 @@ namespace RiverWatch_Windows_Phone_App
         private async void EnableNotificationsBarHelper(){
             await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ShowAsync();
         }
-
-        private static HttpClient _client;
-        private readonly Uri uploadAddress = new Uri("http://www-test.wainz.org.nz/api/image");
+ 
 
         private async void attemptSendToServer()
         {
             this.SubmitReportText.Text = "Submitting your report\nto WaiNZ";
+            this.SubmitReportProgress.IsActive = true;
+            this.CommandBar.Visibility = Visibility.Collapsed;
+
             Boolean success = false;
             await Task.Delay(2000); //TODO increase this at end
 
             //convert to json and upload to server
-            _client = new HttpClient();
+            //_client = new HttpClient();
             //Globals.MemberId = 1;
             int memberId = 2;
 
@@ -134,6 +140,9 @@ namespace RiverWatch_Windows_Phone_App
                 // disable progress ring
                 this.SubmitReportProgress.IsActive = false;
 
+                // disable commandbar
+                this.CommandBar.Visibility = Visibility.Collapsed;
+
                 // display tick icon
                 
                 // wait for a bit, discard report, then go back to hub
@@ -149,12 +158,13 @@ namespace RiverWatch_Windows_Phone_App
                 // disable progress ring
                 this.SubmitReportProgress.IsActive = false;
 
-                // display ! icon
-
                 // show commandbar
-                //this.commandBar.Visibility = Visibility.Visible;
+                this.CommandBar.Visibility = Visibility.Visible;
             }
+            this.SubmitReportProgress.IsActive = false;
         }
+
+        private readonly Uri uploadAddress = new Uri("http://www-test.wainz.org.nz/api/image");
 
         private async Task<Boolean> tryUpload() {
             byte[] buffer;
@@ -177,6 +187,27 @@ namespace RiverWatch_Windows_Phone_App
                 //    Uri gizmoUrl = response.Headers.Location;
                 //}
 
+                /*
+                HttpResponseMessage response; //store respose from server here
+                HttpClient client = new HttpClient();
+                client.BaseAddress = uploadAddress;
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                response = await client.PostAsJsonAsync("api/image", upload);
+                //api/image
+                 * */
+
+                //string js = @"[{""userName"":""jerin"",""userId"":""a""}]";
+                string js = upload.ToString();
+                HttpClient httpClient = new HttpClient();
+                HttpRequestMessage msg = new HttpRequestMessage(new HttpMethod("POST"), uploadAddress);
+                msg.Content = new HttpStringContent(js);
+                msg.Content.Headers.ContentType = new HttpMediaTypeHeaderValue("application/json");
+                HttpResponseMessage response = await httpClient.SendRequestAsync(msg).AsTask();
+
+                if (response.IsSuccessStatusCode)
+                    Debug.WriteLine("poopies works");
+
             }catch (FileNotFoundException e) {
                 Debug.WriteLine(e.StackTrace + "");
             }
@@ -186,30 +217,38 @@ namespace RiverWatch_Windows_Phone_App
 
         public static String CallService(string serviceUrl, string login, string password, string message)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(serviceUrl);
-
-            request.Method = "POST";
-            return "";
+            //HttpWebRequest request = (HttpWebRequest)WebRequest.Create(serviceUrl);
+            //
+            //request.Method = "POST";
+           // return "";
         }
 
-        private async void SaveButton_Click(object sender, RoutedEventArgs e)
+        private async void YesButton_Click(object sender, RoutedEventArgs e)
         {
-            // check if we can save the report
-            Boolean canSave = true;
-
-            // check if we've got space
-
-            // if so, save the report
-            if (canSave)
-            {
-                saveReport();
+            // check if we are at ...
+            if (this.atSend) {
+                this.attemptSendToServer();
+                this.atSend = false;
             }
+            else {
+                this.SubmitReportProgress.IsActive = true;
 
-            // if not, tell the user they cannot save the report
-            // and discard it.
-            else
-            {
-                notifyUnableToSave();
+                // check if we can save the report
+                Boolean canSave = true;
+
+                // check if we've got space
+
+                // if so, save the report
+                if (canSave) {
+                    saveReport();
+                }
+
+                // if not, tell the user they cannot save the report
+                // and discard it.
+                else {
+                    this.SubmitReportProgress.IsActive = false;
+                    notifyUnableToSave();
+                }
             }
         }
 
@@ -274,10 +313,23 @@ namespace RiverWatch_Windows_Phone_App
             
         }
 
-        private void DiscardButton_Click(object sender, RoutedEventArgs e)
+        private void NoButton_Click(object sender, RoutedEventArgs e)
         {
-            // ask user if they are sure they want to discard the report
-            promptAreYouSure();
+            // ask if at...
+            // check if we are at ...
+            if (this.atSend) {
+                // change text
+                this.SubmitReportText.Text = "Do you want to save\nyour report?";
+
+                this.atSend = false;
+            }
+            else {
+                // ask user if they are sure they want to discard the report
+                promptAreYouSure();
+            }
+
+            
+            
         }
 
         private async void promptAreYouSure()
