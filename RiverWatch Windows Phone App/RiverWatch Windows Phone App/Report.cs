@@ -92,14 +92,18 @@ namespace RiverWatch_Windows_Phone_App
             returnString += this.longi + ":~:";
 
             // write tags if any
-            returnString += this.tags.Count + ":~:";
+            if (this.isTagsReady()) {
+                returnString += this.tags.Count + ":~:";
 
-            foreach (String t in tags) {
-                returnString += t + ":~:";
+                foreach (String t in tags) {
+                    returnString += t + ":~:";
+                }
             }
 
             // write desc if any
-            returnString += this.description;
+            if (this.isDescriptionReady()) {
+                returnString += this.description;
+            }
 
             // write water quality report
 

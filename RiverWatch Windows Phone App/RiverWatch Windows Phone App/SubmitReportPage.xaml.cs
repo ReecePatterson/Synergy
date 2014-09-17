@@ -33,6 +33,8 @@ namespace RiverWatch_Windows_Phone_App
     public sealed partial class SubmitReportPage : Page
     {
         private Report report;
+        private Boolean atSend = true;
+        private Boolean atSave = true;
 
         public SubmitReportPage()
         {
@@ -61,11 +63,16 @@ namespace RiverWatch_Windows_Phone_App
         {
             this.report = e.Parameter as Report;
 
+            atSend = true;
+            atSave = true;
+
             // ask user if they want to send
             this.SubmitReportText.Text = "Do you want to send\nthis report now?";
 
             // show commandbar
             this.CommandBar.Visibility = Visibility.Visible;
+            this.SubmitReportProgress.IsActive = false;
+
 
 
             //attemptSendToServer();
@@ -89,6 +96,9 @@ namespace RiverWatch_Windows_Phone_App
         private async void attemptSendToServer()
         {
             this.SubmitReportText.Text = "Submitting your report\nto WaiNZ";
+            this.SubmitReportProgress.IsActive = true;
+            this.CommandBar.Visibility = Visibility.Collapsed;
+
             Boolean success = false;
             await Task.Delay(2000); //TODO increase this at end
 
@@ -134,6 +144,9 @@ namespace RiverWatch_Windows_Phone_App
                 // disable progress ring
                 this.SubmitReportProgress.IsActive = false;
 
+                // disable commandbar
+                this.CommandBar.Visibility = Visibility.Collapsed;
+
                 // display tick icon
                 
                 // wait for a bit, discard report, then go back to hub
@@ -149,11 +162,10 @@ namespace RiverWatch_Windows_Phone_App
                 // disable progress ring
                 this.SubmitReportProgress.IsActive = false;
 
-                // display ! icon
-
                 // show commandbar
-                //this.commandBar.Visibility = Visibility.Visible;
+                this.CommandBar.Visibility = Visibility.Visible;
             }
+            this.SubmitReportProgress.IsActive = false;
         }
 
         private async Task<Boolean> tryUpload() {
@@ -192,24 +204,34 @@ namespace RiverWatch_Windows_Phone_App
             return "";
         }
 
-        private async void SaveButton_Click(object sender, RoutedEventArgs e)
+        private async void YesButton_Click(object sender, RoutedEventArgs e)
         {
-            // check if we can save the report
-            Boolean canSave = true;
-
-            // check if we've got space
-
-            // if so, save the report
-            if (canSave)
-            {
-                saveReport();
+            // check if we are at ...
+            if (this.atSend) {
+                this.attemptSendToServer();
+                this.atSend = false;
             }
+            else {
+                this.SubmitReportProgress.IsActive = true;
 
-            // if not, tell the user they cannot save the report
-            // and discard it.
-            else
-            {
-                notifyUnableToSave();
+                // check if we can save the report
+                Boolean canSave = true;
+
+                // check if we've got space
+
+                // if so, save the report
+                if (canSave) {
+                    saveReport();
+                }
+
+                // if not, tell the user they cannot save the report
+                // and discard it.
+                else {
+                    this.SubmitReportProgress.IsActive = false;
+                    notifyUnableToSave();
+                }
+
+                this.atSave = false;
             }
         }
 
@@ -274,10 +296,24 @@ namespace RiverWatch_Windows_Phone_App
             
         }
 
-        private void DiscardButton_Click(object sender, RoutedEventArgs e)
+        private void NoButton_Click(object sender, RoutedEventArgs e)
         {
-            // ask user if they are sure they want to discard the report
-            promptAreYouSure();
+            // ask if at...
+            // check if we are at ...
+            if (this.atSend) {
+                // change text
+                this.SubmitReportText.Text = "Do you want to save\nyour report?";
+
+                this.atSend = false;
+            }
+            else {
+                // ask user if they are sure they want to discard the report
+                promptAreYouSure();
+                this.atSave = false;
+            }
+
+            
+            
         }
 
         private async void promptAreYouSure()
