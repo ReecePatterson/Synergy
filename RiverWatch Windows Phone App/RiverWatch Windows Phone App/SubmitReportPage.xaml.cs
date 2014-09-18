@@ -223,8 +223,8 @@ namespace RiverWatch_Windows_Phone_App
                 client.BaseAddress = uploadAddress;
                 MultipartFormDataContent form = new MultipartFormDataContent();
 
-                //HttpContent content = new StringContent(await report.convertToSend());
-                HttpContent content = new StringContent("{\"tags\":[\"Pollution\",\"Runoff\",\"Waterway\"],\"timestamp\":1410928699.255864,\"description\":\"This is the description\",\"name\":\"This is the title\",\"geolocation\":{\"lat\":-41.1,\"long\":174.7}}");
+                HttpContent content = new StringContent(await report.ConvertReportInformationForUpload());
+                //HttpContent content = new StringContent("{\"tags\":[\"Pollution\",\"Runoff\",\"Waterway\"],\"timestamp\":1410928699.255864,\"description\":\"This is the description\",\"name\":\"This is the title\",\"geolocation\":{\"lat\":-41.1,\"long\":174.7}}");
                 form.Add(content, "\"data\"");
 
                 /*

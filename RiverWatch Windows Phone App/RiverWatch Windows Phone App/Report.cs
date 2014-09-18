@@ -110,16 +110,13 @@ namespace RiverWatch_Windows_Phone_App
             return GetBytes(returnString);
         }
 
-        public async Task<string> convertToSend() {
-            RandomAccessStreamReference rasr = RandomAccessStreamReference.CreateFromFile(getImage());
-            var streamWithContent = await rasr.OpenReadAsync();
-            byte[] buffer = new byte[streamWithContent.Size];
-            await streamWithContent.ReadAsync(buffer.AsBuffer(), (uint)streamWithContent.Size, InputStreamOptions.None);
-
-            // Convert byte[] to Base64 String
-            string imageBase64String = Convert.ToBase64String(buffer);
-
+        /* This method is used to build up a string that will contain the geolocation data, tags, description of
+         * this report that will be used when uploading to the website
+         */
+        public async Task<string> ConvertReportInformationForUpload() {
             string js = @"[{""userName"":""jerin"",""userId"":""a""}]";
+            String ss = "{\"tags\":[\"Pollution\",\"Runoff\",\"Waterway\"],\"timestamp\":1410928699.255864,\"description\":\"This is the description\",\"name\":\"This is the title\",\"geolocation\":{\"lat\":-41.1,\"long\":174.7}}";
+
             //String s = "@\"[{\"\"image\"\":\"\"" + imageBase64String + "\"\",\"\"long\"\":\"\"" + getLongitude() 
             //    + "\"\",\"\"lat\"\":\"\"" + getLatitude();
 
@@ -128,9 +125,32 @@ namespace RiverWatch_Windows_Phone_App
 
             //String s = "{\"image\":\"" + imageBase64String + "\",\"geolocation\":{\"lat\":" + getLatitude()
              //   + ",\"long\":" + getLongitude() + "}}";
-            String s = "{\"geolocation\":{\"lat\":" + getLatitude() + ",\"long\":" + getLongitude() + "}}";
 
-            return s;
+            //first build up geolocation information in this string
+            String reportInfo = "{\"geolocation\":{\"lat\":" + latit + ",\"long\":" + longi + "},";
+            //add on description information
+            reportInfo += "\"description\":\"" + description +"\",";
+            //add on tags
+            if (tags == null)
+                reportInfo += "\"tags\":[],";
+            else {
+                reportInfo += "\"tags\":[";
+                for (int i = 0; i < tags.Count; i++) {
+                    if(i != tags.Count - 1)
+                        reportInfo += ("\"" + tags[i] + "\",");
+                    else
+                        reportInfo += ("\"" + tags[i] + "\"");
+                }
+                reportInfo += "],";
+            }
+            //add on generic report name
+            reportInfo+= "\"name\":\"Report from Windows Phone App\",";
+            //add on timestamp
+            reportInfo += "\"timestamp\":" + DateTimeOffset.Now;
+            //close off string
+            reportInfo += "}";
+            return reportInfo;
+
         }
 
         public async Task<String> convertImage() {
