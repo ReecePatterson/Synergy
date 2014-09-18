@@ -166,6 +166,7 @@ namespace RiverWatch_Windows_Phone_App
         }
 
         private readonly Uri uploadAddress = new Uri("http://www-test.wainz.org.nz/api/image");
+        //private readonly Uri uploadAddress = new Uri("http://vurtigo.ecs.vuw.ac.nz:3000");
 
         private async Task<Boolean> tryUpload() {
             byte[] buffer;
@@ -216,30 +217,50 @@ namespace RiverWatch_Windows_Phone_App
                 HttpResponseMessage response = await httpClient.SendRequestAsync(msg).AsTask();
                 */
 
-                /*
+                ///*
                 Debug.WriteLine("starting upload");
                 HttpClient client = new HttpClient();
                 client.BaseAddress = uploadAddress;
                 MultipartFormDataContent form = new MultipartFormDataContent();
-                HttpContent content = new StringContent(await report.convertToSend());
-                form.Add(content, "data");
-                var stream = await report.getImage().OpenStreamForReadAsync();
-                
+
+                //HttpContent content = new StringContent(await report.convertToSend());
+                HttpContent content = new StringContent("{\"tags\":[\"Pollution\",\"Runoff\",\"Waterway\"],\"timestamp\":1410928699.255864,\"description\":\"This is the description\",\"name\":\"This is the title\",\"geolocation\":{\"lat\":-41.1,\"long\":174.7}}");
+                form.Add(content, "\"data\"");
+
+                /*
+                var stream = await report.getImage().OpenStreamForReadAsync();      
                 var streamcontent = new StreamContent(stream);
                 streamcontent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data") {
-                    Name = "photo",
+                    Name = "image",
                     FileName = report.getImage().Name
                 };
                 streamcontent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
-
-                form.Add(content);
                 form.Add(streamcontent);
-                Debug.WriteLine(form.ReadAsStringAsync());
+                 * */
+
+                //HttpContent image = new StringContent(await report.convertImage());
+                //HttpContent image = new ByteArrayContent(await report.convertToByte());
+
+                HttpContent image = new StreamContent(new MemoryStream(await report.convertToByte()));
+                //HttpContent image = new StreamContent(content: new MemoryStream(await report.convertToByte()));
+                ///*
+                image.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data") {
+                    Name = "\"image\"",
+                    FileName = "\"" + report.getImage().Name + "\""
+                };
+                 //* */
+                image.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
+                //form.Add(image, name: "image", fileName: report.getImage().Name);
+                form.Add(image);
+
+                Debug.WriteLine(client.DefaultRequestHeaders.ToString());
+                Debug.WriteLine(form.Headers);
+                Debug.WriteLine((await form.ReadAsStringAsync()) + "\n");
                 var response = await client.PostAsync(uploadAddress, form);
 
                 Debug.WriteLine(response);
-                */
 
+                /*
                 HttpClient client = new HttpClient();
                 client.BaseAddress = uploadAddress;
                 HttpRequestMessage request = new HttpRequestMessage();
@@ -258,6 +279,8 @@ namespace RiverWatch_Windows_Phone_App
                 HttpResponseMessage response = await client.PostAsync(uploadAddress, mfdc);
                 //mytextblock.Text = response.Content.ReadAsStringAsync();
                 Debug.WriteLine(response);
+                */
+
 
 
                 if (response.IsSuccessStatusCode) {

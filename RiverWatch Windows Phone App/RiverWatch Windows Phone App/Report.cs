@@ -143,6 +143,15 @@ namespace RiverWatch_Windows_Phone_App
             return Convert.ToBase64String(buffer);
         }
 
+        public async Task<byte[]> convertToByte() {
+            RandomAccessStreamReference rasr = RandomAccessStreamReference.CreateFromFile(getImage());
+            var streamWithContent = await rasr.OpenReadAsync();
+            byte[] buffer = new byte[streamWithContent.Size];
+            await streamWithContent.ReadAsync(buffer.AsBuffer(), (uint)streamWithContent.Size, InputStreamOptions.None);
+
+            return buffer;
+        }
+
         public static Report byteStreamToReport()
         {
             return null;
