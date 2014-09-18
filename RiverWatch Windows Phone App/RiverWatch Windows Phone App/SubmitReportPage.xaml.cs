@@ -165,134 +165,40 @@ namespace RiverWatch_Windows_Phone_App
             this.SubmitReportProgress.IsActive = false;
         }
 
+        //the URI that the image will be uploaded to.
         private readonly Uri uploadAddress = new Uri("http://www-test.wainz.org.nz/api/image");
-        //private readonly Uri uploadAddress = new Uri("http://vurtigo.ecs.vuw.ac.nz:3000");
 
+        /* This method is used to try and upload a report if the user of the app decides that they want to upload the report after making the report. 
+         * will return true if successful and delete the image and report from the phone. If return false, then the report will be saved to the phone. 
+         */
         private async Task<Boolean> tryUpload() {
-            byte[] buffer;
+            HttpClient client = new HttpClient();
+            client.BaseAddress = uploadAddress;
+            MultipartFormDataContent form = new MultipartFormDataContent();
 
-            try {
-                RandomAccessStreamReference rasr = RandomAccessStreamReference.CreateFromFile(report.getImage());
-                var streamWithContent = await rasr.OpenReadAsync();
-                buffer = new byte[streamWithContent.Size];
-                await streamWithContent.ReadAsync(buffer.AsBuffer(), (uint)streamWithContent.Size, InputStreamOptions.None);
-
-                // Convert byte[] to Base64 String
-                string imageBase64String = Convert.ToBase64String(buffer);
-
-                //create Report object to convert to json
-                var upload = new UploadReport() { Image = imageBase64String, Latitude = report.getLatitude(), Longitude = report.getLongitude() };
-
-                //response = await client.PostAsJsonAsync("api/products", gizmo);
-                //if (response.IsSuccessStatusCode) {
-                    // Get the URI of the created resource.
-                //    Uri gizmoUrl = response.Headers.Location;
-                //}
-
-                /*
-                HttpResponseMessage response; //store respose from server here
-                HttpClient client = new HttpClient();
-                client.BaseAddress = uploadAddr-ess;
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                response = await client.PostAsJsonAsync("api/image", upload);
-                //api/image
-                 * */
-
-                //string js = @"[{""userName"":""jerin"",""userId"":""a""}]";
+            //create the string for description, tags, and geolocation
+            HttpContent content = new StringContent(await report.ConvertReportInformationForUpload());
+            form.Add(content, "\"data\"");
+            //convert image into byte array so we can create a memorystream
+            HttpContent image = new StreamContent(new MemoryStream(await report.convertImageToByte()));
+            image.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data") {
+                Name = "\"image\"",
+                FileName = "\"" + report.getImage().Name + "\""
+            };
+            image.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
+            form.Add(image);
 
 
+            Debug.WriteLine(client.DefaultRequestHeaders.ToString());
+            Debug.WriteLine(form.Headers);
+            Debug.WriteLine((await form.ReadAsStringAsync()) + "\n");
 
+            //try and post to server
+            var response = await client.PostAsync(uploadAddress, form);
 
-                /*
-                Debug.WriteLine("starting upload");
-                //string js = upload.ToString();
-                string js = await report.convertToSend();
-                HttpClient httpClient = new HttpClient();
-                HttpRequestMessage msg = new HttpRequestMessage(new HttpMethod("POST"), uploadAddress);
-                msg.Content = new HttpStringContent(js);
-                
-                Debug.WriteLine("This is js: " + js);
-                msg.Content.Headers.ContentType = new HttpMediaTypeHeaderValue("image/jpeg");
-                HttpResponseMessage response = await httpClient.SendRequestAsync(msg).AsTask();
-                */
+            Debug.WriteLine(response);
 
-                ///*
-                Debug.WriteLine("starting upload");
-                HttpClient client = new HttpClient();
-                client.BaseAddress = uploadAddress;
-                MultipartFormDataContent form = new MultipartFormDataContent();
-
-                HttpContent content = new StringContent(await report.ConvertReportInformationForUpload());
-                //HttpContent content = new StringContent("{\"tags\":[\"Pollution\",\"Runoff\",\"Waterway\"],\"timestamp\":1410928699.255864,\"description\":\"This is the description\",\"name\":\"This is the title\",\"geolocation\":{\"lat\":-41.1,\"long\":174.7}}");
-                form.Add(content, "\"data\"");
-
-                /*
-                var stream = await report.getImage().OpenStreamForReadAsync();      
-                var streamcontent = new StreamContent(stream);
-                streamcontent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data") {
-                    Name = "image",
-                    FileName = report.getImage().Name
-                };
-                streamcontent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
-                form.Add(streamcontent);
-                 * */
-
-                //HttpContent image = new StringContent(await report.convertImage());
-                //HttpContent image = new ByteArrayContent(await report.convertToByte());
-
-                HttpContent image = new StreamContent(new MemoryStream(await report.convertToByte()));
-                //HttpContent image = new StreamContent(content: new MemoryStream(await report.convertToByte()));
-                ///*
-                image.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data") {
-                    Name = "\"image\"",
-                    FileName = "\"" + report.getImage().Name + "\""
-                };
-                 //* */
-                image.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
-                //form.Add(image, name: "image", fileName: report.getImage().Name);
-                form.Add(image);
-
-                Debug.WriteLine(client.DefaultRequestHeaders.ToString());
-                Debug.WriteLine(form.Headers);
-                Debug.WriteLine((await form.ReadAsStringAsync()) + "\n");
-                var response = await client.PostAsync(uploadAddress, form);
-
-                Debug.WriteLine(response);
-
-                /*
-                HttpClient client = new HttpClient();
-                client.BaseAddress = uploadAddress;
-                HttpRequestMessage request = new HttpRequestMessage();
-
-                MultipartFormDataContent mfdc = new MultipartFormDataContent();
-                mfdc.Add(new StringContent(await report.convertToSend()), name: "data");
-
-                //var content = new StringContent(await report.convertToSend()));
-
-                mfdc.Add(new StringContent(await report.convertImage()), name: "image");
-                //mfdc.Add(new StreamContent(content: new MemoryStream(Encoding.UTF8.GetBytes("This is from a file"))),
-                //        name: "Data",
-                //        fileName: "File1.txt");
-                //mfdc.
-
-                HttpResponseMessage response = await client.PostAsync(uploadAddress, mfdc);
-                //mytextblock.Text = response.Content.ReadAsStringAsync();
-                Debug.WriteLine(response);
-                */
-
-
-
-                if (response.IsSuccessStatusCode) {
-                    //Debug.WriteLine(response.ReasonPhrase);
-                    Debug.WriteLine(response.ToString());
-                }
-
-            }catch (FileNotFoundException e) {
-                Debug.WriteLine(e.StackTrace + "");
-            }
-
-            return true;
+            return response.IsSuccessStatusCode;
         }
 
         private async void SaveButton_Click(object sender, RoutedEventArgs e) {

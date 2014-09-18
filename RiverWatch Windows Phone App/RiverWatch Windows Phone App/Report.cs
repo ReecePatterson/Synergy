@@ -114,18 +114,6 @@ namespace RiverWatch_Windows_Phone_App
          * this report that will be used when uploading to the website
          */
         public async Task<string> ConvertReportInformationForUpload() {
-            string js = @"[{""userName"":""jerin"",""userId"":""a""}]";
-            String ss = "{\"tags\":[\"Pollution\",\"Runoff\",\"Waterway\"],\"timestamp\":1410928699.255864,\"description\":\"This is the description\",\"name\":\"This is the title\",\"geolocation\":{\"lat\":-41.1,\"long\":174.7}}";
-
-            //String s = "@\"[{\"\"image\"\":\"\"" + imageBase64String + "\"\",\"\"long\"\":\"\"" + getLongitude() 
-            //    + "\"\",\"\"lat\"\":\"\"" + getLatitude();
-
-            //String s = "@\"[{\"\"image\"\":\"\"" + imageBase64String + "\"\", \"\"geolocation\"\":{\"\"lat\"\":" + getLatitude()
-            //    + "\"\",\"\"long\"\":" + getLongitude() + "\"\"}\"\"}]\""; 
-
-            //String s = "{\"image\":\"" + imageBase64String + "\",\"geolocation\":{\"lat\":" + getLatitude()
-             //   + ",\"long\":" + getLongitude() + "}}";
-
             //first build up geolocation information in this string
             String reportInfo = "{\"geolocation\":{\"lat\":" + latit + ",\"long\":" + longi + "},";
             //add on description information
@@ -144,26 +132,15 @@ namespace RiverWatch_Windows_Phone_App
                 reportInfo += "],";
             }
             //add on generic report name
-            reportInfo+= "\"name\":\"Report from Windows Phone App\",";
-            //add on timestamp
-            reportInfo += "\"timestamp\":" + DateTimeOffset.Now;
+            reportInfo += "\"name\":\"Report from Windows Phone App\"";
             //close off string
             reportInfo += "}";
+
             return reportInfo;
 
         }
 
-        public async Task<String> convertImage() {
-            RandomAccessStreamReference rasr = RandomAccessStreamReference.CreateFromFile(getImage());
-            var streamWithContent = await rasr.OpenReadAsync();
-            byte[] buffer = new byte[streamWithContent.Size];
-            await streamWithContent.ReadAsync(buffer.AsBuffer(), (uint)streamWithContent.Size, InputStreamOptions.None);
-
-            // Convert byte[] to Base64 String
-            return Convert.ToBase64String(buffer);
-        }
-
-        public async Task<byte[]> convertToByte() {
+        public async Task<byte[]> convertImageToByte() {
             RandomAccessStreamReference rasr = RandomAccessStreamReference.CreateFromFile(getImage());
             var streamWithContent = await rasr.OpenReadAsync();
             byte[] buffer = new byte[streamWithContent.Size];
