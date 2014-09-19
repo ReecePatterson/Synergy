@@ -24,7 +24,7 @@ using Windows.UI.Xaml.Navigation;
 namespace RiverWatch_Windows_Phone_App
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// An empty page that can be used on its own or navigated to within a Frame. TDODO CHANGE THIS
     /// </summary>
     public sealed partial class UnsentReportsPage : Page
     {
@@ -33,8 +33,6 @@ namespace RiverWatch_Windows_Phone_App
         private List<ListViewItem> reportItems = new List<ListViewItem>();
 
         //Page design for dynamically changing it
-        private BitmapImage deleteImageSource = new BitmapImage();
-        private Color deleteBackground = Color.FromArgb(0xFF, 0x5F, 0x9F, 0x9F);//#5F9F9F
         private Color itemBackground = Color.FromArgb(0xFF, 0xAD, 0xD8, 0xE6);//"#ADD8E6"
 
 
@@ -42,15 +40,6 @@ namespace RiverWatch_Windows_Phone_App
         {
             this.InitializeComponent();
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
-            try
-            {
-                deleteImageSource = new BitmapImage();
-                deleteImageSource.UriSource = (new Uri(@"ms-appx:///Assets/deleteIcon.png"));
-            }
-            catch (ArgumentException e)
-            {
-                Debug.WriteLine("DELETE IMAGE FAILED TO LOAD");//image not found!
-            }
         }
 
         void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
@@ -121,9 +110,6 @@ namespace RiverWatch_Windows_Phone_App
             UnsentRportList.ItemsSource = reportItems;
         }
 
-        private void DeleteReport_Click(object sender, RoutedEventArgs e)
-        {
 
-        }
     }
 }
