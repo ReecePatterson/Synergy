@@ -125,6 +125,7 @@
     <Content Include="Assets\cameraIconReport.png" />
     <Content Include="Assets\cameraIcon.png" />
     <Content Include="Assets\DarkGray.png" />
+    <Content Include="Assets\deleteIcon.png" />
     <Content Include="Assets\descriptionIcon.png" />
     <Content Include="Assets\hashtagIcon.png" />
     <Content Include="Assets\LightGray.png" />

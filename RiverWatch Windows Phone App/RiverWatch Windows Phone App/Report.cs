@@ -80,7 +80,7 @@ namespace RiverWatch_Windows_Phone_App
             //StorageFile sf = ApplicationData.Current.LocalFolder.CreateFileAsync("");
         //}
 
-        public byte[] convertToSave()
+        public String convertToSave()
         {
             String returnString = "";
             
@@ -107,7 +107,7 @@ namespace RiverWatch_Windows_Phone_App
 
             // write water quality report
 
-            return GetBytes(returnString);
+            return returnString;
         }
 
         /* This method is used to build up a string that will contain the geolocation data, tags, description of
