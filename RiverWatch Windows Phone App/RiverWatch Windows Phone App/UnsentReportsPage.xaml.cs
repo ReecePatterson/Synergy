@@ -77,7 +77,7 @@ namespace RiverWatch_Windows_Phone_App
             reportItems.Clear();
             
             StorageFolder unsentReportFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Unsent_Reports", CreationCollisionOption.OpenIfExists);
-            reports = await unsentReportFolder.GetFilesAsync();
+            reports = await unsentReportFolder.GetFilesAsync(); //TODO change this to be actual reports
             for (int i = 0; i < reports.Count;i++ )
             {
                 //Read file, split itno info bits.
@@ -100,14 +100,25 @@ namespace RiverWatch_Windows_Phone_App
 
                 //List View Item (outer wrapper)
                 ListViewItem currFileItem = new ListViewItem();
+                //currFileItem.Name = fileContent.getName;
                 currFileItem.Background = new SolidColorBrush(itemBackground);
                 currFileItem.Content = previewImage;
                 currFileItem.Height = 100;
                 currFileItem.Margin = new Thickness(0, 5, 0, 5);
+                currFileItem.Tapped +=currFileItem_Tapped;
 
                 reportItems.Add(currFileItem);
             }
             UnsentRportList.ItemsSource = reportItems;
+        }
+
+        private void currFileItem_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            if (!(sender is ListViewItem))
+            {
+                return;
+            }
+            //goto new page with current report
         }
 
 
