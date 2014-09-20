@@ -239,7 +239,9 @@ namespace RiverWatch_Windows_Phone_App
             double lat = Double.Parse(report.getLatitude());
             double longi = Double.Parse(report.getLongitude());
 
-            if (lat >= northwestCornerLat && lat <= southeastCornerLat && longi <= northwestCornerLong && longi >= southeastCornerLong)
+            //-41.2899712972288 174.767874760309
+
+            if (lat <= northwestCornerLat && lat >= southeastCornerLat && longi <= northwestCornerLong && longi >= southeastCornerLong)
                 return true;
 
             Debug.WriteLine(lat + " " + longi);
