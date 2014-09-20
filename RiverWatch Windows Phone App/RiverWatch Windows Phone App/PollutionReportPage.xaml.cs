@@ -21,6 +21,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.Phone.UI.Input;
 using System.Diagnostics;
 using Windows.Storage;
+using Windows.UI.Popups;
 
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
@@ -229,6 +230,23 @@ namespace RiverWatch_Windows_Phone_App
             }
         }
 
+        //fields for the bounding box for geofencing
+        private readonly double northwestCornerLat = -33.681528;
+        private readonly double northwestCornerLong = 166.425247;
+        private readonly double southeastCornerLat = -48.161669;
+        private readonly double southeastCornerLong = 179.098592;
+        private Boolean isWithinNewZealand() {
+            double lat = Double.Parse(report.getLatitude());
+            double longi = Double.Parse(report.getLongitude());
+
+            if (lat >= northwestCornerLat && lat <= southeastCornerLat && longi <= northwestCornerLong && longi >= southeastCornerLong)
+                return true;
+
+            Debug.WriteLine(lat + " " + longi);
+
+            return false;
+        }
+
         private async void checkGeolocation()
         {
             Debug.WriteLine("geolocation search started");
@@ -237,6 +255,14 @@ namespace RiverWatch_Windows_Phone_App
                 await Task.Delay(2000);
                 //TODO add timeout
             }
+
+            //check if within NZ
+            Boolean withinNewZealand = isWithinNewZealand();
+            if (!withinNewZealand) {
+                // present error message
+                promptOutOfNz();
+            }
+
             Debug.WriteLine("geolocation ready");
             UpdatePollutionReport();
         }
@@ -330,6 +356,35 @@ namespace RiverWatch_Windows_Phone_App
         }
 
         void HardwareButtons_DisableCameraButton(object sender, CameraEventArgs e) {
+        }
+
+        // prompts not in NZ
+
+        private async void promptOutOfNz() {
+            // Create the message dialog and set its content
+            var messageDialog = new MessageDialog("Coordinates are not within New Zealand.\nThis app is intended for use in New Zealand only.");
+
+            // Add commands and set their callbacks; both buttons use the same callback function instead of inline event handlers
+
+            messageDialog.Commands.Add(new UICommand(
+                "Okay",
+                new UICommandInvokedHandler(this.OutOfNzInvokedHandler)));
+            
+
+            // Show the message dialog
+            await messageDialog.ShowAsync();
+        }
+
+        private void OutOfNzInvokedHandler(IUICommand command) {
+            // Display message showing the label of the command that was invoked
+            if (command.Label.Equals("Okay")) {
+                // discard report and go back to hub
+                report.discardReport(true);
+                Frame.Navigate(typeof(HubPage));
+            }
+            else {
+                // Do nothing
+            }
         }
     }
 }
