@@ -241,7 +241,7 @@ namespace RiverWatch_Windows_Phone_App
 
             //-41.2899712972288 174.767874760309
 
-            if (lat <= northwestCornerLat && lat >= southeastCornerLat && longi <= northwestCornerLong && longi >= southeastCornerLong)
+            if (lat <= northwestCornerLat && lat >= southeastCornerLat && longi >= northwestCornerLong && longi <= southeastCornerLong)
                 return true;
 
             Debug.WriteLine(lat + " " + longi);
