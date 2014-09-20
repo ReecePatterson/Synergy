@@ -250,21 +250,22 @@ namespace RiverWatch_Windows_Phone_App
             this.CommandBar.Visibility = Visibility.Collapsed;
 
             // wait for a bit
-            await Task.Delay(2000);
+            //await Task.Delay(2000);
 
             // get byte stream of report
-            byte[] fileBytes = report.convertToSave();
+            //byte[] fileBytes = report.convertToSave();
+            string fileContents = report.convertToSave();
 
             // create a file to save the report in, put in unsent reports
             StorageFolder unsentFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Unsent_Reports", CreationCollisionOption.OpenIfExists);
             var file = await unsentFolder.CreateFileAsync(report.getReportName(),CreationCollisionOption.ReplaceExisting);
 
             // write byte stream to file
-            using (var s = await file.OpenStreamForWriteAsync())
+            using (StreamWriter s = new StreamWriter(await file.OpenStreamForWriteAsync()))
             {
-                s.Write(fileBytes, 0, fileBytes.Length);
+                s.Write(fileContents);
+                s.Dispose();
             }
-
             //await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
 
             // tell user that report has been saved
