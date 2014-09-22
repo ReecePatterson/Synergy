@@ -41,7 +41,42 @@ namespace RiverWatch_Windows_Phone_App
 
         public Report()
         {
+        }
 
+        public Report(String savedReportString) {
+            int count = 0;
+            string[] reportComponents = savedReportString.Split(new String[] { ":~:" }, StringSplitOptions.None);
+
+
+            loadImage(reportComponents[count++]);
+            longi = reportComponents[count++];
+            latit = reportComponents[count++];
+
+            int noTags = Int32.Parse(reportComponents[3]);
+            for (int i = 0; i < noTags; i++) {
+                tags.Add(reportComponents[count++]);
+            }
+
+            description = reportComponents[count];
+
+            imageReady = true;
+            geolocationReady = true;
+            tagsReady = true;
+            descriptionReady = true;
+        }
+
+        private async void loadImage(String imageName){
+            pollutionImage = (await ApplicationData.Current.LocalFolder.GetFileAsync(imageName));
+        } 
+
+        public static Boolean isInteger(String s) {
+            try {
+                Int32.Parse(s);
+            }catch (FormatException e) {
+                return false;
+            }
+
+            return true;
         }
 
         public Boolean isReportReady()
@@ -85,30 +120,28 @@ namespace RiverWatch_Windows_Phone_App
             String returnString = "";
             
             // write path
-            returnString += this.pollutionImage.Path + ":~:";
+            //returnString += this.pollutionImage.Path + ":~:";
+            returnString += this.pollutionImage.Name + ":~:";
 
             // write geo
             returnString += this.latit + ":~:";
             returnString += this.longi + ":~:";
 
             // write tags if any
-            if (this.isTagsReady()) {
-                returnString += this.tags.Count + ":~:";
+            returnString += this.tags.Count + ":~:";
 
-                foreach (String t in tags) {
-                    returnString += t + ":~:";
-                }
+            foreach (String t in tags) {
+                returnString += t + ":~:";
             }
 
             // write desc if any
-            if (this.isDescriptionReady()) {
-                returnString += this.description;
-            }
+            returnString += this.description;
 
             // write water quality report
 
             return returnString;
         }
+
 
         /* This method is used to build up a string that will contain the geolocation data, tags, description of
          * this report that will be used when uploading to the website

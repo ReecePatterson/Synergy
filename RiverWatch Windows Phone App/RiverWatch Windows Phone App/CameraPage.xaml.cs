@@ -191,6 +191,10 @@ namespace RiverWatch_Windows_Phone_App
             await mediaCapture.StartPreviewAsync();
         }
 
+        async void startCamera() {
+
+        }
+
         async void CaptureImage_Click(object sender, RoutedEventArgs e)
         {
             ImageEncodingProperties imgFormat = ImageEncodingProperties.CreateJpeg();
