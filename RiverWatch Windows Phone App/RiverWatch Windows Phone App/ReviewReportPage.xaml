@@ -1,0 +1,40 @@
+﻿<Page
+    x:Class="RiverWatch_Windows_Phone_App.BlankPage1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:RiverWatch_Windows_Phone_App"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <TextBlock x:Name="PageTitle" FontSize="25" Margin="10,0,0,0"></TextBlock>
+
+        <Grid x:Name="PhotoGrid" Background="#ADD8E6" VerticalAlignment="Top" Margin="60,50,10,0" Height="90">
+            <Image x:Name="imagePreview" Stretch="UniformToFill" Margin="5,5,5,5"/>
+        </Grid>
+
+        <Grid x:Name="GeolocateGrid" Background="#ADD8E6" VerticalAlignment="Top" Margin="60,150,10,0" Height="90">
+            <TextBlock x:Name="GeolocationToolTip" FontSize="20" Margin="20,18,0,0" Foreground="White"></TextBlock>
+        </Grid>
+
+        <Grid x:Name="TagsGrid" Background="#ADD8E6" VerticalAlignment="Top" Margin="60,250,10,0" Height="90">
+            <TextBlock x:Name="TagsToolTip" FontSize="20" Margin="20,18,20,0" Foreground="White">No Tags</TextBlock>
+        </Grid>
+
+        <Grid x:Name="DescriptionGrid" Background="#ADD8E6" VerticalAlignment="Top" Margin="60,350,10,0" Height="90">
+            <TextBlock x:Name="DescriptionToolTip" FontSize="20" Margin="20,18,20,10" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" Foreground="White">No Description</TextBlock>
+        </Grid>
+
+        <Grid x:Name="WaterQualityGrid" Background="#ADD8E6" VerticalAlignment="Top" Margin="60,450,10,0" Height="90">
+            <TextBlock x:Name="WaterQualityToolTip" FontSize="18" Margin="20,18,0,0" Foreground="White">No Water Quality Information</TextBlock>
+        </Grid>
+
+        <Rectangle HorizontalAlignment="Left" Height="100" Margin="-85,298,0,0" VerticalAlignment="Top" Width="100"/>
+        <AppBarButton x:Name="ReturnButton" HorizontalAlignment="Left" Icon="Back" Label="appbarbutton" Margin="5,40,0,0" VerticalAlignment="Top" IsCompact="True" Click="ReturnButton_Click"/>
+
+        <AppBarButton x:Name="SubmitButton" Icon="Send" VerticalAlignment="Bottom" HorizontalAlignment="Right" Visibility="Visible" Click="SubmitReport_Click"/>
+        <AppBarButton x:Name="DeleteButton" Icon="Delete" VerticalAlignment="Bottom" HorizontalAlignment="Right" Visibility="Visible" Click="DeleteReport_Click" Margin="0,0,80,0"/>
+    </Grid>
+</Page>
