@@ -47,22 +47,28 @@ namespace RiverWatch_Windows_Phone_App
             int count = 0;
             string[] reportComponents = savedReportString.Split(new String[] { ":~:" }, StringSplitOptions.None);
 
-
+           
             loadImage(reportComponents[count++]);
+
             longi = reportComponents[count++];
             latit = reportComponents[count++];
+            
+            int noTags = Int32.Parse(reportComponents[count++]);
 
-            int noTags = Int32.Parse(reportComponents[3]);
-            for (int i = 0; i < noTags; i++) {
-                tags.Add(reportComponents[count++]);
+            try
+            {
+                for (int i = 0; i < noTags; i++)
+                {
+                    tags.Add(reportComponents[count++]);
+                    tagsReady = true;
+                }
+                 description = reportComponents[count];
+                 descriptionReady = true;
             }
-
-            description = reportComponents[count];
-
+            catch (NullReferenceException e) { Debug.WriteLine("Reached end of input String"); }
+        
             imageReady = true;
             geolocationReady = true;
-            tagsReady = true;
-            descriptionReady = true;
         }
 
         private async void loadImage(String imageName){
@@ -128,10 +134,17 @@ namespace RiverWatch_Windows_Phone_App
             returnString += this.longi + ":~:";
 
             // write tags if any
-            returnString += this.tags.Count + ":~:";
-
-            foreach (String t in tags) {
-                returnString += t + ":~:";
+            if (this.tags == null)
+            {
+                returnString += 0 + ":~:";
+            }
+            else
+            {
+                returnString += this.tags.Count + ":~:";
+                foreach (String t in tags)
+                {
+                    returnString += t + ":~:";
+                }
             }
 
             // write desc if any

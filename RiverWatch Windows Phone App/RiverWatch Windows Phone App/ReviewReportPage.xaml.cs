@@ -22,10 +22,10 @@ namespace RiverWatch_Windows_Phone_App
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class BlankPage1 : Page
+    public sealed partial class ReviewReportPage : Page
     {
         private Report currentReport;
-        public BlankPage1()
+        public ReviewReportPage()
         {
             this.InitializeComponent();
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
@@ -167,12 +167,14 @@ namespace RiverWatch_Windows_Phone_App
 
         private void SubmitReport_Click(object sender, RoutedEventArgs e)
         {
-
+            //submit report
+            Frame.Navigate(typeof(UnsentReportsPage));
         }
 
         private void DeleteReport_Click(object sender, RoutedEventArgs e)
         {
-
+            currentReport.discardReport(true);
+            Frame.Navigate(typeof(UnsentReportsPage));
         }
     }
 }

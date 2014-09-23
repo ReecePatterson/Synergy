@@ -10,6 +10,7 @@ using Windows.Foundation.Collections;
 using Windows.Phone.UI.Input;
 using Windows.Storage;
 using Windows.UI;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -28,8 +29,8 @@ namespace RiverWatch_Windows_Phone_App
     /// </summary>
     public sealed partial class UnsentReportsPage : Page
     {
-        
-        private IReadOnlyList<StorageFile> reports;
+        private List<Report> reports = new List<Report>();
+        private IReadOnlyList<StorageFile> reportFiles;
         private List<ListViewItem> reportItems = new List<ListViewItem>();
 
         //Page design for dynamically changing it
@@ -77,36 +78,41 @@ namespace RiverWatch_Windows_Phone_App
             reportItems.Clear();
             
             StorageFolder unsentReportFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Unsent_Reports", CreationCollisionOption.OpenIfExists);
-            reports = await unsentReportFolder.GetFilesAsync(); //TODO change this to be actual reports
-            for (int i = 0; i < reports.Count;i++ )
+            reportFiles = await unsentReportFolder.GetFilesAsync(); //TODO change this to be actual reports
+            for (int i = 0; i < reportFiles.Count;i++ )
             {
                 //Read file, split itno info bits.
-                StorageFile currFile = reports.ElementAt(i);
+                
+                
+                StorageFile currFile = reportFiles.ElementAt(i);
                 string fileContent;
                 using (StreamReader s = new StreamReader(await currFile.OpenStreamForReadAsync()))
                 {
                     fileContent = await s.ReadToEndAsync();
+                    s.Dispose();
                 }
                 Debug.WriteLine(fileContent + "\n");
-                string[] reportComponents = fileContent.Split(new String[]{":~:"},StringSplitOptions.None);
+                Report currReport = new Report(fileContent);
+                //string[] reportComponents = fileContent.Split(new String[]{":~:"},StringSplitOptions.None);
                 //create preview
 
                 //image block preview
                 Image previewImage = new Image();
-                previewImage.Source = new BitmapImage(new Uri(reportComponents[0]));
+                previewImage.Source = new BitmapImage(new Uri(currReport.getImage().Path));
                 previewImage.HorizontalAlignment = HorizontalAlignment.Left;
                 previewImage.Stretch = Stretch.UniformToFill;
                 previewImage.Margin = new Thickness(5,5,5,5);
 
                 //List View Item (outer wrapper)
                 ListViewItem currFileItem = new ListViewItem();
-                //currFileItem.Name = fileContent.getName;
+                currFileItem.Name = currReport.getReportName();
                 currFileItem.Background = new SolidColorBrush(itemBackground);
                 currFileItem.Content = previewImage;
                 currFileItem.Height = 100;
                 currFileItem.Margin = new Thickness(0, 5, 0, 5);
                 currFileItem.Tapped +=currFileItem_Tapped;
 
+                reports.Add(currReport);
                 reportItems.Add(currFileItem);
             }
             UnsentRportList.ItemsSource = reportItems;
@@ -119,6 +125,67 @@ namespace RiverWatch_Windows_Phone_App
                 return;
             }
             //goto new page with current report
+            ListViewItem senderLVI = (ListViewItem) sender;
+            foreach(Report currReport in reports){
+                if (currReport.getReportName() == senderLVI.Name)
+                {
+                    Frame.Navigate(typeof (ReviewReportPage), currReport);
+                    return; //report found, break out of the mehtod
+                }
+            }
+        }
+
+        private async void SendAllButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageDialog sendConfirm = new MessageDialog("Are you sure you wish to send all reports?", "Send All?");
+            sendConfirm.Commands.Add(new UICommand("Send", new UICommandInvokedHandler(this.SendInvokedHandler)));
+            sendConfirm.Commands.Add(new UICommand("No"));
+
+            await sendConfirm.ShowAsync();
+        }
+
+        private async void SendInvokedHandler(IUICommand command)
+        {
+            if (command.Label == "Send")
+            {
+                //SEND ALL REPORTS
+
+                foreach (Report currReport in reports)
+                {
+                    currReport.discardReport(true);
+                }
+                foreach (StorageFile currFile in reportFiles)
+                {
+                    await currFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                }
+            }
+        }
+
+        private async void DeleteAllButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageDialog deleteConfirm = new MessageDialog("Are you sure you wish to delete all unsaved reports?", "Delete All?");
+            deleteConfirm.Commands.Add(new UICommand("Delete", new UICommandInvokedHandler(this.DeleteInvokedHandler)));
+            deleteConfirm.Commands.Add(new UICommand("No"));
+
+            await deleteConfirm.ShowAsync();
+
+            
+        }
+
+        private async void DeleteInvokedHandler(IUICommand command)
+        {
+            if (command.Label == "Delete")
+            {
+
+                foreach (Report currReport in reports)
+                {
+                    currReport.discardReport(true);
+                }
+                foreach (StorageFile currFile in reportFiles)
+                {
+                    await currFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                }
+            }
         }
 
 

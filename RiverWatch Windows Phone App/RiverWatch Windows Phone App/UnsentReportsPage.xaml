@@ -9,8 +9,8 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton Icon="Send" Label="Send All"/>
-            <AppBarButton Icon="Delete" Label="Delete All"/>
+            <AppBarButton x:Name="SendAllButton" Icon="Send" Label="Send All" Click="SendAllButton_Click"/>
+            <AppBarButton x:Name="DeleteAllButton" Icon="Delete" Label="Delete All" Click="DeleteAllButton_Click"/>
         </CommandBar>
     </Page.BottomAppBar>
 
