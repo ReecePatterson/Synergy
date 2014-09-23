@@ -252,10 +252,37 @@ namespace RiverWatch_Windows_Phone_App
         private async void checkGeolocation()
         {
             Debug.WriteLine("geolocation search started");
+
+            Boolean timeOut = false;
+
+            // in 1 minute, we do 30 attempts to check geolocation
+            // if 5 minutes pass, stop finding location
+            int tryLimit = 30*5;
+            int tryCount = 0;
+
             while (!report.isGeolocationReady())
             {
+                tryCount++;
+                if (timeOut)
+                {
+                    break;
+                }
+                
+                // wait for a bit
                 await Task.Delay(2000);
-                //TODO add timeout
+
+                if (tryCount >= tryLimit)
+                {
+                    timeOut = true;
+                }
+            }
+
+            if (timeOut)
+            {
+                // mention to user that the app 
+                // is experiencing problems finding 
+                // the location.
+                promptCantFindLocation();
             }
 
             //check if within NZ
@@ -387,6 +414,28 @@ namespace RiverWatch_Windows_Phone_App
             else {
                 // Do nothing
             }
+        }
+
+        private async void promptCantFindLocation()
+        {
+            // Create the message dialog and set its content
+            var messageDialog = new MessageDialog("RiverWatch cannot find your current location.");
+
+            // Add commands and set their callbacks; both buttons use the same callback function instead of inline event handlers
+
+            messageDialog.Commands.Add(new UICommand(
+                "Okay",
+                new UICommandInvokedHandler(this.CantFindLocationInvokedHandler)));
+
+            // Show the message dialog
+            await messageDialog.ShowAsync();
+        }
+
+        private void CantFindLocationInvokedHandler(IUICommand command)
+        {
+            // discard report and go back to hub
+            report.discardReport(true);
+            Frame.Navigate(typeof(HubPage));
         }
     }
 }
