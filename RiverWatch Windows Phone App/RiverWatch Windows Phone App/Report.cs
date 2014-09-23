@@ -43,37 +43,9 @@ namespace RiverWatch_Windows_Phone_App
         {
         }
 
-        public Report(String savedReportString) {
-            int count = 0;
-            string[] reportComponents = savedReportString.Split(new String[] { ":~:" }, StringSplitOptions.None);
-
-           
-            loadImage(reportComponents[count++]);
-
-            longi = reportComponents[count++];
-            latit = reportComponents[count++];
-            
-            int noTags = Int32.Parse(reportComponents[count++]);
-
-            try
-            {
-                for (int i = 0; i < noTags; i++)
-                {
-                    tags.Add(reportComponents[count++]);
-                    tagsReady = true;
-                }
-                 description = reportComponents[count];
-                 descriptionReady = true;
-            }
-            catch (NullReferenceException e) { Debug.WriteLine("Reached end of input String"); }
         
-            imageReady = true;
-            geolocationReady = true;
-        }
 
-        private async void loadImage(String imageName){
-            pollutionImage = (await ApplicationData.Current.LocalFolder.GetFileAsync(imageName));
-        } 
+
 
         public static Boolean isInteger(String s) {
             try {
@@ -335,6 +307,14 @@ namespace RiverWatch_Windows_Phone_App
             return true;
         }
 
+        public Boolean setGeolocation(String longi, String latit)
+        {
+            this.latit = longi;
+            this.longi = latit;
+            this.geolocationReady = true;
+            return true;
+        }
+
         public Boolean setTags(List<String> taglist)
         {
             this.tags = taglist;
@@ -364,6 +344,34 @@ namespace RiverWatch_Windows_Phone_App
         public void setDescriptionNotReady()
         {
             this.descriptionReady = false;
+        }
+
+        internal static async Task<Report> GenerateFromString(string savedReportString)
+        {
+            Report newReport = new Report();
+            int count = 0;
+            string[] reportComponents = savedReportString.Split(new String[] { ":~:" }, StringSplitOptions.None);
+            newReport.setImage(await ApplicationData.Current.LocalFolder.GetFileAsync(reportComponents[count++]));
+
+            string logit = reportComponents[count++];
+            string latit = reportComponents[count++];
+            newReport.setGeolocation(logit, latit);
+
+            int noTags = Int32.Parse(reportComponents[count++]);
+
+            try
+            {
+                List<string> tags = new List<string>();
+                for (int i = 0; i < noTags; i++)
+                {
+                    tags.Add(reportComponents[count++]);
+                }
+                newReport.setTags(tags);
+                newReport.setDescription(reportComponents[count]);
+            }
+            catch (NullReferenceException e) { Debug.WriteLine("Reached end of input String"); }
+
+            return newReport;
         }
     }
 }

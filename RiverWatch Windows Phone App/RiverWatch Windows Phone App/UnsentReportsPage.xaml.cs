@@ -92,10 +92,10 @@ namespace RiverWatch_Windows_Phone_App
                     s.Dispose();
                 }
                 Debug.WriteLine(fileContent + "\n");
-                Report currReport = new Report(fileContent);
+                //Report currReport = new Report(fileContent);
+                Report currReport = await Report.GenerateFromString(fileContent);
                 //string[] reportComponents = fileContent.Split(new String[]{":~:"},StringSplitOptions.None);
                 //create preview
-
                 //image block preview
                 Image previewImage = new Image();
                 previewImage.Source = new BitmapImage(new Uri(currReport.getImage().Path));
@@ -127,6 +127,7 @@ namespace RiverWatch_Windows_Phone_App
             //goto new page with current report
             ListViewItem senderLVI = (ListViewItem) sender;
             foreach(Report currReport in reports){
+                Debug.WriteLine("%s compared to %s", currReport.getReportName(), senderLVI.Name);
                 if (currReport.getReportName() == senderLVI.Name)
                 {
                     Frame.Navigate(typeof (ReviewReportPage), currReport);

@@ -7,6 +7,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:data="using:RiverWatch_Windows_Phone_App.Data"
    >
+    <Page.Background>
+        <ImageBrush Stretch="Fill" ImageSource="Assets/Background.png"/>
+    </Page.Background>
 
     <Grid>
         <Hub Header="RiverWatch">
