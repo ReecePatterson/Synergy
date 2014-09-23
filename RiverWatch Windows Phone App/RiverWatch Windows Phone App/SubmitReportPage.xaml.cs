@@ -297,7 +297,6 @@ namespace RiverWatch_Windows_Phone_App
             // discard report and go back to hub
             report.discardReport(true);
             Frame.Navigate(typeof(HubPage));
-            
         }
 
         private void NoButton_Click(object sender, RoutedEventArgs e)
