@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Devices.Bluetooth;
+using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Devices.Enumeration;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Networking.Proximity;
 using Windows.Phone.UI.Input;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -45,16 +49,18 @@ namespace RiverWatch_Windows_Phone_App
         string deviceName = "Philips AEA1000";
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
-            foreach (DeviceInformation di in await DeviceInformation.FindAllAsync(BluetoothLEDevice.GetDeviceSelector()))
-            {
-                BluetoothLEDevice bleDevice = await BluetoothLEDevice.FromIdAsync(di.Id);
-                if (bleDevice.Name == deviceName)
-                {
-                    currentDevice = bleDevice;
-                    break;
-                }
-            }
+            
+        }
 
+        
+
+        private void ReturnButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(HubPage));
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
             List<string> serviceList = new List<string>();
             foreach (var service in currentDevice.GattServices)
             {
@@ -132,12 +138,26 @@ namespace RiverWatch_Windows_Phone_App
             }
             MessageDialog md = new MessageDialog(String.Join("\r\n", serviceList));
             md.ShowAsync();
-
         }
 
-        private void ReturnButton_Click(object sender, RoutedEventArgs e)
+
+        //Windows.Devices.Bluetooth.RfcommDeviceService _service;
+        //Windows.Networking.Sockets.StreamSocket _socket;
+
+        async void Initialize()
         {
-            Frame.Navigate(typeof(HubPage));
+            // Enumerate devices with the object push service
+            var services =
+                await Windows.Devices.Enumeration.DeviceInformation.FindAllAsync();
+        }
+
+        private async void ConnectButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.thingsFound.Text = ">>> Finding bluetooth people\n";
+
+            
+
+            this.thingsFound.Text += "Done";
         }
     }
 }

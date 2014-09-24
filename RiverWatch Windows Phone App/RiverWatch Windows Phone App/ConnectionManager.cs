@@ -16,6 +16,7 @@ namespace RiverWatch_Windows_Phone_App
     /// </summary>
     public class ConnectionManager
     {
+        /*
         /// <summary>
         /// Socket used to communicate with Arduino.
         /// </summary>
@@ -142,5 +143,6 @@ namespace RiverWatch_Windows_Phone_App
             }
             return sentCommandSize;
         }
+         * * */
     }
 }

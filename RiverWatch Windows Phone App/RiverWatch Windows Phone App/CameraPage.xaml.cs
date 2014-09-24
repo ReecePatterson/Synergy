@@ -48,6 +48,7 @@ namespace RiverWatch_Windows_Phone_App
         {
             this.InitializeComponent();
             Application.Current.Resuming += new EventHandler<object>(AppResume);
+            Application.Current.Suspending += new SuspendingEventHandler(AppSuspend);
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
             HardwareButtons.CameraPressed += HardwareButtons_CameraPressed;
             HardwareButtons.CameraHalfPressed += HardwareButtons_CameraHalfPressed;
@@ -115,7 +116,7 @@ namespace RiverWatch_Windows_Phone_App
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             // Upon navigation TOWARDS the Camera Page, st
-            photoCapture();
+            StartCamera();
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -146,14 +147,22 @@ namespace RiverWatch_Windows_Phone_App
             }
         }
 
+
         void HardwareButtons_CameraHalfPressed(object sender, CameraEventArgs e) {
         }
 
         private void AppResume(object sender, object e)
         {
-            stopCamera();
+            StartCamera();
             
         }
+
+        private void AppSuspend(object sender, object e)
+        {
+            stopCamera();
+        }
+
+        
 
         private static async Task<DeviceInformation> GetCameraID(Windows.Devices.Enumeration.Panel desired)
         {
@@ -172,7 +181,7 @@ namespace RiverWatch_Windows_Phone_App
 
         MediaCapture mediaCapture;
 
-        async void photoCapture()
+        async void StartCamera()
         {
             var cameraID = await GetCameraID(Windows.Devices.Enumeration.Panel.Back);
             mediaCapture = new MediaCapture();
