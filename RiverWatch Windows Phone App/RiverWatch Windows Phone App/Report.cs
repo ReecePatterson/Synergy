@@ -13,6 +13,8 @@ using System.Diagnostics;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace RiverWatch_Windows_Phone_App
 {
@@ -165,6 +167,38 @@ namespace RiverWatch_Windows_Phone_App
             await streamWithContent.ReadAsync(buffer.AsBuffer(), (uint)streamWithContent.Size, InputStreamOptions.None);
 
             return buffer;
+        }
+
+        private readonly Uri uploadAddress = new Uri("http://www-test.wainz.org.nz/api/image");
+
+        public async Task<Boolean> UploadToServer() {
+            HttpClient client = new HttpClient();
+            client.BaseAddress = uploadAddress;
+            MultipartFormDataContent form = new MultipartFormDataContent();
+
+            //create the string for description, tags, and geolocation
+            HttpContent content = new StringContent(await ConvertReportInformationForUpload());
+            form.Add(content, "\"data\"");
+            //convert image into byte array so we can create a memorystream
+            HttpContent image = new StreamContent(new MemoryStream(await convertImageToByte()));
+            image.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data") {
+                Name = "\"image\"",
+                FileName = "\"" + pollutionImage.Name + "\""
+            };
+            image.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
+            form.Add(image);
+
+
+            Debug.WriteLine(client.DefaultRequestHeaders.ToString());
+            Debug.WriteLine(form.Headers);
+            Debug.WriteLine((await form.ReadAsStringAsync()) + "\n");
+
+            //try and post to server
+            var response = await client.PostAsync(uploadAddress, form);
+
+            Debug.WriteLine(response);
+
+            return response.IsSuccessStatusCode;
         }
 
         public static Report byteStreamToReport()

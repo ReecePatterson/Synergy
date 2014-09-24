@@ -246,7 +246,8 @@ namespace RiverWatch_Windows_Phone_App
 
             Debug.WriteLine(lat + " " + longi);
 
-            return false;
+            //return false;  // MEANT TO BE THIS
+            return true; //for debugging change back to true
         }
 
         private async void checkGeolocation()
