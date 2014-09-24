@@ -16,6 +16,7 @@ using Windows.Media.Capture;
 using Windows.Media.MediaProperties;
 using Windows.Phone.UI.Input;
 using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -72,6 +73,9 @@ namespace RiverWatch_Windows_Phone_App
             await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().HideAsync();
         }
         
+        //field to store current angle that the phone is set so the image taken is encoded with this in mind
+        int currentAngle = 0;
+
         // For orientation Switching
         private async void OrientationChanged(object sender, SimpleOrientationSensorOrientationChangedEventArgs e) {
             // Set priority to Camera in order to avoid pulling from other UI elements at its runtime
@@ -82,18 +86,22 @@ namespace RiverWatch_Windows_Phone_App
                     case SimpleOrientation.NotRotated:
                         //Portrait Up 
                         cameraButton.RenderTransform = new RotateTransform() { Angle = 0 };
+                        currentAngle = 0;
                         break;
                     case SimpleOrientation.Rotated90DegreesCounterclockwise:
                         //LandscapeLeft 
                         cameraButton.RenderTransform = new RotateTransform() { Angle = 90 };
+                        currentAngle = 90;
                         break;
                     case SimpleOrientation.Rotated180DegreesCounterclockwise:
                         //PortraitDown 
                         cameraButton.RenderTransform = new RotateTransform() { Angle = 180 };
+                        currentAngle = 180;
                         break;
                     case SimpleOrientation.Rotated270DegreesCounterclockwise:
                         //LandscapeRight 
                         cameraButton.RenderTransform = new RotateTransform() { Angle = 270 };
+                        currentAngle = 270;
                         break;
                     case SimpleOrientation.Faceup:
                        // txtOrientation.Text = "Faceup";
@@ -170,7 +178,7 @@ namespace RiverWatch_Windows_Phone_App
 
         async void stopCamera()
         {
-            await mediaCapture.StopPreviewAsync();
+            //await mediaCapture.StopPreviewAsync();
             mediaCapture.Dispose();
         }
 
@@ -192,13 +200,29 @@ namespace RiverWatch_Windows_Phone_App
             //await mediaCapture.VideoDeviceController.SetMediaStreamPropertiesAsync(MediaStreamType.Photo, maxResolution);
 
 
-            //mediaCapture.SetPreviewRotation(VideoRotation.Clockwise90Degrees);
+            mediaCapture.SetPreviewRotation(VideoRotation.Clockwise90Degrees);
             CameraPreview.Source = mediaCapture;
             await mediaCapture.StartPreviewAsync();
         }
 
         async void CaptureImage_Click(object sender, RoutedEventArgs e)
         {
+            await mediaCapture.StopPreviewAsync();
+            switch(currentAngle){
+                case 0:
+                    mediaCapture.SetRecordRotation(VideoRotation.None);
+                    break;
+                case 90:
+                    mediaCapture.SetRecordRotation(VideoRotation.Clockwise90Degrees);
+                    break;
+                case 180:
+                    mediaCapture.SetRecordRotation(VideoRotation.Clockwise180Degrees);
+                    break;
+                case 270:
+                    mediaCapture.SetRecordRotation(VideoRotation.Clockwise270Degrees);
+                    break;
+            }
+
             ImageEncodingProperties imgFormat = ImageEncodingProperties.CreateJpeg();
 
             // find the time and date now

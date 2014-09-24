@@ -86,6 +86,12 @@ namespace RiverWatch_Windows_Phone_App
             UpdatePollutionReport();
         }
 
+        /**
+         * Updates the Current Pollution Report by checking if certain fields have been filled in.
+         * If they are not, their section within the page remains as the pre-programmed message.
+         * For Tags and Description sections, the option of removing the entered information is possible.
+         * Hence, we need this update.
+         */
         public void UpdatePollutionReport()
         {
             // display image
@@ -250,6 +256,10 @@ namespace RiverWatch_Windows_Phone_App
             return true; //for debugging change back to true
         }
 
+        /**
+         * After the photo has been taken, this method will check whether the attempted search for the GeoLocation has succeeded.
+         * Prompts the user if the Application is unable to do so.
+         */
         private async void checkGeolocation()
         {
             Debug.WriteLine("geolocation search started");

@@ -151,21 +151,59 @@ namespace RiverWatch_Windows_Phone_App
                 await Windows.Devices.Enumeration.DeviceInformation.FindAllAsync();
         }
 
+        bool _started = false;
+
         private async void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
             this.thingsFound.Text = ">>> Finding bluetooth people\n";
 
+            Windows.Networking.Proximity.PeerFinder.AllowBluetooth = true;
+
+            Windows.Networking.Proximity.PeerFinder.Start();
+            _started = true;
+
+            var peers = await PeerFinder.FindAllPeersAsync();
+           
+            for (int i = 0; i < peers.Count; i++)
+            {
+                ConnectToPeer(peers.ElementAt(i));
+            }
+            
+
+            /*
             String selector = BluetoothDevice.GetDeviceSelector();
             var devices = await DeviceInformation.FindAllAsync(selector);
 
             BluetoothDevice dev;
 
-            if (devices.Count > 0)
+            for (int i = 0; i < devices.Count; i++)
             {
-                dev = await BluetoothDevice.FromIdAsync(devices.ElementAt(0).Id);
+                dev = await BluetoothDevice.FromIdAsync(devices.ElementAt(i).Id);
+                this.thingsFound.Text += dev.Name + "\n";
             }
+             * */
 
             this.thingsFound.Text += "Done";
+        }
+
+        async private void ConnectToPeer(Windows.Networking.Proximity.PeerInformation peerInfo)
+        {
+            //WriteMessageText("Peer found. Connecting to " + peerInfo.DisplayName + "\n");
+            try
+            {
+                Windows.Networking.Sockets.StreamSocket socket =
+                    await Windows.Networking.Proximity.PeerFinder.ConnectAsync(peerInfo);
+
+                //WriteMessageText("Connection successful. You may now send messages.\n");
+                this.thingsFound.Text += "Connection successful. You may now send messages.";
+                //SendMessage(socket);
+            }
+            catch (Exception err)
+            {
+                //WriteMessageText("Connection failed: " + err.Message + "\n");
+            }
+
+            //requestingPeer = null;
         }
     }
 }
