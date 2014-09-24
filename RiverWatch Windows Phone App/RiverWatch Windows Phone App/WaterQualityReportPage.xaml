@@ -10,6 +10,9 @@
 
     <Grid>
         <TextBlock>This is the Water Quality Report Page</TextBlock>
+        <TextBlock x:Name="thingsFound" Text="Devices" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+        <Button x:Name="ConnectButton" Content="Connect" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="ConnectButton_Click"></Button>
+        <Button Content="Do Something" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Button_Click"></Button>
         <Button Content="Return" HorizontalAlignment="Left" Margin="20,170,0,0" VerticalAlignment="Top" Click="ReturnButton_Click"/>
     </Grid>
 </Page>
