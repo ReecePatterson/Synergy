@@ -48,7 +48,7 @@ namespace RiverWatch_Windows_Phone_App
         {
             this.InitializeComponent();
             Application.Current.Resuming += new EventHandler<object>(AppResume);
-            Application.Current.Suspending += new EventHandler<object>(AppSuspend);
+            Application.Current.Suspending += new SuspendingEventHandler(AppSuspend);
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
             HardwareButtons.CameraPressed += HardwareButtons_CameraPressed;
             HardwareButtons.CameraHalfPressed += HardwareButtons_CameraHalfPressed;
