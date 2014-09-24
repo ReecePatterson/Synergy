@@ -151,6 +151,10 @@ namespace RiverWatch_Windows_Phone_App
             {
                 //SEND ALL REPORTS
 
+                foreach (Report r in reports) {
+                   await r.UploadToServer();
+                }
+
                 foreach (Report currReport in reports)
                 {
                     currReport.discardReport(true);
@@ -159,6 +163,8 @@ namespace RiverWatch_Windows_Phone_App
                 {
                     await currFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
                 }
+
+                await refreshReportList();
             }
         }
 
@@ -186,6 +192,8 @@ namespace RiverWatch_Windows_Phone_App
                 {
                     await currFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
                 }
+
+                await refreshReportList();
             }
         }
 
