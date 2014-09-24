@@ -42,9 +42,11 @@ namespace RiverWatch_Windows_Phone_App
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            // When navigated to this Frame, try to fetch an existing list of selected Report Tags.
             Report report = e.Parameter as Report;
             List<String> li = report.getTags();
 
+            // If the list is not empty, match all contents of the list with our predetermined expected Tags.
             if (li != null)
             {
                 if (li.Contains("Cattle"))
@@ -88,6 +90,8 @@ namespace RiverWatch_Windows_Phone_App
         {
             List<String> tags = new List<String>();
 
+            // If the CheckBox # is checked, add that Checkbox # 's representative String to the List
+            // Can be improved to get the list of tags from the Web Server, instead of our hardcoded ones.
             if (tag1.IsChecked == true)
             {
                 tags.Add(tag1.Content.ToString());
@@ -121,6 +125,7 @@ namespace RiverWatch_Windows_Phone_App
                 tags.Add(tag8.Content.ToString());
             }
 
+            // After the list is completed, navigate back to Pollution Report Page with the list stored in a session
             Frame rootFrame = Window.Current.Content as Frame;
             if (rootFrame != null && rootFrame.CanGoBack)
             {
