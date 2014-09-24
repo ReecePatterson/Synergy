@@ -11,7 +11,7 @@
     <Grid>
         <Hub Header="RiverWatch">
             <Hub.Background>
-                <ImageBrush ImageSource="Assets/Background.png" Stretch="UniformToFill"/>
+                <ImageBrush ImageSource="ms-appx:/Assets/Background.png" Stretch="UniformToFill"/>
             </Hub.Background>
             <HubSection Header="Submit Report">
                 <DataTemplate>

@@ -76,6 +76,7 @@ namespace RiverWatch_Windows_Phone_App
         private async Task refreshReportList()
         {
             reportItems.Clear();
+            reports.Clear();
             
             StorageFolder unsentReportFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Unsent_Reports", CreationCollisionOption.OpenIfExists);
             reportFiles = await unsentReportFolder.GetFilesAsync(); //TODO change this to be actual reports
@@ -115,7 +116,7 @@ namespace RiverWatch_Windows_Phone_App
                 reports.Add(currReport);
                 reportItems.Add(currFileItem);
             }
-            UnsentRportList.ItemsSource = reportItems;
+            UnsentReportList.ItemsSource = reportItems;
         }
 
         private void currFileItem_Tapped(object sender, TappedRoutedEventArgs e)
@@ -164,7 +165,7 @@ namespace RiverWatch_Windows_Phone_App
                     await currFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
                 }
 
-                await refreshReportList();
+                Frame.Navigate(typeof(UnsentReportsPage));
             }
         }
 
@@ -192,8 +193,7 @@ namespace RiverWatch_Windows_Phone_App
                 {
                     await currFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
                 }
-
-                await refreshReportList();
+                Frame.Navigate(typeof(UnsentReportsPage));
             }
         }
 
