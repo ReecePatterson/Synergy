@@ -73,8 +73,10 @@ namespace RiverWatch_Windows_Phone_App
         
         // For orientation Switching
         private async void OrientationChanged(object sender, SimpleOrientationSensorOrientationChangedEventArgs e) {
+            // Set priority to Camera in order to avoid pulling from other UI elements at its runtime
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => {
                 SimpleOrientation orientation = e.Orientation;
+                // Changes Camera Object orientation depending on Phone orientation
                 switch (orientation) {
                     case SimpleOrientation.NotRotated:
                         //Portrait Up 
@@ -112,13 +114,13 @@ namespace RiverWatch_Windows_Phone_App
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            //this.thing.Text = "On Navigated To";
+            // Upon navigation TOWARDS the Camera Page, st
             photoCapture();
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            //this.thing.Text = "On Navigated From";
+            // Upon navigation AWAY from the Camera Page, either though BackPressed of CameraPressed,
             stopCamera();
             
         }
@@ -189,10 +191,6 @@ namespace RiverWatch_Windows_Phone_App
             mediaCapture.SetPreviewRotation(VideoRotation.Clockwise90Degrees);
             CameraPreview.Source = mediaCapture;
             await mediaCapture.StartPreviewAsync();
-        }
-
-        async void startCamera() {
-
         }
 
         async void CaptureImage_Click(object sender, RoutedEventArgs e)

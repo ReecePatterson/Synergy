@@ -59,6 +59,7 @@ namespace RiverWatch_Windows_Phone_App
             return true;
         }
 
+        // According to Client, the minimal requirement for a Report is a Photo and a Geolocation
         public Boolean isReportReady()
         {
             if (this.imageReady && this.geolocationReady)
@@ -91,16 +92,13 @@ namespace RiverWatch_Windows_Phone_App
             return this.descriptionReady;
         }
 
-        //public StorageFile saveReportToFile() {
-            //StorageFile sf = ApplicationData.Current.LocalFolder.CreateFileAsync("");
-        //}
-
+        // Converts Report to a string, formatted so that it can be later parsed as an unsent Report
+        // Only called when saving a report, not sending.
         public String convertToSave()
         {
             String returnString = "";
             
             // write path
-            //returnString += this.pollutionImage.Path + ":~:";
             returnString += this.pollutionImage.Name + ":~:";
 
             // write geo
@@ -160,6 +158,10 @@ namespace RiverWatch_Windows_Phone_App
 
         }
 
+        /**
+         * Converts the Report's stored photo into a byte array, 
+         * which is the website's desired format of photo storage. 
+        **/
         public async Task<byte[]> convertImageToByte() {
             RandomAccessStreamReference rasr = RandomAccessStreamReference.CreateFromFile(getImage());
             var streamWithContent = await rasr.OpenReadAsync();
@@ -171,9 +173,14 @@ namespace RiverWatch_Windows_Phone_App
 
         private readonly Uri uploadAddress = new Uri("http://www-test.wainz.org.nz/api/image");
 
+        /**
+         * Converts the Report to the Web Server's desired format, JSON.
+         * It then posts the JSON file to the upload address above.
+         **/
         public async Task<Boolean> UploadToServer() {
             HttpClient client = new HttpClient();
             client.BaseAddress = uploadAddress;
+            // In here, a MIME container is used to initialize the JSON form. 
             MultipartFormDataContent form = new MultipartFormDataContent();
 
             //create the string for description, tags, and geolocation
@@ -201,10 +208,6 @@ namespace RiverWatch_Windows_Phone_App
             return response.IsSuccessStatusCode;
         }
 
-        public static Report byteStreamToReport()
-        {
-            return null;
-        }
 
         static byte[] GetBytes(string str)
         {
@@ -220,6 +223,9 @@ namespace RiverWatch_Windows_Phone_App
             return new string(chars);
         }
 
+        /** 
+         * Deletes the contents of the entire Report object from the StorageFile
+         */
         public async void discardReport(Boolean deleteImage)
         {
             // partial checks
@@ -256,6 +262,10 @@ namespace RiverWatch_Windows_Phone_App
             date = "";
         }
 
+        /**
+         * Utilizes a GeoLocator Object to fetch the GeoPosition Object at the phone's current location,
+         * which contains both the Latitude and Longitude.
+         */
         private async Task getGeoPosition()
         {
             // initialise geolocation values
@@ -267,7 +277,9 @@ namespace RiverWatch_Windows_Phone_App
             geolocator.DesiredAccuracyInMeters = 80;
             Geoposition position = await geolocator.GetGeopositionAsync();
             //TODO check that this falls within new zealand!!!
-            this.latit = "" + position.Coordinate.Latitude; //TODO research if this is needs to be changed for updated releases point.position.latitude
+
+            //TODO research if this is needs to be changed for updated releases point.position.latitude
+            this.latit = "" + position.Coordinate.Latitude; 
             this.longi = "" + position.Coordinate.Longitude;
             this.geolocationReady = true;
         }
