@@ -36,6 +36,7 @@ namespace RiverWatch_Windows_Phone_App
         {
             this.InitializeComponent();
             this.Suspending += this.OnSuspending;
+            SuspensionManager.KnownTypes.Add(typeof(Report));
         }
 
         /// <summary>
