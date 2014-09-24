@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.Phone.UI.Input;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.Storage;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -25,6 +26,7 @@ namespace RiverWatch_Windows_Phone_App
     public sealed partial class ReviewReportPage : Page
     {
         private Report currentReport;
+        private StorageFile currentReportFile;
         public ReviewReportPage()
         {
             this.InitializeComponent();
@@ -165,8 +167,9 @@ namespace RiverWatch_Windows_Phone_App
             }
         }
 
-        private void SubmitReport_Click(object sender, RoutedEventArgs e)
+        private async void SubmitReport_Click(object sender, RoutedEventArgs e)
         {
+            await currentReport.UploadToServer();
             //submit report
             Frame.Navigate(typeof(UnsentReportsPage));
         }
