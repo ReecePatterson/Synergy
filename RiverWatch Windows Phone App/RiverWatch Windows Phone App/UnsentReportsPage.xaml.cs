@@ -19,6 +19,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Media.Animation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -106,7 +107,7 @@ namespace RiverWatch_Windows_Phone_App
 
                 //List View Item (outer wrapper)
                 ListViewItem currFileItem = new ListViewItem();
-                currFileItem.Name = currReport.getReportName();
+                currFileItem.Name = currFile.Name;
                 currFileItem.Background = new SolidColorBrush(itemBackground);
                 currFileItem.Content = previewImage;
                 currFileItem.Height = 100;
@@ -127,12 +128,11 @@ namespace RiverWatch_Windows_Phone_App
             }
             //goto new page with current report
             ListViewItem senderLVI = (ListViewItem) sender;
-            foreach(Report currReport in reports){
-                Debug.WriteLine("%s compared to %s", currReport.getReportName(), senderLVI.Name);
-                if (currReport.getReportName() == senderLVI.Name)
+            foreach(StorageFile currReportFile in reportFiles){
+                if (currReportFile.Name == senderLVI.Name)
                 {
-                    Frame.Navigate(typeof (ReviewReportPage), currReport);
-                    return; //report found, break out of the mehtod
+                    Frame.Navigate(typeof (ReviewReportPage), currReportFile);
+                    return; //report found, break out of the method
                 }
             }
         }
@@ -193,6 +193,11 @@ namespace RiverWatch_Windows_Phone_App
                 {
                     await currFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
                 }
+                foreach (ListViewItem listItem in UnsentReportList.Items)
+                {
+                    
+                }
+
                 Frame.Navigate(typeof(UnsentReportsPage));
             }
         }

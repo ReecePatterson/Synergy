@@ -15,6 +15,8 @@ using Windows.UI.Xaml.Navigation;
 using Windows.Phone.UI.Input;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.Storage;
+using Windows.UI.Xaml.Media.Animation;
+using System.Threading.Tasks;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -64,9 +66,9 @@ namespace RiverWatch_Windows_Phone_App
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e != null && e.Parameter is Report)
+            if (e != null && e.Parameter is StorageFile)
             {
-                currentReport = (Report) e.Parameter;
+                currentReportFile = (StorageFile) e.Parameter;
                 DisplayReportContent();
             }
             else //must send information
@@ -75,8 +77,17 @@ namespace RiverWatch_Windows_Phone_App
             }
         }
 
-        private void DisplayReportContent()
+        private async Task DisplayReportContent()
         {
+            string fileContent;
+            using (StreamReader s = new StreamReader(await currentReportFile.OpenStreamForReadAsync()))
+            {
+                fileContent = await s.ReadToEndAsync();
+                s.Dispose();
+            }
+            //Report currReport = new Report(fileContent);
+            currentReport = await Report.GenerateFromString(fileContent);
+            
             PageTitle.Text = currentReport.getReportName();
             imagePreview.Source = new BitmapImage(new Uri(currentReport.getImage().Path));
             GeolocationToolTip.FontSize = 15;
@@ -170,13 +181,16 @@ namespace RiverWatch_Windows_Phone_App
         private async void SubmitReport_Click(object sender, RoutedEventArgs e)
         {
             await currentReport.UploadToServer();
+            currentReport.discardReport(true);
+            await currentReportFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
             //submit report
             Frame.Navigate(typeof(UnsentReportsPage));
         }
 
-        private void DeleteReport_Click(object sender, RoutedEventArgs e)
+        private async void DeleteReport_Click(object sender, RoutedEventArgs e)
         {
             currentReport.discardReport(true);
+            await currentReportFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
             Frame.Navigate(typeof(UnsentReportsPage));
         }
     }
