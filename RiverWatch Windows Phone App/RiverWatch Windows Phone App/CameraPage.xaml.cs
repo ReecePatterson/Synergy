@@ -12,11 +12,13 @@ using Windows.Devices.Geolocation;
 using Windows.Devices.Sensors;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Graphics.Imaging;
 using Windows.Media.Capture;
 using Windows.Media.MediaProperties;
 using Windows.Phone.UI.Input;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -178,7 +180,7 @@ namespace RiverWatch_Windows_Phone_App
 
         async void stopCamera()
         {
-            //await mediaCapture.StopPreviewAsync();
+            await mediaCapture.StopPreviewAsync();
             mediaCapture.Dispose();
         }
 
@@ -199,30 +201,19 @@ namespace RiverWatch_Windows_Phone_App
             //var maxResolution = mediaCapture.VideoDeviceController.GetAvailableMediaStreamProperties(MediaStreamType.Photo).Aggregate((i1, i2) => (i1 as VideoEncodingProperties).Width > (i2 as VideoEncodingProperties).Width ? i1 : i2);
             //await mediaCapture.VideoDeviceController.SetMediaStreamPropertiesAsync(MediaStreamType.Photo, maxResolution);
 
+            var maxResolution = mediaCapture.VideoDeviceController.GetAvailableMediaStreamProperties(MediaStreamType.Photo).Aggregate(
+                    (i1, i2) => (i1 as VideoEncodingProperties).Width > (i2 as VideoEncodingProperties).Width ? i1 : i2);
+            await mediaCapture.VideoDeviceController.SetMediaStreamPropertiesAsync(MediaStreamType.Photo, maxResolution);
 
             mediaCapture.SetPreviewRotation(VideoRotation.Clockwise90Degrees);
+            //mediaCapture.SetRecordRotation(VideoRotation.Clockwise90Degrees);
             CameraPreview.Source = mediaCapture;
             await mediaCapture.StartPreviewAsync();
         }
 
         async void CaptureImage_Click(object sender, RoutedEventArgs e)
         {
-            await mediaCapture.StopPreviewAsync();
-            switch(currentAngle){
-                case 0:
-                    mediaCapture.SetRecordRotation(VideoRotation.None);
-                    break;
-                case 90:
-                    mediaCapture.SetRecordRotation(VideoRotation.Clockwise90Degrees);
-                    break;
-                case 180:
-                    mediaCapture.SetRecordRotation(VideoRotation.Clockwise180Degrees);
-                    break;
-                case 270:
-                    mediaCapture.SetRecordRotation(VideoRotation.Clockwise270Degrees);
-                    break;
-            }
-
+            //mediaCapture.SetRecordRotation(VideoRotation.None);
             ImageEncodingProperties imgFormat = ImageEncodingProperties.CreateJpeg();
 
             // find the time and date now
@@ -240,8 +231,43 @@ namespace RiverWatch_Windows_Phone_App
             // Get photo as a BitmapImage
             Uri imageURI = new Uri(file.Path);
 
+            //rotate image back to correct orientation if required
+            if (currentAngle != 90) {
+
+                IRandomAccessStream originalImage = await file.OpenAsync(FileAccessMode.ReadWrite);
+                BitmapDecoder imageDecoder = await BitmapDecoder.CreateAsync(originalImage);
+                var imageStream = new InMemoryRandomAccessStream();
+                BitmapEncoder imageEncoder = await BitmapEncoder.CreateForTranscodingAsync(imageStream, imageDecoder);
+
+                //set rotation angle
+                switch (currentAngle) {
+                    case 0:
+                        imageEncoder.BitmapTransform.Rotation = BitmapRotation.Clockwise90Degrees;
+                        break;
+                    case 180:
+                        imageEncoder.BitmapTransform.Rotation = BitmapRotation.Clockwise270Degrees;
+                        break;
+                    case 270:
+                        imageEncoder.BitmapTransform.Rotation = BitmapRotation.Clockwise180Degrees;
+                        break;
+                }
+
+                await imageEncoder.FlushAsync();
+
+                BitmapImage bitmapImage = new BitmapImage();
+                await bitmapImage.SetSourceAsync(imageStream);
+
+                using (var outputStream = originalImage.GetOutputStreamAt(0)) {
+                    using (var inputStream = imageStream.GetInputStreamAt(0)) {
+                        IBuffer storageFileBuffer = new byte[imageStream.Size].AsBuffer();
+                        await inputStream.ReadAsync(storageFileBuffer, storageFileBuffer.Length, InputStreamOptions.None);
+                        await outputStream.WriteAsync(storageFileBuffer);
+                    }
+                }
+
+            }
+
             Frame.Navigate(typeof(PollutionReportPage),file);
         }
-
     }
 }
