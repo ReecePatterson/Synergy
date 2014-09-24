@@ -82,22 +82,18 @@ namespace RiverWatch_Windows_Phone_App
                     case SimpleOrientation.NotRotated:
                         //Portrait Up 
                         cameraButton.RenderTransform = new RotateTransform() { Angle = 0 };
-                        mediaCapture.SetPreviewRotation(VideoRotation.None);
                         break;
                     case SimpleOrientation.Rotated90DegreesCounterclockwise:
                         //LandscapeLeft 
                         cameraButton.RenderTransform = new RotateTransform() { Angle = 90 };
-                        mediaCapture.SetPreviewRotation(VideoRotation.Clockwise90Degrees);
                         break;
                     case SimpleOrientation.Rotated180DegreesCounterclockwise:
                         //PortraitDown 
                         cameraButton.RenderTransform = new RotateTransform() { Angle = 180 };
-                        mediaCapture.SetPreviewRotation(VideoRotation.Clockwise180Degrees);
                         break;
                     case SimpleOrientation.Rotated270DegreesCounterclockwise:
                         //LandscapeRight 
                         cameraButton.RenderTransform = new RotateTransform() { Angle = 270 };
-                        mediaCapture.SetPreviewRotation(VideoRotation.Clockwise270Degrees);
                         break;
                     case SimpleOrientation.Faceup:
                        // txtOrientation.Text = "Faceup";
@@ -196,7 +192,7 @@ namespace RiverWatch_Windows_Phone_App
             //await mediaCapture.VideoDeviceController.SetMediaStreamPropertiesAsync(MediaStreamType.Photo, maxResolution);
 
 
-            mediaCapture.SetPreviewRotation(VideoRotation.Clockwise90Degrees);
+            //mediaCapture.SetPreviewRotation(VideoRotation.Clockwise90Degrees);
             CameraPreview.Source = mediaCapture;
             await mediaCapture.StartPreviewAsync();
         }
