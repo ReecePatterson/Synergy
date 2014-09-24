@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Geolocation;
 using Windows.Devices.Sensors;
@@ -48,7 +49,6 @@ namespace RiverWatch_Windows_Phone_App
         {
             this.InitializeComponent();
             Application.Current.Resuming += new EventHandler<object>(AppResume);
-            Application.Current.Suspending += new SuspendingEventHandler(AppSuspend);
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
             HardwareButtons.CameraPressed += HardwareButtons_CameraPressed;
             HardwareButtons.CameraHalfPressed += HardwareButtons_CameraHalfPressed;
@@ -157,13 +157,8 @@ namespace RiverWatch_Windows_Phone_App
 
         private void AppResume(object sender, object e)
         {
-            StartCamera();
-            
-        }
-
-        private void AppSuspend(object sender, object e)
-        {
             stopCamera();
+            
         }
 
         
