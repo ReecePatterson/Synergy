@@ -155,7 +155,15 @@ namespace RiverWatch_Windows_Phone_App
         {
             this.thingsFound.Text = ">>> Finding bluetooth people\n";
 
-            
+            String selector = BluetoothDevice.GetDeviceSelector();
+            var devices = await DeviceInformation.FindAllAsync(selector);
+
+            BluetoothDevice dev;
+
+            if (devices.Count > 0)
+            {
+                dev = await BluetoothDevice.FromIdAsync(devices.ElementAt(0).Id);
+            }
 
             this.thingsFound.Text += "Done";
         }
