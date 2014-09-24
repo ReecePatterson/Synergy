@@ -32,8 +32,7 @@ namespace RiverWatch_Windows_Phone_App
 
         void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
         {
-            //PollutionReportPage.setDescription(DescriptionString.Text);
-
+            // Send the user input within the textbox of this page to the Pollution Report Page
             Frame rootFrame = Window.Current.Content as Frame;
             if (rootFrame != null && rootFrame.CanGoBack)
             {
@@ -49,6 +48,7 @@ namespace RiverWatch_Windows_Phone_App
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            // Fetch the Report Object's Description and display it on this page's textbox
             Report report = e.Parameter as Report;
             String s = report.getDescription();
 
@@ -57,8 +57,7 @@ namespace RiverWatch_Windows_Phone_App
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            //PollutionReportPage.setDescription(DescriptionString.Text);
-
+            // Send the user input within the textbox of this page to the Pollution Report Page
             Frame rootFrame = Window.Current.Content as Frame;
             if (rootFrame != null && rootFrame.CanGoBack)
             {
