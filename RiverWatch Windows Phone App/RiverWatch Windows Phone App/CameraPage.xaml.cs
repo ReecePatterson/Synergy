@@ -87,25 +87,21 @@ namespace RiverWatch_Windows_Phone_App
                         //Portrait Up 
                         cameraButton.RenderTransform = new RotateTransform() { Angle = 0 };
                         currentAngle = 0;
-                        mediaCapture.SetRecordRotation(VideoRotation.None);
                         break;
                     case SimpleOrientation.Rotated90DegreesCounterclockwise:
                         //LandscapeLeft 
                         cameraButton.RenderTransform = new RotateTransform() { Angle = 90 };
                         currentAngle = 90;
-                        mediaCapture.SetRecordRotation(VideoRotation.Clockwise90Degrees);
                         break;
                     case SimpleOrientation.Rotated180DegreesCounterclockwise:
                         //PortraitDown 
                         cameraButton.RenderTransform = new RotateTransform() { Angle = 180 };
                         currentAngle = 180;
-                        mediaCapture.SetRecordRotation(VideoRotation.Clockwise180Degrees);
                         break;
                     case SimpleOrientation.Rotated270DegreesCounterclockwise:
                         //LandscapeRight 
                         cameraButton.RenderTransform = new RotateTransform() { Angle = 270 };
                         currentAngle = 270;
-                        mediaCapture.SetRecordRotation(VideoRotation.Clockwise270Degrees);
                         break;
                     case SimpleOrientation.Faceup:
                        // txtOrientation.Text = "Faceup";
@@ -182,7 +178,7 @@ namespace RiverWatch_Windows_Phone_App
 
         async void stopCamera()
         {
-            await mediaCapture.StopPreviewAsync();
+            //await mediaCapture.StopPreviewAsync();
             mediaCapture.Dispose();
         }
 
@@ -211,6 +207,7 @@ namespace RiverWatch_Windows_Phone_App
 
         async void CaptureImage_Click(object sender, RoutedEventArgs e)
         {
+            await mediaCapture.StopPreviewAsync();
             switch(currentAngle){
                 case 0:
                     mediaCapture.SetRecordRotation(VideoRotation.None);
