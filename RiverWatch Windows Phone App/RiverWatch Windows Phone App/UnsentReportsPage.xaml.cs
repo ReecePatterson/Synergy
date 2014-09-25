@@ -151,14 +151,17 @@ namespace RiverWatch_Windows_Phone_App
             if (command.Label == "Send")
             {
                 //SEND ALL REPORTS
-
+                //TODO HANDLE THINGS BETTER
                 foreach (Report r in reports) {
-                   await r.UploadToServer();
-                }
-
-                foreach (Report currReport in reports)
-                {
-                    currReport.discardReport(true);
+                    if (await r.UploadToServer())
+                    {
+                        //DELETE FILE ASSOCIATED
+                        await r.discardReport(true);
+                    }
+                    else
+                    {
+                        //TODO error message management
+                    }
                 }
                 foreach (StorageFile currFile in reportFiles)
                 {
@@ -184,10 +187,10 @@ namespace RiverWatch_Windows_Phone_App
         {
             if (command.Label == "Delete")
             {
-
+                
                 foreach (Report currReport in reports)
                 {
-                    currReport.discardReport(true);
+                    await currReport.discardReport(true);
                 }
                 foreach (StorageFile currFile in reportFiles)
                 {

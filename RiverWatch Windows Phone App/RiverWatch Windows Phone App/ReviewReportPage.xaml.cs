@@ -180,16 +180,19 @@ namespace RiverWatch_Windows_Phone_App
 
         private async void SubmitReport_Click(object sender, RoutedEventArgs e)
         {
-            await currentReport.UploadToServer();
-            currentReport.discardReport(true);
-            await currentReportFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
-            //submit report
-            Frame.Navigate(typeof(UnsentReportsPage));
+            //TODO LOADING BAR
+            if (await currentReport.UploadToServer())
+            {
+                await currentReport.discardReport(true);
+                await currentReportFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                //submit report
+                Frame.Navigate(typeof(UnsentReportsPage));
+            }
         }
 
         private async void DeleteReport_Click(object sender, RoutedEventArgs e)
         {
-            currentReport.discardReport(true);
+            await currentReport.discardReport(true);
             await currentReportFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
             Frame.Navigate(typeof(UnsentReportsPage));
         }

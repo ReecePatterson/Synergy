@@ -227,7 +227,7 @@ namespace RiverWatch_Windows_Phone_App
         /** 
          * Deletes the contents of the entire Report object from the StorageFile
          */
-        public async void discardReport(Boolean deleteImage)
+        public async Task discardReport(Boolean deleteImage)
         {
             // partial checks
             imageReady = false;
