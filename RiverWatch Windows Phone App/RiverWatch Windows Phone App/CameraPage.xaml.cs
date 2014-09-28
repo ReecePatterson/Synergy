@@ -125,6 +125,12 @@ namespace RiverWatch_Windows_Phone_App
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            // show capture button
+            this.cameraButton.Visibility = Visibility.Visible;
+
+            // hide progress bar
+            this.processing.Visibility = Visibility.Visible;
+
             // Upon navigation TOWARDS the Camera Page, st
             StartCamera();
         }
@@ -213,6 +219,12 @@ namespace RiverWatch_Windows_Phone_App
 
         async void CaptureImage_Click(object sender, RoutedEventArgs e)
         {
+            // hide capture button
+            this.cameraButton.Visibility = Visibility.Collapsed;
+
+            // show progress bar
+            this.processing.Visibility = Visibility.Visible;
+
             //mediaCapture.SetRecordRotation(VideoRotation.None);
             ImageEncodingProperties imgFormat = ImageEncodingProperties.CreateJpeg();
 
@@ -266,6 +278,9 @@ namespace RiverWatch_Windows_Phone_App
                 }
 
             }
+
+            // once finished, hide progress bar
+            this.processing.Visibility = Visibility.Collapsed;
 
             Frame.Navigate(typeof(PollutionReportPage),file);
         }

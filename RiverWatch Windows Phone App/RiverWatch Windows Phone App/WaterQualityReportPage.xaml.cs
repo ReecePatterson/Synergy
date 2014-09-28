@@ -162,29 +162,23 @@ namespace RiverWatch_Windows_Phone_App
             Windows.Networking.Proximity.PeerFinder.Start();
             _started = true;
 
+            PeerWatcher _peerWatcher = PeerFinder.CreateWatcher();
+
+            
+
+            _peerWatcher.Start();
+
             var peers = await PeerFinder.FindAllPeersAsync();
            
             for (int i = 0; i < peers.Count; i++)
             {
                 ConnectToPeer(peers.ElementAt(i));
             }
-            
-
-            /*
-            String selector = BluetoothDevice.GetDeviceSelector();
-            var devices = await DeviceInformation.FindAllAsync(selector);
-
-            BluetoothDevice dev;
-
-            for (int i = 0; i < devices.Count; i++)
-            {
-                dev = await BluetoothDevice.FromIdAsync(devices.ElementAt(i).Id);
-                this.thingsFound.Text += dev.Name + "\n";
-            }
-             * */
+           
 
             this.thingsFound.Text += "Done";
         }
+
 
         async private void ConnectToPeer(Windows.Networking.Proximity.PeerInformation peerInfo)
         {
