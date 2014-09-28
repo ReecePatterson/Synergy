@@ -213,10 +213,6 @@ namespace RiverWatch_Windows_Phone_App
                 {
                     await currFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
                 }
-                foreach (ListViewItem listItem in UnsentReportList.Items)
-                {
-                    
-                }
 
                 Frame.Navigate(typeof(UnsentReportsPage));
             }
