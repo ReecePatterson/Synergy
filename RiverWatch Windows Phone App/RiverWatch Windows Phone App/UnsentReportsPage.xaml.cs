@@ -166,21 +166,21 @@ namespace RiverWatch_Windows_Phone_App
                 await Task.Delay(2000);
 
                 //SEND ALL REPORTS
-                //TODO HANDLE THINGS BETTER
+                //TODO HANDLE THINGS BETTER\
                 foreach (Report r in reports) {
                     if (await r.UploadToServer())
                     {
                         //DELETE FILE ASSOCIATED
+                        StorageFolder unsentReportFolder = await ApplicationData.Current.LocalFolder.GetFolderAsync("Unsent_Reports");
+                        StorageFile rFile = await unsentReportFolder.GetFileAsync(r.getReportName());
+                        await rFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
                         await r.discardReport(true);
+                        
                     }
                     else
                     {
                         //TODO error message management
                     }
-                }
-                foreach (StorageFile currFile in reportFiles)
-                {
-                    await currFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
                 }
 
                 this.processing.IsActive = false;
