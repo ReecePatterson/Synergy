@@ -71,6 +71,12 @@ namespace RiverWatch_Windows_Phone_App
         /// This parameter is typically used to configure the page.</param>
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
+            // show command bar
+            this.cmdBar.Visibility = Visibility.Visible;
+
+            // hide progress bar
+            this.processing.IsActive = false;
+
             await refreshReportList();
         }
 
@@ -150,6 +156,15 @@ namespace RiverWatch_Windows_Phone_App
         {
             if (command.Label == "Send")
             {
+                // hide command bar
+                this.cmdBar.Visibility = Visibility.Collapsed;
+                
+                // show progress bar
+                this.processing.IsActive = true;
+
+                // should wait 2 seconds
+                await Task.Delay(2000);
+
                 //SEND ALL REPORTS
                 //TODO HANDLE THINGS BETTER
                 foreach (Report r in reports) {
@@ -167,6 +182,8 @@ namespace RiverWatch_Windows_Phone_App
                 {
                     await currFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
                 }
+
+                this.processing.IsActive = false;
 
                 Frame.Navigate(typeof(UnsentReportsPage));
             }

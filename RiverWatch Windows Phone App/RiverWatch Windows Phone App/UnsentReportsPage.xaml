@@ -8,13 +8,14 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.BottomAppBar>
-        <CommandBar>
+        <CommandBar x:Name="cmdBar">
             <AppBarButton x:Name="SendAllButton" Icon="Send" Label="Send All" Click="SendAllButton_Click"/>
             <AppBarButton x:Name="DeleteAllButton" Icon="Delete" Label="Delete All" Click="DeleteAllButton_Click"/>
         </CommandBar>
     </Page.BottomAppBar>
 
     <Grid>
+        <ProgressRing x:Name="processing" VerticalAlignment="Center" HorizontalAlignment="Center" Width="80" Height="80" Visibility="Collapsed"/>
         <TextBlock x:Name="PageTitle" FontSize="25" Margin="10,0,0,0">Unsent Pollution Reports</TextBlock>
         <AppBarButton x:Name="ReturnButton" HorizontalAlignment="Left" Icon="Back" Label="appbarbutton" Margin="5,40,0,0" VerticalAlignment="Top" IsCompact="True" Click="ReturnButton_Click"/>
 

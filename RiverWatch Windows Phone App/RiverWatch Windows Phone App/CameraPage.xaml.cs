@@ -129,7 +129,7 @@ namespace RiverWatch_Windows_Phone_App
             this.cameraButton.Visibility = Visibility.Visible;
 
             // hide progress bar
-            this.processing.Visibility = Visibility.Visible;
+            this.processing.IsActive = false;
 
             // Upon navigation TOWARDS the Camera Page, st
             StartCamera();
@@ -223,7 +223,7 @@ namespace RiverWatch_Windows_Phone_App
             this.cameraButton.Visibility = Visibility.Collapsed;
 
             // show progress bar
-            this.processing.Visibility = Visibility.Visible;
+            this.processing.IsActive = true;
 
             //mediaCapture.SetRecordRotation(VideoRotation.None);
             ImageEncodingProperties imgFormat = ImageEncodingProperties.CreateJpeg();
@@ -280,7 +280,7 @@ namespace RiverWatch_Windows_Phone_App
             }
 
             // once finished, hide progress bar
-            this.processing.Visibility = Visibility.Collapsed;
+            this.processing.IsActive = false;
 
             Frame.Navigate(typeof(PollutionReportPage),file);
         }
