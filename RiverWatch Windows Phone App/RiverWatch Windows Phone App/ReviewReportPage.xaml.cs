@@ -180,14 +180,23 @@ namespace RiverWatch_Windows_Phone_App
 
         private async void SubmitReport_Click(object sender, RoutedEventArgs e)
         {
-            //TODO LOADING BAR
+            // hide buttons
+            this.SubmitButton.Visibility = Visibility.Collapsed;
+            this.DeleteButton.Visibility = Visibility.Collapsed;
+
+            // show progress ring
+            this.processing.IsActive = true;
+
             if (await currentReport.UploadToServer())
             {
                 await currentReport.discardReport(true);
                 await currentReportFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
+
+                this.processing.IsActive = false;
                 //submit report
                 Frame.Navigate(typeof(UnsentReportsPage));
             }
+            this.processing.IsActive = false;
         }
 
         private async void DeleteReport_Click(object sender, RoutedEventArgs e)

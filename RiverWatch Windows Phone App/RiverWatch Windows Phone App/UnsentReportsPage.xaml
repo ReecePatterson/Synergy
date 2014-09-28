@@ -15,7 +15,7 @@
     </Page.BottomAppBar>
 
     <Grid>
-        <ProgressRing x:Name="processing" VerticalAlignment="Center" HorizontalAlignment="Center" Width="80" Height="80" Visibility="Collapsed"/>
+        <ProgressRing x:Name="processing" VerticalAlignment="Center" HorizontalAlignment="Center" Width="80" Height="80" Visibility="Visible"/>
         <TextBlock x:Name="PageTitle" FontSize="25" Margin="10,0,0,0">Unsent Pollution Reports</TextBlock>
         <AppBarButton x:Name="ReturnButton" HorizontalAlignment="Left" Icon="Back" Label="appbarbutton" Margin="5,40,0,0" VerticalAlignment="Top" IsCompact="True" Click="ReturnButton_Click"/>
 

@@ -34,6 +34,7 @@
         <Rectangle HorizontalAlignment="Left" Height="100" Margin="-85,298,0,0" VerticalAlignment="Top" Width="100"/>
         <AppBarButton x:Name="ReturnButton" HorizontalAlignment="Left" Icon="Back" Label="appbarbutton" Margin="5,40,0,0" VerticalAlignment="Top" IsCompact="True" Click="ReturnButton_Click"/>
 
+        <ProgressRing x:Name="processing" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="80" Height="80" Visibility="Visible"/>
         <AppBarButton x:Name="SubmitButton" Icon="Send" VerticalAlignment="Bottom" HorizontalAlignment="Right" Visibility="Visible" Click="SubmitReport_Click"/>
         <AppBarButton x:Name="DeleteButton" Icon="Delete" VerticalAlignment="Bottom" HorizontalAlignment="Right" Visibility="Visible" Click="DeleteReport_Click" Margin="0,0,80,0"/>
     </Grid>
