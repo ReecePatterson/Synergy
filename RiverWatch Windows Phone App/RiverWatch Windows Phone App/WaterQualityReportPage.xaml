@@ -9,9 +9,29 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <ListView x:Name="PairedDevicesList" Margin="60,50,10,10" SelectionMode="None" FontSize="25" Background="Transparent" RequestedTheme="Default" ShowsScrollingPlaceholders="False">
-
-        </ListView>
+        <ListBox Grid.Row="2" Grid.ColumnSpan="2" x:Name="PairedDevicesList">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Display Name:  "  />
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding DisplayName}" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Host Name:     "  />
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding HostName}" />
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Service Name:  "  />
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding ServiceName}" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
         
         
         <TextBlock>This is the Water Quality Report Page</TextBlock>
