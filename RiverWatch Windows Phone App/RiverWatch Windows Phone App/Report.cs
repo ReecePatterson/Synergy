@@ -52,7 +52,7 @@ namespace RiverWatch_Windows_Phone_App
         public static Boolean isInteger(String s) {
             try {
                 Int32.Parse(s);
-            }catch (FormatException e) {
+            }catch (FormatException) {
                 return false;
             }
 
@@ -131,7 +131,7 @@ namespace RiverWatch_Windows_Phone_App
         /* This method is used to build up a string that will contain the geolocation data, tags, description of
          * this report that will be used when uploading to the website
          */
-        public async Task<string> ConvertReportInformationForUpload() {
+        public string ConvertReportInformationForUpload() {
             //first build up geolocation information in this string
             String reportInfo = "{\"geolocation\":{\"lat\":" + latit + ",\"long\":" + longi + "},";
             //add on description information
@@ -184,7 +184,7 @@ namespace RiverWatch_Windows_Phone_App
             MultipartFormDataContent form = new MultipartFormDataContent();
 
             //create the string for description, tags, and geolocation
-            HttpContent content = new StringContent(await ConvertReportInformationForUpload());
+            HttpContent content = new StringContent(ConvertReportInformationForUpload());
             form.Add(content, "\"data\"");
             
             //convert image into byte array so we can create a memorystream
@@ -245,7 +245,7 @@ namespace RiverWatch_Windows_Phone_App
                         StorageFile file = await (ApplicationData.Current.LocalFolder.GetFileAsync("RiverWatchImage_" + this.date + ".jpg"));
                         await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
                     }
-                    catch (FileNotFoundException e) {
+                    catch (FileNotFoundException) {
                         // if a file is not found, it's already deleted
                     }
                 }
@@ -416,7 +416,7 @@ namespace RiverWatch_Windows_Phone_App
                 newReport.setTags(tags);
                 newReport.setDescription(reportComponents[count]);
             }
-            catch (NullReferenceException e) { Debug.WriteLine("Reached end of input String"); }
+            catch (NullReferenceException) { Debug.WriteLine("Reached end of input String"); }
 
             return newReport;
         }
