@@ -74,6 +74,7 @@ namespace RiverWatch_Windows_Phone_App {
                         
                         this.thingsFound.Text += "\nSocket Created with hostname: " + pi.HostName + " \nwith service name: " + pi.ServiceName;
                         //await socket.ConnectAsync(new End);
+                        await socket.ConnectAsync(pi.HostName, "2");
                         this.thingsFound.Text += "\nDevice Connected";
                         return true;
                     }
