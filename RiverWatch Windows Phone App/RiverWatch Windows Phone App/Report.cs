@@ -45,10 +45,6 @@ namespace RiverWatch_Windows_Phone_App
         {
         }
 
-        
-
-
-
         public static Boolean isInteger(String s) {
             try {
                 Int32.Parse(s);
@@ -121,8 +117,6 @@ namespace RiverWatch_Windows_Phone_App
 
             // write desc if any
             returnString += this.description;
-
-            // write water quality report
 
             return returnString;
         }
