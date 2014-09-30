@@ -9,7 +9,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <ListBox Grid.Row="2" Grid.ColumnSpan="2" x:Name="PairedDevicesList">
+        <ListBox x:Name="PairedDevicesList" Margin="10,10,10,465">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -32,8 +32,8 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        
-        
+
+
         <TextBlock>This is the Water Quality Report Page</TextBlock>
         <TextBlock x:Name="thingsFound" Text="Devices" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
         <Button x:Name="ConnectButton" Content="Connect" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="ConnectButton_Click"></Button>
