@@ -57,15 +57,14 @@ namespace RiverWatch_Windows_Phone_App
         /// </summary>
         /// <param name="e">Event data that describes how this page was reached.
         /// This parameter is typically used to configure the page.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
 
             var geolocator = new Geolocator();
-            // Check Location Services is on
             if (PositionStatus.Disabled.Equals(geolocator.LocationStatus))
             {
                 MessageDialog checkLocationServices = new MessageDialog("Location is disabled on your device. To enable location, go to Settings and select location.");
-                checkLocationServices.Commands.Add(new UICommand("Close"));
+                await checkLocationServices.ShowAsync();
                 Frame.Navigate(typeof (HubPage));
             }
            
