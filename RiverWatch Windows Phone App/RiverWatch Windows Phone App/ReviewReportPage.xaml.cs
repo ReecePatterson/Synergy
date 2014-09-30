@@ -181,36 +181,61 @@ namespace RiverWatch_Windows_Phone_App
 
         private async void SubmitReport_Click(object sender, RoutedEventArgs e)
         {
-            // hide buttons
-            this.SubmitButton.Visibility = Visibility.Collapsed;
-            this.DeleteButton.Visibility = Visibility.Collapsed;
+            MessageDialog sendConfirm = new MessageDialog("Are you sure you wish to send all reports?", "Send All?");
+            sendConfirm.Commands.Add(new UICommand("Send", new UICommandInvokedHandler(this.SendInvokedHandler)));
+            sendConfirm.Commands.Add(new UICommand("No"));
 
-            // show progress ring
-            this.processing.IsActive = true;
+            await sendConfirm.ShowAsync();
+        }
 
-            if (await currentReport.UploadToServer())
+        private async void SendInvokedHandler(IUICommand command)
+        {
+            if (command.Label == "Send")
             {
-                await currentReport.discardReport(true);
-                await currentReportFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                // hide buttons
+                this.SubmitButton.Visibility = Visibility.Collapsed;
+                this.DeleteButton.Visibility = Visibility.Collapsed;
 
-                this.processing.IsActive = false;
-                //submit report
-                Frame.Navigate(typeof(UnsentReportsPage));
-            }
-            else
-            {
-                this.processing.IsActive = false;
-                MessageDialog didNotSend = new MessageDialog("Error when attempting to send report, please try again later", "Failed to Send");
-                didNotSend.Commands.Add(new UICommand("OK"));
-                await didNotSend.ShowAsync();
+                // show progress ring
+                this.processing.IsActive = true;
+
+                if (await currentReport.UploadToServer())
+                {
+                    await currentReport.discardReport(true);
+                    await currentReportFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
+
+                    this.processing.IsActive = false;
+                    //submit report
+                    Frame.Navigate(typeof(UnsentReportsPage));
+                }
+                else
+                {
+                    this.processing.IsActive = false;
+                    MessageDialog didNotSend = new MessageDialog("Error when attempting to send report, please try again later", "Failed to Send");
+                    didNotSend.Commands.Add(new UICommand("OK"));
+                    await didNotSend.ShowAsync();
+                }
             }
         }
 
         private async void DeleteReport_Click(object sender, RoutedEventArgs e)
         {
-            await currentReport.discardReport(true);
-            await currentReportFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
-            Frame.Navigate(typeof(UnsentReportsPage));
+
+            MessageDialog deleteConfirm = new MessageDialog("Are you sure you wish to delete all unsaved reports?", "Delete All?");
+            deleteConfirm.Commands.Add(new UICommand("Delete", new UICommandInvokedHandler(this.DeleteInvokedHandler)));
+            deleteConfirm.Commands.Add(new UICommand("No"));
+
+            await deleteConfirm.ShowAsync();
+        }
+
+        private async void DeleteInvokedHandler(IUICommand command)
+        {
+            if (command.Label == "Delete")
+            {
+                await currentReport.discardReport(true);
+                await currentReportFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                Frame.Navigate(typeof(UnsentReportsPage));
+            }
         }
     }
 }
