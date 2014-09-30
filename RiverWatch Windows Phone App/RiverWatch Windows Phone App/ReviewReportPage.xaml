@@ -27,10 +27,6 @@
             <TextBlock x:Name="DescriptionToolTip" FontSize="20" Margin="20,18,20,10" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" Foreground="White">No Description</TextBlock>
         </Grid>
 
-        <Grid x:Name="WaterQualityGrid" Background="#ADD8E6" VerticalAlignment="Top" Margin="60,450,10,0" Height="90">
-            <TextBlock x:Name="WaterQualityToolTip" FontSize="18" Margin="20,18,0,0" Foreground="White">No Water Quality Information</TextBlock>
-        </Grid>
-
         <Rectangle HorizontalAlignment="Left" Height="100" Margin="-85,298,0,0" VerticalAlignment="Top" Width="100"/>
         <AppBarButton x:Name="ReturnButton" HorizontalAlignment="Left" Icon="Back" Label="appbarbutton" Margin="5,40,0,0" VerticalAlignment="Top" IsCompact="True" Click="ReturnButton_Click"/>
 

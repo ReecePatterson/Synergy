@@ -26,7 +26,7 @@ using Windows.UI.Xaml.Media.Animation;
 namespace RiverWatch_Windows_Phone_App
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame. TDODO CHANGE THIS
+    /// An empty page that can be used on its own or navigated to within a Frame. TODO CHANGE THIS
     /// </summary>
     public sealed partial class UnsentReportsPage : Page
     {
