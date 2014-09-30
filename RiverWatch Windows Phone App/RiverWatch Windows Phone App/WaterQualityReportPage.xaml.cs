@@ -22,24 +22,19 @@ using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
-namespace RiverWatch_Windows_Phone_App
-{
+namespace RiverWatch_Windows_Phone_App {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class WaterQualityReportPage : Page
-    {
-        public WaterQualityReportPage()
-        {
+    public sealed partial class WaterQualityReportPage : Page {
+        public WaterQualityReportPage() {
             this.InitializeComponent();
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
         }
 
-        void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
-        {
+        void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e) {
             Frame rootFrame = Window.Current.Content as Frame;
-            if (rootFrame != null && rootFrame.CanGoBack)
-            {
+            if (rootFrame != null && rootFrame.CanGoBack) {
                 rootFrame.Navigate(typeof(PollutionReportPage));
                 e.Handled = true;
             }
@@ -47,25 +42,20 @@ namespace RiverWatch_Windows_Phone_App
 
         BluetoothLEDevice currentDevice { get; set; }
         string deviceName = "Philips AEA1000";
-        protected async override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            
+        protected async override void OnNavigatedTo(NavigationEventArgs e) {
+
         }
 
-        
 
-        private void ReturnButton_Click(object sender, RoutedEventArgs e)
-        {
+
+        private void ReturnButton_Click(object sender, RoutedEventArgs e) {
             Frame.Navigate(typeof(HubPage));
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
+        private void Button_Click(object sender, RoutedEventArgs e) {
             List<string> serviceList = new List<string>();
-            foreach (var service in currentDevice.GattServices)
-            {
-                switch (service.Uuid.ToString())
-                {
+            foreach (var service in currentDevice.GattServices) {
+                switch (service.Uuid.ToString()) {
                     case "00001811-0000-1000-8000-00805f9b34fb":
                         serviceList.Add("AlertNotification");
                         break;
@@ -144,8 +134,7 @@ namespace RiverWatch_Windows_Phone_App
         //Windows.Devices.Bluetooth.RfcommDeviceService _service;
         //Windows.Networking.Sockets.StreamSocket _socket;
 
-        async void Initialize()
-        {
+        async void Initialize() {
             // Enumerate devices with the object push service
             var services =
                 await Windows.Devices.Enumeration.DeviceInformation.FindAllAsync();
@@ -153,8 +142,7 @@ namespace RiverWatch_Windows_Phone_App
 
         bool _started = false;
 
-        private async void ConnectButton_Click(object sender, RoutedEventArgs e)
-        {
+        private async void ConnectButton_Click(object sender, RoutedEventArgs e) {
             this.thingsFound.Text = ">>> Finding bluetooth people\n";
 
             Windows.Networking.Proximity.PeerFinder.AllowBluetooth = true;
@@ -162,29 +150,32 @@ namespace RiverWatch_Windows_Phone_App
             Windows.Networking.Proximity.PeerFinder.Start();
             _started = true;
 
-            PeerWatcher _peerWatcher = PeerFinder.CreateWatcher();
-
-            
-
-            _peerWatcher.Start();
-
             var peers = await PeerFinder.FindAllPeersAsync();
-           
-            for (int i = 0; i < peers.Count; i++)
-            {
+
+            for (int i = 0; i < peers.Count; i++) {
                 ConnectToPeer(peers.ElementAt(i));
             }
-           
+
+
+            /*
+            String selector = BluetoothDevice.GetDeviceSelector();
+            var devices = await DeviceInformation.FindAllAsync(selector);
+
+            BluetoothDevice dev;
+
+            for (int i = 0; i < devices.Count; i++)
+            {
+                dev = await BluetoothDevice.FromIdAsync(devices.ElementAt(i).Id);
+                this.thingsFound.Text += dev.Name + "\n";
+            }
+             * */
 
             this.thingsFound.Text += "Done";
         }
 
-
-        async private void ConnectToPeer(Windows.Networking.Proximity.PeerInformation peerInfo)
-        {
+        async private void ConnectToPeer(Windows.Networking.Proximity.PeerInformation peerInfo) {
             //WriteMessageText("Peer found. Connecting to " + peerInfo.DisplayName + "\n");
-            try
-            {
+            try {
                 Windows.Networking.Sockets.StreamSocket socket =
                     await Windows.Networking.Proximity.PeerFinder.ConnectAsync(peerInfo);
 
@@ -192,8 +183,7 @@ namespace RiverWatch_Windows_Phone_App
                 this.thingsFound.Text += "Connection successful. You may now send messages.";
                 //SendMessage(socket);
             }
-            catch (Exception err)
-            {
+            catch (Exception err) {
                 //WriteMessageText("Connection failed: " + err.Message + "\n");
             }
 
