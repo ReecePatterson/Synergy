@@ -4,12 +4,14 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Devices.Enumeration;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Networking.Proximity;
+using Windows.Networking.Sockets;
 using Windows.Phone.UI.Input;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -22,50 +24,75 @@ using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
-namespace RiverWatch_Windows_Phone_App
-{
+namespace RiverWatch_Windows_Phone_App {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class WaterQualityReportPage : Page
-    {
-        public WaterQualityReportPage()
-        {
+    public sealed partial class WaterQualityReportPage : Page {
+        public WaterQualityReportPage() {
             this.InitializeComponent();
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
         }
 
-        void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
-        {
+        void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e) {
             Frame rootFrame = Window.Current.Content as Frame;
-            if (rootFrame != null && rootFrame.CanGoBack)
-            {
+            if (rootFrame != null && rootFrame.CanGoBack) {
                 rootFrame.Navigate(typeof(PollutionReportPage));
                 e.Handled = true;
             }
         }
 
         BluetoothLEDevice currentDevice { get; set; }
-        string deviceName = "Philips AEA1000";
+        string deviceName = "SGS4";
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
-            
+            connectToPoos();
         }
 
-        
-
-        private void ReturnButton_Click(object sender, RoutedEventArgs e)
+        private async Task<Boolean> connectToPoos()
         {
+            PeerFinder.AllowBluetooth = true;
+            PeerFinder.Start();
+
+            PeerFinder.AlternateIdentities["Bluetooth:PAIRED"] = ""; 
+            var available_devices = await PeerFinder.FindAllPeersAsync();
+            PeerInformation pi = null;
+            if (available_devices.Count == 0) 
+            { 
+                   return false;             
+            } 
+            else
+            {
+                for (int i = 0; i < available_devices.Count; i++)
+                {
+                    pi = available_devices[i];
+                    this.thingsFound.Text = "\nPaired Device Name: " + pi.DisplayName;
+                    if (pi.DisplayName.Contains("Emmanuel"))
+                    {
+                        this.thingsFound.Text += "\nEmans device found";
+                        StreamSocket socket = new StreamSocket();
+                        
+                        this.thingsFound.Text += "\nSocket Created with hostname: " + pi.HostName + " \nwith service name: " + pi.ServiceName;
+                        //await socket.ConnectAsync(new End);
+                        await socket.ConnectAsync(pi.HostName, "2");
+                        this.thingsFound.Text += "\nDevice Connected";
+                        return true;
+                    }
+                }
+                
+            }
+            return false;
+
+        }
+
+        private void ReturnButton_Click(object sender, RoutedEventArgs e) {
             Frame.Navigate(typeof(HubPage));
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
+        private void Button_Click(object sender, RoutedEventArgs e) {
             List<string> serviceList = new List<string>();
-            foreach (var service in currentDevice.GattServices)
-            {
-                switch (service.Uuid.ToString())
-                {
+            foreach (var service in currentDevice.GattServices) {
+                switch (service.Uuid.ToString()) {
                     case "00001811-0000-1000-8000-00805f9b34fb":
                         serviceList.Add("AlertNotification");
                         break;
@@ -144,17 +171,13 @@ namespace RiverWatch_Windows_Phone_App
         //Windows.Devices.Bluetooth.RfcommDeviceService _service;
         //Windows.Networking.Sockets.StreamSocket _socket;
 
-        async void Initialize()
-        {
-            // Enumerate devices with the object push service
-            var services =
-                await Windows.Devices.Enumeration.DeviceInformation.FindAllAsync();
-        }
-
         bool _started = false;
 
-        private async void ConnectButton_Click(object sender, RoutedEventArgs e)
-        {
+        private async void ConnectButton_Click(object sender, RoutedEventArgs e) {
+            connectToPoos();
+
+
+            /*
             this.thingsFound.Text = ">>> Finding bluetooth people\n";
 
             Windows.Networking.Proximity.PeerFinder.AllowBluetooth = true;
@@ -162,29 +185,19 @@ namespace RiverWatch_Windows_Phone_App
             Windows.Networking.Proximity.PeerFinder.Start();
             _started = true;
 
-            PeerWatcher _peerWatcher = PeerFinder.CreateWatcher();
-
-            
-
-            _peerWatcher.Start();
-
             var peers = await PeerFinder.FindAllPeersAsync();
-           
-            for (int i = 0; i < peers.Count; i++)
-            {
+
+            for (int i = 0; i < peers.Count; i++) {
                 ConnectToPeer(peers.ElementAt(i));
             }
-           
 
             this.thingsFound.Text += "Done";
+             * */
         }
 
-
-        async private void ConnectToPeer(Windows.Networking.Proximity.PeerInformation peerInfo)
-        {
+        async private void ConnectToPeer(Windows.Networking.Proximity.PeerInformation peerInfo) {
             //WriteMessageText("Peer found. Connecting to " + peerInfo.DisplayName + "\n");
-            try
-            {
+            try {
                 Windows.Networking.Sockets.StreamSocket socket =
                     await Windows.Networking.Proximity.PeerFinder.ConnectAsync(peerInfo);
 
@@ -192,12 +205,9 @@ namespace RiverWatch_Windows_Phone_App
                 this.thingsFound.Text += "Connection successful. You may now send messages.";
                 //SendMessage(socket);
             }
-            catch (Exception err)
-            {
+            catch (Exception err) {
                 //WriteMessageText("Connection failed: " + err.Message + "\n");
             }
-
-            //requestingPeer = null;
         }
     }
 }

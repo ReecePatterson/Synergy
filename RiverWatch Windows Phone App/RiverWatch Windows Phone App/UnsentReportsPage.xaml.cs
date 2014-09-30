@@ -86,7 +86,7 @@ namespace RiverWatch_Windows_Phone_App
             reports.Clear();
             
             StorageFolder unsentReportFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Unsent_Reports", CreationCollisionOption.OpenIfExists);
-            reportFiles = await unsentReportFolder.GetFilesAsync(); //TODO change this to be actual reports
+            reportFiles = await unsentReportFolder.GetFilesAsync();
             for (int i = 0; i < reportFiles.Count;i++ )
             {
                 //Read file, split itno info bits.
@@ -166,7 +166,6 @@ namespace RiverWatch_Windows_Phone_App
                 await Task.Delay(2000);
 
                 //SEND ALL REPORTS
-                //TODO HANDLE THINGS BETTER\
                 foreach (Report r in reports) {
                     if (await r.UploadToServer())
                     {
@@ -175,15 +174,19 @@ namespace RiverWatch_Windows_Phone_App
                         StorageFile rFile = await unsentReportFolder.GetFileAsync(r.getReportName());
                         await rFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
                         await r.discardReport(true);
-                        
+                        this.processing.IsActive = false;
                     }
                     else
                     {
-                        //TODO error message management
+                        this.processing.IsActive = false;
+                        MessageDialog didNotSend = new MessageDialog("Error when attempting to send reports, please try again later", "Failed to Send");
+                        didNotSend.Commands.Add(new UICommand("OK"));
+                        await didNotSend.ShowAsync();
+                        break;
                     }
                 }
 
-                this.processing.IsActive = false;
+                
 
                 Frame.Navigate(typeof(UnsentReportsPage));
             }
