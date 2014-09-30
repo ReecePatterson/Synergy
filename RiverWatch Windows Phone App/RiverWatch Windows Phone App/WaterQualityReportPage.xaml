@@ -9,6 +9,11 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <ListView x:Name="PairedDevicesList" Margin="60,50,10,10" SelectionMode="None" FontSize="25" Background="Transparent" RequestedTheme="Default" ShowsScrollingPlaceholders="False">
+
+        </ListView>
+        
+        
         <TextBlock>This is the Water Quality Report Page</TextBlock>
         <TextBlock x:Name="thingsFound" Text="Devices" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
         <Button x:Name="ConnectButton" Content="Connect" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="ConnectButton_Click"></Button>
