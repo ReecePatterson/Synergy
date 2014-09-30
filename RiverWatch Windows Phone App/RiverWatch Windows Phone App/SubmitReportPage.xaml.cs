@@ -97,7 +97,7 @@ namespace RiverWatch_Windows_Phone_App
             this.CommandBar.Visibility = Visibility.Collapsed;
 
             Boolean success = false;
-            await Task.Delay(2000); //TODO increase this at end
+            await Task.Delay(2000); //TODO increase this at end TODO discuss about what to do with this, I want it gone -R
 
             //convert to json and upload to server
             //_client = new HttpClient();

@@ -180,7 +180,7 @@ namespace RiverWatch_Windows_Phone_App
 
         private async void SubmitReport_Click(object sender, RoutedEventArgs e)
         {
-            // hide buttons TODO Thinking of changing this to the command bar
+            // hide buttons
             this.SubmitButton.Visibility = Visibility.Collapsed;
             this.DeleteButton.Visibility = Visibility.Collapsed;
 

@@ -277,7 +277,6 @@ namespace RiverWatch_Windows_Phone_App
             var geolocator = new Geolocator();
             geolocator.DesiredAccuracyInMeters = 80;
             Geoposition position = await geolocator.GetGeopositionAsync();
-            //TODO check that this falls within new zealand!!!
 
             //TODO research if this is needs to be changed for updated releases point.position.latitude
             this.latit = "" + position.Coordinate.Latitude; 
@@ -330,7 +329,7 @@ namespace RiverWatch_Windows_Phone_App
             this.imageReady = true;
 
             // sneakily start the geolocation task
-            this.getGeoPosition(); //TODO research how to make await methods in non-async methods and to make it shut up :(
+            this.getGeoPosition();
 
             // the date the photo was taken is in the files name
             Debug.WriteLine("source:" + imageFile.Path);
@@ -341,7 +340,7 @@ namespace RiverWatch_Windows_Phone_App
             String filename = imageFile.Name;
 
             // get date and time
-            this.date = filename.Substring(16, 19); //TODO find a nicer way to do this
+            this.date = filename.Substring(16, 19);
 
             return true;
         }
