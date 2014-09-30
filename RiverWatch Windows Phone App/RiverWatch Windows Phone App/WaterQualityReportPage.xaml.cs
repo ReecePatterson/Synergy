@@ -72,6 +72,10 @@ namespace RiverWatch_Windows_Phone_App {
                     {
                         this.thingsFound.Text += "\nEmans device found";
                         StreamSocket socket = new StreamSocket();
+
+                        if (socket != null) {
+                            socket.Dispose();
+                        }
                         
                         this.thingsFound.Text += "\nSocket Created with hostname: " + pi.HostName + " \nwith service name: " + pi.ServiceName;
                         //await socket.ConnectAsync(new End);
