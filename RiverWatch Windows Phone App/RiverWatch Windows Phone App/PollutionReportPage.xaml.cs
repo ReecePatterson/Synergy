@@ -390,11 +390,6 @@ namespace RiverWatch_Windows_Phone_App
             Frame.Navigate(typeof(AddDescriptionPage),report);
         }
 
-        private void waterQualityButton_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(WaterQualityReportPage));
-        }
-
         void HardwareButtons_DisableCameraButton(object sender, CameraEventArgs e) {
         }
 

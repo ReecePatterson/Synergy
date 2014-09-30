@@ -115,9 +115,6 @@
     <Compile Include="UnsentReportsPage.xaml.cs">
       <DependentUpon>UnsentReportsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WaterQualityReportPage.xaml.cs">
-      <DependentUpon>WaterQualityReportPage.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -194,10 +191,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UnsentReportsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="WaterQualityReportPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
