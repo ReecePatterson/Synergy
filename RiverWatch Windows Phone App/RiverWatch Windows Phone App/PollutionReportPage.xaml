@@ -39,13 +39,6 @@
             </Grid>
         </Grid>
 
-        <Grid x:Name="WaterQualityGrid" Background="#ADD8E6" VerticalAlignment="Top" Margin="60,490,10,0" Height="90">
-            <TextBlock x:Name="WaterQualityToolTip" FontSize="18" Margin="20,18,0,0" Foreground="White">Measure water quality</TextBlock>
-            <Grid HorizontalAlignment="Right" Width="100" Background="#5F9F9F" Tapped="waterQualityButton_Tapped">
-                <Image x:Name="waterQualityButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" Source="Assets/wandIcon.png"/>
-            </Grid>
-        </Grid>
-
         <Rectangle HorizontalAlignment="Left" Height="100" Margin="-85,298,0,0" VerticalAlignment="Top" Width="100"/>
         <AppBarButton x:Name="ReturnButton" HorizontalAlignment="Left" Icon="Back" Label="appbarbutton" Margin="5,40,0,0" VerticalAlignment="Top" IsCompact="True" Click="ReturnButton_Click"/>
 

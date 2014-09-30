@@ -323,10 +323,6 @@ namespace RiverWatch_Windows_Phone_App
                 // animate description
                 top = DescriptionGrid.Margin.Top;
                 DescriptionGrid.Margin = new Thickness(60, top - 3, 10, 0);
-
-                // animate water quality
-                top = WaterQualityGrid.Margin.Top;
-                WaterQualityGrid.Margin = new Thickness(60, top - 4, 10, 0);
                 
                 await Task.Delay(20);
             }
@@ -347,10 +343,6 @@ namespace RiverWatch_Windows_Phone_App
 
             // animate description
             DescriptionGrid.Margin = new Thickness(60, 380, 10, 0);
-            await Task.Delay(500);
-
-            // animate water quality
-            WaterQualityGrid.Margin = new Thickness(60, 490, 10, 0);
             await Task.Delay(500);
 
             SubmitButton.Visibility = Visibility.Collapsed;
