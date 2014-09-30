@@ -174,10 +174,11 @@ namespace RiverWatch_Windows_Phone_App
                         StorageFile rFile = await unsentReportFolder.GetFileAsync(r.getReportName());
                         await rFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
                         await r.discardReport(true);
-                        
+                        this.processing.IsActive = false;
                     }
                     else
                     {
+                        this.processing.IsActive = false;
                         MessageDialog didNotSend = new MessageDialog("Error when attempting to send reports, please try again later", "Failed to Send");
                         didNotSend.Commands.Add(new UICommand("OK"));
                         await didNotSend.ShowAsync();
@@ -185,7 +186,7 @@ namespace RiverWatch_Windows_Phone_App
                     }
                 }
 
-                this.processing.IsActive = false;
+                
 
                 Frame.Navigate(typeof(UnsentReportsPage));
             }

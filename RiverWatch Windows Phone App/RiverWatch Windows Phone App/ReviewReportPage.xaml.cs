@@ -199,10 +199,10 @@ namespace RiverWatch_Windows_Phone_App
             }
             else
             {
+                this.processing.IsActive = false;
                 MessageDialog didNotSend = new MessageDialog("Error when attempting to send report, please try again later", "Failed to Send");
                 didNotSend.Commands.Add(new UICommand("OK"));
                 await didNotSend.ShowAsync();
-                this.processing.IsActive = false;
             }
         }
 
