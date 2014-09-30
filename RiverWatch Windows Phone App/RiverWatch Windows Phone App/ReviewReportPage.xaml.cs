@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Animation;
 using System.Threading.Tasks;
+using Windows.UI.Popups;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -180,7 +181,7 @@ namespace RiverWatch_Windows_Phone_App
 
         private async void SubmitReport_Click(object sender, RoutedEventArgs e)
         {
-            // hide buttons TODO Thinking of changing this to the command bar
+            // hide buttons
             this.SubmitButton.Visibility = Visibility.Collapsed;
             this.DeleteButton.Visibility = Visibility.Collapsed;
 
@@ -196,7 +197,13 @@ namespace RiverWatch_Windows_Phone_App
                 //submit report
                 Frame.Navigate(typeof(UnsentReportsPage));
             }
-            this.processing.IsActive = false;
+            else
+            {
+                MessageDialog didNotSend = new MessageDialog("Error when attempting to send report, please try again later", "Failed to Send");
+                didNotSend.Commands.Add(new UICommand("OK"));
+                await didNotSend.ShowAsync();
+                this.processing.IsActive = false;
+            }
         }
 
         private async void DeleteReport_Click(object sender, RoutedEventArgs e)
