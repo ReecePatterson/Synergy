@@ -49,37 +49,29 @@ namespace RiverWatch_Windows_Phone_App
             // If the list is not empty, match all contents of the list with our predetermined expected Tags.
             if (li != null)
             {
-                if (li.Contains("Cattle"))
+                if (li.Contains("Cow"))
                 {
                     tag1.IsChecked = true;
                 }
-                if (li.Contains("Bacteria"))
+                if (li.Contains("Pollution"))
                 {
                     tag2.IsChecked = true;
                 }
-                if (li.Contains("Faeces"))
+                if (li.Contains("Runoff"))
                 {
                     tag3.IsChecked = true;
                 }
-                if (li.Contains("Waste Spill"))
+                if (li.Contains("Drain"))
                 {
                     tag4.IsChecked = true;
                 }
-                if (li.Contains("Vandalism"))
+                if (li.Contains("Waterway"))
                 {
                     tag5.IsChecked = true;
                 }
-                if (li.Contains("River"))
+                if (li.Contains("Paint"))
                 {
                     tag6.IsChecked = true;
-                }
-                if (li.Contains("Lake"))
-                {
-                    tag7.IsChecked = true;
-                }
-                if (li.Contains("Ocean"))
-                {
-                    tag8.IsChecked = true;
                 }
 
                 
@@ -115,14 +107,6 @@ namespace RiverWatch_Windows_Phone_App
             if (tag6.IsChecked == true)
             {
                 tags.Add(tag6.Content.ToString());
-            }
-            if (tag7.IsChecked == true)
-            {
-                tags.Add(tag7.Content.ToString());
-            }
-            if (tag8.IsChecked == true)
-            {
-                tags.Add(tag8.Content.ToString());
             }
 
             // After the list is completed, navigate back to Pollution Report Page with the list stored in a session
