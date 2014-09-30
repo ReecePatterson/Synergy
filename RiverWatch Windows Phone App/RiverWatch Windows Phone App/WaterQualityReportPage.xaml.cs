@@ -30,10 +30,16 @@ namespace RiverWatch_Windows_Phone_App {
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class WaterQualityReportPage : Page {
+
+        ObservableCollection<PeerInformation> _pairedDevices;  // a local copy of paired device information
+        StreamSocket _socket; // socket object used to communicate with the device
+
         public WaterQualityReportPage() {
             this.InitializeComponent();
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+
         }
+
 
         void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e) {
             Frame rootFrame = Window.Current.Content as Frame;
@@ -47,7 +53,8 @@ namespace RiverWatch_Windows_Phone_App {
         string deviceName = "SGS4";
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
-            connectToPoos();
+            _pairedDevices = new ObservableCollection<PeerInformation>();
+            PairedDevicesList.ItemsSource = _pairedDevices;
         }
 
         private async Task<Boolean> connectToPoos()
@@ -94,110 +101,45 @@ namespace RiverWatch_Windows_Phone_App {
             Frame.Navigate(typeof(HubPage));
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e) {
-            List<string> serviceList = new List<string>();
-            foreach (var service in currentDevice.GattServices) {
-                switch (service.Uuid.ToString()) {
-                    case "00001811-0000-1000-8000-00805f9b34fb":
-                        serviceList.Add("AlertNotification");
-                        break;
-                    case "0000180f-0000-1000-8000-00805f9b34fb":
-                        serviceList.Add("Battery");
-                        break;
-                    case "00001810-0000-1000-8000-00805f9b34fb":
-                        serviceList.Add("BloodPressure");
-                        break;
-                    case "00001805-0000-1000-8000-00805f9b34fb":
-                        serviceList.Add("CurrentTime");
-                        break;
-                    case "00001818-0000-1000-8000-00805f9b34fb":
-                        serviceList.Add("CyclingPower");
-                        break;
-                    case "00001816-0000-1000-8000-00805f9b34fb":
-                        serviceList.Add("CyclingSpeedAndCadence");
-                        break;
-                    case "0000180a-0000-1000-8000-00805f9b34fb":
-                        serviceList.Add("DeviceInformation");
-                        break;
-                    case "00001800-0000-1000-8000-00805f9b34fb":
-                        serviceList.Add("GenericAccess");
-                        break;
-                    case "00001801-0000-1000-8000-00805f9b34fb":
-                        serviceList.Add("GenericAttribute");
-                        break;
-                    case "00001808-0000-1000-8000-00805f9b34fb":
-                        serviceList.Add("Glucose");
-                        break;
-                    case "00001809-0000-1000-8000-00805f9b34fb":
-                        serviceList.Add("HealthThermometer");
-                        break;
-                    case "0000180d-0000-1000-8000-00805f9b34fb":
-                        serviceList.Add("HeartRate");
-                        break;
-                    case "00001812-0000-1000-8000-00805f9b34fb":
-                        serviceList.Add("HumanInterfaceDevice");
-                        break;
-                    case "00001802-0000-1000-8000-00805f9b34fb":
-                        serviceList.Add("ImmediateAlert");
-                        break;
-                    case "00001803-0000-1000-8000-00805f9b34fb":
-                        serviceList.Add("LinkLoss");
-                        break;
-                    case "00001819-0000-1000-8000-00805f9b34fb":
-                        serviceList.Add("LocationAndNavigation");
-                        break;
-                    case "00001807-0000-1000-8000-00805f9b34fb":
-                        serviceList.Add("NextDstChange");
-                        break;
-                    case "0000180e-0000-1000-8000-00805f9b34fb":
-                        serviceList.Add("PhoneAlertStatus");
-                        break;
-                    case "00001806-0000-1000-8000-00805f9b34fb":
-                        serviceList.Add("ReferenceTimeUpdate");
-                        break;
-                    case "00001814-0000-1000-8000-00805f9b34fb":
-                        serviceList.Add("RunningSpeedAndCadence");
-                        break;
-                    case "00001813-0000-1000-8000-00805f9b34fb":
-                        serviceList.Add("ScanParameters");
-                        break;
-                    case "00001804-0000-1000-8000-00805f9b34fb":
-                        serviceList.Add("TxPower");
-                        break;
-                    default:
-                        break;
-                }
-            }
-            MessageDialog md = new MessageDialog(String.Join("\r\n", serviceList));
-            md.ShowAsync();
-        }
-
-
-        //Windows.Devices.Bluetooth.RfcommDeviceService _service;
-        //Windows.Networking.Sockets.StreamSocket _socket;
-
-        bool _started = false;
 
         private async void ConnectButton_Click(object sender, RoutedEventArgs e) {
-            connectToPoos();
+            RefreshPairedDevicesList();
 
+        }
 
-            /*
-            this.thingsFound.Text = ">>> Finding bluetooth people\n";
+        private async void RefreshPairedDevicesList() {
+            try {
+                // Search for all paired devices
+                PeerFinder.AlternateIdentities["Bluetooth:Paired"] = "";
+                var peers = await PeerFinder.FindAllPeersAsync();
 
-            Windows.Networking.Proximity.PeerFinder.AllowBluetooth = true;
+                // By clearing the backing data, we are effectively clearing the ListBox
+                _pairedDevices.Clear();
 
-            Windows.Networking.Proximity.PeerFinder.Start();
-            _started = true;
-
-            var peers = await PeerFinder.FindAllPeersAsync();
-
-            for (int i = 0; i < peers.Count; i++) {
-                ConnectToPeer(peers.ElementAt(i));
+                if (peers.Count == 0) {
+                    //MessageBox.Show(AppResources.Msg_NoPairedDevices);
+                }
+                else {
+                    // Found paired devices.
+                    foreach (var peer in peers) {
+                        _pairedDevices.Add(peer);
+                    }
+                }
             }
-
-            this.thingsFound.Text += "Done";
-             * */
+            catch (Exception ex) {
+                if ((uint)ex.HResult == 0x8007048F) {
+                    //var result = MessageBox.Show(AppResources.Msg_BluetoothOff, "Bluetooth Off", MessageBoxButton.OKCancel);
+                    //if (result == MessageBoxResult.OK) {
+                    //    ShowBluetoothcControlPanel();
+                    //}
+                }
+                else if ((uint)ex.HResult == 0x80070005) {
+                    //MessageBox.Show(AppResources.Msg_MissingCaps);
+                }
+                else {
+                    //MessageBox.Show(ex.Message);
+                }
+            }
         }
 
         async private void ConnectToPeer(Windows.Networking.Proximity.PeerInformation peerInfo) {
@@ -212,6 +154,45 @@ namespace RiverWatch_Windows_Phone_App {
             }
             catch (Exception err) {
                 //WriteMessageText("Connection failed: " + err.Message + "\n");
+            }
+        }
+
+        private void doSomething_Click(object sender, RoutedEventArgs e) {
+            // Because I enable the ConnectToSelected button only if the user has
+            // a device selected, I don't need to check here whether that is the case.
+
+            // Connect to the device
+            PeerInformation pdi = _pairedDevices[0];
+
+            // Asynchronous call to connect to the device
+            ConnectToDevice(pdi);
+        }
+
+        private async void ConnectToDevice(PeerInformation peer) {
+            if (_socket != null) {
+                // Disposing the socket with close it and release all resources associated with the socket
+                _socket.Dispose();
+            }
+
+            try {
+                _socket = new StreamSocket();
+                //string serviceName = (String.IsNullOrWhiteSpace(peer.ServiceName)) ? "2" : peer.ServiceName;
+                string serviceName = "2";
+
+                // Note: If either parameter is null or empty, the call will throw an exception
+                await _socket.ConnectAsync(peer.HostName, serviceName);
+
+                // If the connection was successful, the RemoteAddress field will be populated
+                //MessageBox.Show(String.Format(AppResources.Msg_ConnectedTo, _socket.Information.RemoteAddress.DisplayName));
+                Debug.WriteLine("poopies hurray");
+            }
+            catch (Exception ex) {
+                // In a real app, you would want to take action dependent on the type of 
+                // exception that occurred.
+                //MessageBox.Show(ex.Message);
+
+                _socket.Dispose();
+                _socket = null;
             }
         }
     }
