@@ -178,7 +178,7 @@ namespace RiverWatch_Windows_Phone_App
             MultipartFormDataContent form = new MultipartFormDataContent();
 
             //create the string for description, tags, and geolocation
-            HttpContent content = new StringContent(await report.ConvertReportInformationForUpload());
+            HttpContent content = new StringContent(report.ConvertReportInformationForUpload());
             form.Add(content, "\"data\"");
             //convert image into byte array so we can create a memorystream
             HttpContent image = new StreamContent(new MemoryStream(await report.convertImageToByte()));
