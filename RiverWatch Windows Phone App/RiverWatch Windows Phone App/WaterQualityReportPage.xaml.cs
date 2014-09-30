@@ -55,6 +55,8 @@ namespace RiverWatch_Windows_Phone_App {
         {
             _pairedDevices = new ObservableCollection<PeerInformation>();
             PairedDevicesList.ItemsSource = _pairedDevices;
+
+            RefreshPairedDevicesList();
         }
 
         private async Task<Boolean> connectToPoos()
@@ -86,7 +88,7 @@ namespace RiverWatch_Windows_Phone_App {
                         
                         this.thingsFound.Text += "\nSocket Created with hostname: " + pi.HostName + " \nwith service name: " + pi.ServiceName;
                         //await socket.ConnectAsync(new End);
-                        await socket.ConnectAsync(pi.HostName, "3");
+                        await socket.ConnectAsync(pi.HostName, "2");
                         this.thingsFound.Text += "\nDevice Connected";
                         return true;
                     }
@@ -103,7 +105,7 @@ namespace RiverWatch_Windows_Phone_App {
 
 
         private async void ConnectButton_Click(object sender, RoutedEventArgs e) {
-            RefreshPairedDevicesList();
+            //RefreshPairedDevicesList();
 
         }
 
@@ -195,5 +197,22 @@ namespace RiverWatch_Windows_Phone_App {
                 _socket = null;
             }
         }
+    }
+
+    /// <summary>
+    ///  Class to hold all paired device information
+    /// </summary>
+    public class PairedDeviceInfo {
+        internal PairedDeviceInfo(PeerInformation peerInformation) {
+            this.PeerInfo = peerInformation;
+            this.DisplayName = this.PeerInfo.DisplayName;
+            this.HostName = this.PeerInfo.HostName.DisplayName;
+            this.ServiceName = this.PeerInfo.ServiceName;
+        }
+
+        public string DisplayName { get; private set; }
+        public string HostName { get; private set; }
+        public string ServiceName { get; private set; }
+        public PeerInformation PeerInfo { get; private set; }
     }
 }
