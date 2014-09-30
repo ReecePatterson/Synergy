@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -74,7 +75,7 @@ namespace RiverWatch_Windows_Phone_App {
                         
                         this.thingsFound.Text += "\nSocket Created with hostname: " + pi.HostName + " \nwith service name: " + pi.ServiceName;
                         //await socket.ConnectAsync(new End);
-                        await socket.ConnectAsync(pi.HostName, "2");
+                        await socket.ConnectAsync(pi.HostName, "3");
                         this.thingsFound.Text += "\nDevice Connected";
                         return true;
                     }
