@@ -10,7 +10,7 @@
     <Grid>
         <TextBlock x:Name="PageTitle" FontSize="25" Margin="10,0,0,0">Create a Pollution Report</TextBlock>
 
-        <Grid x:Name="PhotoGrid" Background="#ADD8E6" VerticalAlignment="Top" Margin="60,50,10,0" Height="90">
+        <Grid x:Name="PhotoGrid" Background="#ADD8E6" VerticalAlignment="Top" Margin="60,50,10,0" Height="90" Tapped="cameraButton_Tapped">
             <TextBlock x:Name="ImageToolTip" FontSize="20" Margin="20,18,0,0" Foreground="White">Take a photo</TextBlock>
             <Grid HorizontalAlignment="Right" Width="100" Background="#5F9F9F" Tapped="cameraButton_Tapped">
                 <Image x:Name="cameraButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" Source="Assets/cameraIconReport.png" />
@@ -25,14 +25,14 @@
             </Grid>
         </Grid>
 
-        <Grid x:Name="TagsGrid" Background="#ADD8E6" VerticalAlignment="Top" Margin="60,270,10,0" Height="90">
+        <Grid x:Name="TagsGrid" Background="#ADD8E6" VerticalAlignment="Top" Margin="60,270,10,0" Height="90" Tapped="tagButton_Tapped">
             <TextBlock x:Name="TagsToolTip" FontSize="20" Margin="20,18,100,0" Foreground="White">Select tags</TextBlock>
             <Grid HorizontalAlignment="Right" Width="100" Background="#5F9F9F" Tapped="tagButton_Tapped">
                 <Image x:Name="tagButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" Source="Assets/hashtagIcon.png"/>
             </Grid>
         </Grid>
 
-        <Grid x:Name="DescriptionGrid" Background="#ADD8E6" VerticalAlignment="Top" Margin="60,380,10,0" Height="90">
+        <Grid x:Name="DescriptionGrid" Background="#ADD8E6" VerticalAlignment="Top" Margin="60,380,10,0" Height="90" Tapped="descriptionButton_Tapped">
             <TextBlock x:Name="DescriptionToolTip" FontSize="20" Margin="20,18,100,10" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" Foreground="White">Add description</TextBlock>
             <Grid HorizontalAlignment="Right" Width="100" Background="#5F9F9F" Tapped="descriptionButton_Tapped">
                 <Image x:Name="descriptionButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" Source="Assets/descriptionIcon.png" Tapped="descriptionButton_Tapped"/>
@@ -41,7 +41,6 @@
 
         <Rectangle HorizontalAlignment="Left" Height="100" Margin="-85,298,0,0" VerticalAlignment="Top" Width="100"/>
         <AppBarButton x:Name="ReturnButton" HorizontalAlignment="Left" Icon="Back" Label="appbarbutton" Margin="5,40,0,0" VerticalAlignment="Top" IsCompact="True" Click="ReturnButton_Click"/>
-
         <AppBarButton x:Name="SubmitButton" Icon="Accept" VerticalAlignment="Bottom" HorizontalAlignment="Right" Visibility="Collapsed" Click="SubmitReport_Click"/>
     </Grid>
 </Page>
