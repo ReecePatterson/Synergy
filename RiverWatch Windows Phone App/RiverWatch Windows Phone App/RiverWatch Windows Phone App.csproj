@@ -158,7 +158,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DataModel\SampleData.json" />
-    <PRIResource Include="Strings\en-US\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="AddDescriptionPage.xaml">
@@ -201,6 +200,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Server Code\rest.py" />
+    <PRIResource Include="Strings\en-NZ\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
