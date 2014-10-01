@@ -166,7 +166,8 @@ namespace RiverWatch_Windows_Phone_App
                 await Task.Delay(2000);
 
                 //SEND ALL REPORTS
-                foreach (Report r in reports) {
+                foreach (Report r in reports)
+                {
                     if (await r.UploadToServer())
                     {
                         //DELETE FILE ASSOCIATED
@@ -185,9 +186,6 @@ namespace RiverWatch_Windows_Phone_App
                         break;
                     }
                 }
-
-                
-
                 Frame.Navigate(typeof(UnsentReportsPage));
             }
         }
@@ -199,15 +197,12 @@ namespace RiverWatch_Windows_Phone_App
             deleteConfirm.Commands.Add(new UICommand("No"));
 
             await deleteConfirm.ShowAsync();
-
-            
         }
 
         private async void DeleteInvokedHandler(IUICommand command)
         {
             if (command.Label == "Delete")
             {
-                
                 foreach (Report currReport in reports)
                 {
                     await currReport.discardReport(true);
