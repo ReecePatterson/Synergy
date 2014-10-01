@@ -170,7 +170,6 @@ namespace RiverWatch_Windows_Phone_App
         private void AppResume(object sender, object e)
         {
             stopCamera();
-            
         }
 
         
