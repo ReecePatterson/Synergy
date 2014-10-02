@@ -181,6 +181,8 @@ namespace RiverWatch_Windows_Phone_App {
                 //string serviceName = (String.IsNullOrWhiteSpace(peer.ServiceName)) ? "2" : peer.ServiceName;
                 string serviceName = "2";
 
+                Debug.WriteLine("before first await");
+
                 // Note: If either parameter is null or empty, the call will throw an exception
                 await _socket.ConnectAsync(peer.HostName, serviceName);
 
