@@ -184,6 +184,10 @@ namespace RiverWatch_Windows_Phone_App {
                 // Note: If either parameter is null or empty, the call will throw an exception
                 await _socket.ConnectAsync(peer.HostName, serviceName);
 
+                MessageDialog messageDialog = new MessageDialog(_socket.Information.RemoteAddress.DisplayName);
+
+                await messageDialog.ShowAsync();
+                //MessageBox.Show(String.Format(AppResources.Msg_ConnectedTo, _socket.Information.RemoteAddress.DisplayName));
                 // If the connection was successful, the RemoteAddress field will be populated
                 //MessageBox.Show(String.Format(AppResources.Msg_ConnectedTo, _socket.Information.RemoteAddress.DisplayName));
                 Debug.WriteLine("poopies hurray");
