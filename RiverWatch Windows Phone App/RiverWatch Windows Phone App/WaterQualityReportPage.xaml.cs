@@ -179,12 +179,12 @@ namespace RiverWatch_Windows_Phone_App {
             try {
                 _socket = new StreamSocket();
                 //string serviceName = (String.IsNullOrWhiteSpace(peer.ServiceName)) ? "2" : peer.ServiceName;
-                string serviceName = "2";
+                string serviceName = "3";
 
                 Debug.WriteLine("before first await");
 
                 // Note: If either parameter is null or empty, the call will throw an exception
-                await _socket.ConnectAsync(peer.HostName, serviceName);
+                await _socket.ConnectAsync(peer.HostName, serviceName, SocketProtectionLevel.BluetoothEncryptionAllowNullAuthentication);
 
                 MessageDialog messageDialog = new MessageDialog(_socket.Information.RemoteAddress.DisplayName);
 
