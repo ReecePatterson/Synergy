@@ -20,7 +20,7 @@
             <HubSection Header="Submit Report">
                 <DataTemplate>
                     <Grid>
-                        <Image HorizontalAlignment="Left" Height="320" Margin="10,50,0,0" VerticalAlignment="Top" Width="320" Source="Assets/PollutionReportImg.png" Tapped="PollutionReport_Tapped" Stretch="Fill"/>
+                        <Image x:Name="PRImage" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Width="320" Height="320" Source="Assets/PollutionReportImg.png" Tapped="PollutionReport_Tapped" Stretch="Fill"/>
                     </Grid>
                 </DataTemplate>
             </HubSection>
