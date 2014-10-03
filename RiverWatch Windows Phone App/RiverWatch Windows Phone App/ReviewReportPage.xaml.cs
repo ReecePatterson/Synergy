@@ -181,7 +181,7 @@ namespace RiverWatch_Windows_Phone_App
 
         private async void SubmitReport_Click(object sender, RoutedEventArgs e)
         {
-            MessageDialog sendConfirm = new MessageDialog("Are you sure you wish to send all reports?", "Send All?");
+            MessageDialog sendConfirm = new MessageDialog("Are you sure you wish to send this report?", "Send?");
             sendConfirm.Commands.Add(new UICommand("Send", new UICommandInvokedHandler(this.SendInvokedHandler)));
             sendConfirm.Commands.Add(new UICommand("No"));
 
@@ -221,7 +221,7 @@ namespace RiverWatch_Windows_Phone_App
         private async void DeleteReport_Click(object sender, RoutedEventArgs e)
         {
 
-            MessageDialog deleteConfirm = new MessageDialog("Are you sure you wish to delete all unsaved reports?", "Delete All?");
+            MessageDialog deleteConfirm = new MessageDialog("Are you sure you wish to delete this report?", "Delete?");
             deleteConfirm.Commands.Add(new UICommand("Delete", new UICommandInvokedHandler(this.DeleteInvokedHandler)));
             deleteConfirm.Commands.Add(new UICommand("No"));
 
