@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    >
     <Page.BottomAppBar>
         <CommandBar x:Name="CommandBar" Visibility="Collapsed">
             <AppBarButton x:Name="YesButton" Icon="Accept" Label="Yes" Click="YesButton_Click"/>
