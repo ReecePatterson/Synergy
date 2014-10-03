@@ -173,7 +173,7 @@ namespace RiverWatch_Windows_Phone_App {
             try {
                 _socket = new StreamSocket();
                 //string serviceName = (String.IsNullOrWhiteSpace(peer.ServiceName)) ? "2" : peer.ServiceName;
-                string serviceName = "3";
+                string serviceName = "1803";
 
                 Debug.WriteLine("before first await");
 
