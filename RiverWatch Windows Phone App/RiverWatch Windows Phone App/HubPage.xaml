@@ -21,7 +21,6 @@
             <HubSection Header="Unsent Reports">
                 <DataTemplate>
                     <Grid>
-                        <TextBlock>Work In Progress</TextBlock>
                         <Image HorizontalAlignment="Left" Height="320" Margin="10,50,0,0" VerticalAlignment="Top" Width="320" Source="Assets/UnsentReportsImg.png" Tapped="WaterQualityReport_Tapped"/>
                     </Grid>
                 </DataTemplate>
