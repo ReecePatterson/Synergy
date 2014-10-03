@@ -10,13 +10,13 @@
 
     <Grid>
         <Hub Header="RiverWatch">
-            <!--<Hub.Background>
+            <Hub.Background>
                 <ImageBrush ImageSource="ms-appx:/Assets/Background.png" Stretch="UniformToFill" Opacity="0.515">
                     <ImageBrush.RelativeTransform>
                         <CompositeTransform CenterY="0.5" CenterX="0.5" ScaleY="1.5" ScaleX="1.5"/>
                     </ImageBrush.RelativeTransform>
                 </ImageBrush>
-            </Hub.Background>-->
+            </Hub.Background>
             <HubSection Header="Submit Report">
                 <DataTemplate>
                     <Grid>
