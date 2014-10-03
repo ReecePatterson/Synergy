@@ -124,6 +124,16 @@ namespace RiverWatch_Windows_Phone_App
                 reportItems.Add(currFileItem);
             }
             UnsentReportList.ItemsSource = reportItems;
+            if (reportItems.Count > 0)
+            {
+                noUnsentText.Text = "";
+                cmdBar.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                noUnsentText.Text = "No Unsent Reports";
+                cmdBar.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void currFileItem_Tapped(object sender, TappedRoutedEventArgs e)

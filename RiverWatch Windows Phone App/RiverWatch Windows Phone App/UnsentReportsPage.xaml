@@ -8,7 +8,7 @@
     mc:Ignorable="d"
     >
     <Page.BottomAppBar>
-        <CommandBar x:Name="cmdBar">
+        <CommandBar x:Name="cmdBar" Visibility="Collapsed">
             <AppBarButton x:Name="SendAllButton" Icon="Send" Label="Send All" Click="SendAllButton_Click"/>
             <AppBarButton x:Name="DeleteAllButton" Icon="Delete" Label="Delete All" Click="DeleteAllButton_Click"/>
         </CommandBar>
@@ -18,9 +18,10 @@
         <ProgressRing x:Name="processing" VerticalAlignment="Center" HorizontalAlignment="Center" Width="80" Height="80" Visibility="Visible" Background="{x:Null}"/>
         <TextBlock x:Name="PageTitle" FontSize="25" Margin="10,0,0,0">Unsent Pollution Reports</TextBlock>
         <AppBarButton x:Name="ReturnButton" HorizontalAlignment="Left" Icon="Back" Label="appbarbutton" Margin="5,40,0,0" VerticalAlignment="Top" IsCompact="True" Click="ReturnButton_Click"/>
-
+        <TextBlock x:Name="s" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Text="No Unsent Reports" IsDoubleTapEnabled="False" IsHoldingEnabled="False" IsRightTapEnabled="False" IsTapEnabled="False"/>
         <ListView x:Name="UnsentReportList" Margin="60,50,10,10" SelectionMode="None" FontSize="25" Background="Transparent" RequestedTheme="Default" ShowsScrollingPlaceholders="False">
         </ListView>
 
+        
     </Grid>
 </Page>
