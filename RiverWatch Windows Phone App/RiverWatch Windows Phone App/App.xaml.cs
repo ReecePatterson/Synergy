@@ -76,7 +76,7 @@ namespace RiverWatch_Windows_Phone_App
                     Stretch = Windows.UI.Xaml.Media.Stretch.UniformToFill,
                     ImageSource = new BitmapImage
                     {
-                        UriSource = new Uri("ms-appx:///Assets/Background.png")
+                        UriSource = new Uri("ms-appx:///Assets/Background.jpg")
                     }
                 };
 

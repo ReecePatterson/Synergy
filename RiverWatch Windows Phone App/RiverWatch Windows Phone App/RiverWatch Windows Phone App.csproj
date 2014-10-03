@@ -126,7 +126,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\backArrow.png" />
-    <Content Include="Assets\Background.png" />
+    <Content Include="Assets\Background.jpg" />
     <Content Include="Assets\cameraIconReport.png" />
     <Content Include="Assets\cameraIcon.png" />
     <Content Include="Assets\DarkGray.png" />
