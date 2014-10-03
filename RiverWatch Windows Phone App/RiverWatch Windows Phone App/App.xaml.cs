@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // The Hub Application template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
@@ -68,6 +69,16 @@ namespace RiverWatch_Windows_Phone_App
 
                 // TODO: Change this value to a cache size that is appropriate for your application.
                 rootFrame.CacheSize = 1;
+
+                // Set the application's background image.
+                rootFrame.Background = new ImageBrush
+                {
+                    Stretch = Windows.UI.Xaml.Media.Stretch.UniformToFill,
+                    ImageSource = new BitmapImage
+                    {
+                        UriSource = new Uri("ms-appx:///Assets/Background.png")
+                    }
+                };
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
