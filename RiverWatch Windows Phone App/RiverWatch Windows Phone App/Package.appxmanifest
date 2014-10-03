@@ -36,7 +36,7 @@
     <DeviceCapability Name="proximity" />
     <m2:DeviceCapability Name="bluetooth.genericAttributeProfile">
       <m2:Device Id="any">
-        <m2:Function Type="serviceId:2" />
+        <m2:Function Type="serviceId:1803" />
       </m2:Device>
     </m2:DeviceCapability>
   </Capabilities>
