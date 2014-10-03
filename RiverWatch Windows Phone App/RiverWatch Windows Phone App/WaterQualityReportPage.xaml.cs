@@ -51,41 +51,35 @@ namespace RiverWatch_Windows_Phone_App {
 
         BluetoothLEDevice currentDevice { get; set; }
         string deviceName = "SGS4";
-        protected async override void OnNavigatedTo(NavigationEventArgs e)
-        {
+        protected async override void OnNavigatedTo(NavigationEventArgs e) {
             _pairedDevices = new ObservableCollection<PeerInformation>();
             PairedDevicesList.ItemsSource = _pairedDevices;
 
             RefreshPairedDevicesList();
         }
 
-        private async Task<Boolean> connectToPoos()
-        {
+        private async Task<Boolean> connectToPoos() {
             PeerFinder.AllowBluetooth = true;
             PeerFinder.Start();
 
-            PeerFinder.AlternateIdentities["Bluetooth:PAIRED"] = ""; 
+            PeerFinder.AlternateIdentities["Bluetooth:PAIRED"] = "";
             var available_devices = await PeerFinder.FindAllPeersAsync();
             PeerInformation pi = null;
-            if (available_devices.Count == 0) 
-            { 
-                   return false;             
-            } 
-            else
-            {
-                for (int i = 0; i < available_devices.Count; i++)
-                {
+            if (available_devices.Count == 0) {
+                return false;
+            }
+            else {
+                for (int i = 0; i < available_devices.Count; i++) {
                     pi = available_devices[i];
                     this.thingsFound.Text = "\nPaired Device Name: " + pi.DisplayName;
-                    if (pi.DisplayName.Contains("Emmanuel"))
-                    {
+                    if (pi.DisplayName.Contains("Emmanuel")) {
                         this.thingsFound.Text += "\nEmans device found";
                         StreamSocket socket = new StreamSocket();
 
                         if (socket != null) {
                             socket.Dispose();
                         }
-                        
+
                         this.thingsFound.Text += "\nSocket Created with hostname: " + pi.HostName + " \nwith service name: " + pi.ServiceName;
                         //await socket.ConnectAsync(new End);
                         await socket.ConnectAsync(pi.HostName, "2");
@@ -93,7 +87,7 @@ namespace RiverWatch_Windows_Phone_App {
                         return true;
                     }
                 }
-                
+
             }
             return false;
 
