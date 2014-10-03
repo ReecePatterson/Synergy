@@ -10,17 +10,10 @@
 
     <Grid>
         <Hub Header="RiverWatch">
-            <Hub.Background>
-                <ImageBrush ImageSource="ms-appx:/Assets/Background.png" Stretch="UniformToFill" Opacity="0.515">
-                    <ImageBrush.RelativeTransform>
-                        <CompositeTransform CenterY="0.5" CenterX="0.5" ScaleY="1.5" ScaleX="1.5"/>
-                    </ImageBrush.RelativeTransform>
-                </ImageBrush>
-            </Hub.Background>
             <HubSection Header="Submit Report">
                 <DataTemplate>
                     <Grid>
-                        <Image x:Name="PRImage" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Width="320" Height="320" Source="Assets/PollutionReportImg.png" Tapped="PollutionReport_Tapped" Stretch="Fill"/>
+                        <Image HorizontalAlignment="Left" Height="320" Margin="10,50,0,0" VerticalAlignment="Top" Width="320" Source="Assets/PollutionReportImg.png" Tapped="PollutionReport_Tapped"/>
                     </Grid>
                 </DataTemplate>
             </HubSection>
@@ -28,6 +21,7 @@
             <HubSection Header="Unsent Reports">
                 <DataTemplate>
                     <Grid>
+                        <TextBlock>Work In Progress</TextBlock>
                         <Image HorizontalAlignment="Left" Height="320" Margin="10,50,0,0" VerticalAlignment="Top" Width="320" Source="Assets/UnsentReportsImg.png" Tapped="WaterQualityReport_Tapped"/>
                     </Grid>
                 </DataTemplate>
