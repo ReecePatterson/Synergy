@@ -13,7 +13,7 @@
             <HubSection Header="Submit Report">
                 <DataTemplate>
                     <Grid>
-                        <Image HorizontalAlignment="Left" Height="320" Margin="10,50,0,0" VerticalAlignment="Top" Width="320" Source="Assets/PollutionReportImg.png" Tapped="PollutionReport_Tapped"/>
+                        <Image Margin="10,50,0,0" Source="Assets/PollutionReportImg.png" Tapped="PollutionReport_Tapped" VerticalAlignment="Top"/>
                     </Grid>
                 </DataTemplate>
             </HubSection>
@@ -21,7 +21,7 @@
             <HubSection Header="Unsent Reports">
                 <DataTemplate>
                     <Grid>
-                        <Image HorizontalAlignment="Left" Height="320" Margin="10,50,0,0" VerticalAlignment="Top" Width="320" Source="Assets/UnsentReportsImg.png" Tapped="WaterQualityReport_Tapped"/>
+                        <Image Margin="10,50,0,0" VerticalAlignment="Top" Source="Assets/UnsentReportsImg.png" Tapped="WaterQualityReport_Tapped"/>
                     </Grid>
                 </DataTemplate>
             </HubSection>
