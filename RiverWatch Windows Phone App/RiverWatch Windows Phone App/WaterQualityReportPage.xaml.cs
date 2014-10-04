@@ -31,7 +31,7 @@ namespace RiverWatch_Windows_Phone_App {
     /// </summary>
     public sealed partial class WaterQualityReportPage : Page {
 
-        ObservableCollection<PeerInformation> _pairedDevices;  // a local copy of paired device information
+        ObservableCollection<PairedDeviceInfo> _pairedDevices;  // a local copy of paired device information
         StreamSocket _socket; // socket object used to communicate with the device
 
         public WaterQualityReportPage() {
@@ -52,7 +52,7 @@ namespace RiverWatch_Windows_Phone_App {
         BluetoothLEDevice currentDevice { get; set; }
         string deviceName = "SGS4";
         protected async override void OnNavigatedTo(NavigationEventArgs e) {
-            _pairedDevices = new ObservableCollection<PeerInformation>();
+            _pairedDevices = new ObservableCollection<PairedDeviceInfo>();
             PairedDevicesList.ItemsSource = _pairedDevices;
 
             RefreshPairedDevicesList();
@@ -118,7 +118,7 @@ namespace RiverWatch_Windows_Phone_App {
                 else {
                     // Found paired devices.
                     foreach (var peer in peers) {
-                        _pairedDevices.Add(peer);
+                        _pairedDevices.Add(new PairedDeviceInfo(peer));
                     }
                 }
             }
@@ -158,10 +158,11 @@ namespace RiverWatch_Windows_Phone_App {
             // a device selected, I don't need to check here whether that is the case.
 
             // Connect to the device
-            PeerInformation pdi = _pairedDevices[0];
+            PairedDeviceInfo pdi = _pairedDevices[0];
+            PeerInformation peer = pdi.PeerInfo;
 
             // Asynchronous call to connect to the device
-            ConnectToDevice(pdi);
+            ConnectToDevice(peer);
         }
 
         private async void ConnectToDevice(PeerInformation peer) {
@@ -173,12 +174,12 @@ namespace RiverWatch_Windows_Phone_App {
             try {
                 _socket = new StreamSocket();
                 //string serviceName = (String.IsNullOrWhiteSpace(peer.ServiceName)) ? "2" : peer.ServiceName;
-                string serviceName = "3";
+                string serviceName = "2";
 
                 Debug.WriteLine("before first await");
 
                 // Note: If either parameter is null or empty, the call will throw an exception
-                await _socket.ConnectAsync(peer.HostName, serviceName, SocketProtectionLevel.BluetoothEncryptionAllowNullAuthentication);
+                await _socket.ConnectAsync(peer.HostName, serviceName);
 
                 MessageDialog messageDialog = new MessageDialog(_socket.Information.RemoteAddress.DisplayName);
 
