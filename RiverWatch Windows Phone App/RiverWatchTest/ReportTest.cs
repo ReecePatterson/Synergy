@@ -23,7 +23,7 @@ namespace RiverWatchTest
             Report r = new Report();
             var localStorage = ApplicationData.Current.LocalFolder;
             var file = await localStorage.CreateFileAsync("RiverWatchImage_" + date + ".jpg");
-            r.setImage(file);
+            r.setImage(file, true);
             while (!r.isGeolocationReady())
             {
                 await Task.Delay(2000);
@@ -38,7 +38,7 @@ namespace RiverWatchTest
             Report r = new Report();
             var localStorage = ApplicationData.Current.LocalFolder;
             var file = await localStorage.CreateFileAsync("RiverWatchImage_" + date + ".jpg");
-            r.setImage(file);
+            r.setImage(file, true);
             while (!r.isGeolocationReady())
             {
                 await Task.Delay(2000);
@@ -53,7 +53,7 @@ namespace RiverWatchTest
             Report r = new Report();
             var localStorage = ApplicationData.Current.LocalFolder;
             var file = await localStorage.CreateFileAsync("RiverWatchImage_" + date + ".jpg");
-            r.setImage(file);            
+            r.setImage(file, true);            
            while (!r.isGeolocationReady())
            {
                await Task.Delay(2000);
@@ -95,7 +95,7 @@ namespace RiverWatchTest
             Report r = new Report();
             var localStorage = ApplicationData.Current.LocalFolder;
             var file = await localStorage.CreateFileAsync("RiverWatchImage_" + date + ".jpg");
-            r.setImage(file);
+            r.setImage(file, true);
             while (!r.isGeolocationReady())
             {
                 await Task.Delay(2000);

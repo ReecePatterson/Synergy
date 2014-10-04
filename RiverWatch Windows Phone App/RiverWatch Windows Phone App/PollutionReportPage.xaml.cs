@@ -67,7 +67,7 @@ namespace RiverWatch_Windows_Phone_App
             {
                 Debug.WriteLine("photo");
                 StorageFile imageFile = e.Parameter as StorageFile;
-                report.setImage(imageFile);
+                report.setImage(imageFile, true);
             }
             else if(e.Parameter is List<String>){
                 Debug.WriteLine("tags");

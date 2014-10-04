@@ -317,13 +317,13 @@ namespace RiverWatch_Windows_Phone_App
 
         // setters
 
-        public Boolean setImage(StorageFile imageFile)
+        public Boolean setImage(StorageFile imageFile, Boolean getGeo)
         {
             this.pollutionImage = imageFile;
             this.imageReady = true;
 
             // sneakily start the geolocation task
-            this.getGeoPosition();
+            if (getGeo) { this.getGeoPosition(); }
 
             // the date the photo was taken is in the files name
             Debug.WriteLine("source:" + imageFile.Path);
@@ -391,7 +391,7 @@ namespace RiverWatch_Windows_Phone_App
             Report newReport = new Report();
             int count = 0;
             string[] reportComponents = savedReportString.Split(new String[] { ":~:" }, StringSplitOptions.None);
-            newReport.setImage(await ApplicationData.Current.LocalFolder.GetFileAsync(reportComponents[count++]));
+            newReport.setImage(await ApplicationData.Current.LocalFolder.GetFileAsync(reportComponents[count++]), false);
 
             string logit = reportComponents[count++];
             string latit = reportComponents[count++];
