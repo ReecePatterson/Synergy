@@ -30,17 +30,7 @@
   </Applications>
   <Capabilities>
     <Capability Name="internetClientServer" />
-    <m2:DeviceCapability Name="bluetooth.rfcomm">
-      <m2:Device Id="any">
-        <m2:Function Type="name:serialPort" />
-        <m2:Function Type="name:obexObjectPush" />
-        <m2:Function Type="name:obexFileTransfer" />
-        <m2:Function Type="name:phoneBookAccessPce" />
-        <m2:Function Type="name:phoneBookAccessPse" />
-        <m2:Function Type="name:genericFileTransfer" />
-      </m2:Device>
-    </m2:DeviceCapability>
-    
+    <Capability Name="sharedUserCertificates" />
     <DeviceCapability Name="location" />
     <DeviceCapability Name="microphone" />
     <DeviceCapability Name="webcam" />
