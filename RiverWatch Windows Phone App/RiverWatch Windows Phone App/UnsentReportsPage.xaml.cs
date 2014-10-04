@@ -175,8 +175,10 @@ namespace RiverWatch_Windows_Phone_App
                 this.processing.IsActive = true;
 
                 //Loop for all the reports
-                foreach (Report r in reports)
+                //foreach (Report r in reports)
+                for (int i = 0; i < reports.Count;i++)   
                 {
+                    Report r = reports.ElementAt(i);
                     if (await r.UploadToServer()) //Attempt to send report to server
                     {
                         //Get file associated with report and delete it
