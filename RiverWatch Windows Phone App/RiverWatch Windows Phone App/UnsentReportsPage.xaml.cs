@@ -80,18 +80,19 @@ namespace RiverWatch_Windows_Phone_App
             await refreshReportList();
         }
 
+        //Method that reads all files in the saved reports folder and creates a list of report objects 
+        //and displays ListViewItems to the user for each one
         private async Task refreshReportList()
         {
+            //Clear previous lists
             reportItems.Clear();
             reports.Clear();
-            
+            //Open the folder (create an empty one if it doesnt exist yet)
             StorageFolder unsentReportFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Unsent_Reports", CreationCollisionOption.OpenIfExists);
-            reportFiles = await unsentReportFolder.GetFilesAsync();
-            for (int i = 0; i < reportFiles.Count;i++ )
+            reportFiles = await unsentReportFolder.GetFilesAsync(); //Get all files from the folder
+            for (int i = 0; i < reportFiles.Count;i++ ) //For each file
             {
-                //Read file, split itno info bits.
-                
-                
+                //Read file, split into info bits.
                 StorageFile currFile = reportFiles.ElementAt(i);
                 string fileContent;
                 using (StreamReader s = new StreamReader(await currFile.OpenStreamForReadAsync()))
@@ -99,10 +100,7 @@ namespace RiverWatch_Windows_Phone_App
                     fileContent = await s.ReadToEndAsync();
                     s.Dispose();
                 }
-                Debug.WriteLine(fileContent + "\n");
-                //Report currReport = new Report(fileContent);
-                Report currReport = await Report.GenerateFromString(fileContent);
-                //string[] reportComponents = fileContent.Split(new String[]{":~:"},StringSplitOptions.None);
+                Report currReport = await Report.GenerateFromString(fileContent); //Generate the report object from read string
                 //create preview
                 //image block preview
                 Image previewImage = new Image();
@@ -120,31 +118,32 @@ namespace RiverWatch_Windows_Phone_App
                 currFileItem.Margin = new Thickness(0, 5, 0, 5);
                 currFileItem.Tapped +=currFileItem_Tapped;
 
-                reports.Add(currReport);
-                reportItems.Add(currFileItem);
+                reports.Add(currReport); //Add report to list of reports
+                reportItems.Add(currFileItem); //add listviewitem so the user can see the report preview
             }
-            UnsentReportList.ItemsSource = reportItems;
-            if (reportItems.Count > 0)
+            UnsentReportList.ItemsSource = reportItems; //Set the list of listViewItems to be the source for the list view on the page
+            if (reportItems.Count > 0) //if there are unsent reports, hide the text saying there are none and make the command bar visible
             {
                 noUnsentText.Text = "";
                 cmdBar.Visibility = Visibility.Visible;
             }
-            else
+            else //if no reports, display text to user and hid the command bar.
             {
                 noUnsentText.Text = "No Unsent Reports";
                 cmdBar.Visibility = Visibility.Collapsed;
             }
         }
 
+        //Method to respond to tapping a report preview
         private void currFileItem_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            if (!(sender is ListViewItem))
+            if (!(sender is ListViewItem)) //send must be a listviewItem
             {
                 return;
             }
             //goto new page with current report
             ListViewItem senderLVI = (ListViewItem) sender;
-            foreach(StorageFile currReportFile in reportFiles){
+            foreach(StorageFile currReportFile in reportFiles){ //Find corresponding file to the item clicked
                 if (currReportFile.Name == senderLVI.Name)
                 {
                     Frame.Navigate(typeof (ReviewReportPage), currReportFile);
@@ -153,15 +152,18 @@ namespace RiverWatch_Windows_Phone_App
             }
         }
 
+        //Respond to the sendall button pressed by user
         private async void SendAllButton_Click(object sender, RoutedEventArgs e)
         {
+            //Create confirmation dialog
             MessageDialog sendConfirm = new MessageDialog("Are you sure you wish to send all reports?", "Send All?");
             sendConfirm.Commands.Add(new UICommand("Send", new UICommandInvokedHandler(this.SendInvokedHandler)));
             sendConfirm.Commands.Add(new UICommand("No"));
-
+            //Show dialog to user
             await sendConfirm.ShowAsync();
         }
 
+        //Respond to user confirming they wish to send
         private async void SendInvokedHandler(IUICommand command)
         {
             if (command.Label == "Send")
@@ -172,27 +174,25 @@ namespace RiverWatch_Windows_Phone_App
                 // show progress bar
                 this.processing.IsActive = true;
 
-                // should wait 2 seconds
-                await Task.Delay(2000);
-
-                //SEND ALL REPORTS
+                //Loop for all the reports
                 foreach (Report r in reports)
                 {
-                    if (await r.UploadToServer())
+                    if (await r.UploadToServer()) //Attempt to send report to server
                     {
-                        //DELETE FILE ASSOCIATED
+                        //Get file associated with report and delete it
                         StorageFolder unsentReportFolder = await ApplicationData.Current.LocalFolder.GetFolderAsync("Unsent_Reports");
                         StorageFile rFile = await unsentReportFolder.GetFileAsync(r.getReportName());
                         await rFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
-                        await r.discardReport(true);
+                        await r.discardReport(true); //delete report object and image file
                         this.processing.IsActive = false;
                     }
-                    else
+                    else //Error in attempting to send reports. 
                     {
                         this.processing.IsActive = false;
                         MessageDialog didNotSend = new MessageDialog("Error when attempting to send reports, please try again later", "Failed to Send");
                         didNotSend.Commands.Add(new UICommand("OK"));
-                        await didNotSend.ShowAsync();
+                        await didNotSend.ShowAsync(); //Display to user error message
+                        this.cmdBar.Visibility = Visibility.Visible; //reenable page
                         break;
                     }
                 }
@@ -200,29 +200,32 @@ namespace RiverWatch_Windows_Phone_App
             }
         }
 
+        //Method to respond to user pressing delete all button
         private async void DeleteAllButton_Click(object sender, RoutedEventArgs e)
         {
+            //Create confirmation dialog
             MessageDialog deleteConfirm = new MessageDialog("Are you sure you wish to delete all unsaved reports?", "Delete All?");
             deleteConfirm.Commands.Add(new UICommand("Delete", new UICommandInvokedHandler(this.DeleteInvokedHandler)));
             deleteConfirm.Commands.Add(new UICommand("No"));
-
+            //display confirmation dialog to user
             await deleteConfirm.ShowAsync();
         }
 
+        //Respond to user responding to confirmation to delete dialog
         private async void DeleteInvokedHandler(IUICommand command)
         {
             if (command.Label == "Delete")
             {
-                foreach (Report currReport in reports)
+                foreach (Report currReport in reports) //loop for each report and delete it and image associated
                 {
                     await currReport.discardReport(true);
                 }
-                foreach (StorageFile currFile in reportFiles)
+                foreach (StorageFile currFile in reportFiles) //loop for each file and delete them
                 {
                     await currFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
                 }
 
-                Frame.Navigate(typeof(UnsentReportsPage));
+                Frame.Navigate(typeof(UnsentReportsPage)); //refresh page
             }
         }
 

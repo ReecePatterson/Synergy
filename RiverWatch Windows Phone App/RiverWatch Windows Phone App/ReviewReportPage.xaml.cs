@@ -1,30 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using System.Threading.Tasks;
+using Windows.Phone.UI.Input;
+using Windows.Storage;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-using Windows.Phone.UI.Input;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.Storage;
-using Windows.UI.Xaml.Media.Animation;
-using System.Threading.Tasks;
-using Windows.UI.Popups;
+using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
 namespace RiverWatch_Windows_Phone_App
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// A page to review the details of an individual pollution report
     /// </summary>
     public sealed partial class ReviewReportPage : Page
     {
@@ -65,35 +55,35 @@ namespace RiverWatch_Windows_Phone_App
         /// </summary>
         /// <param name="e">Event data that describes how this page was reached.
         /// This parameter is typically used to configure the page.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e != null && e.Parameter is StorageFile)
+            if (e != null && e.Parameter is StorageFile) //presume supplied file is a saved report file
             {
-                currentReportFile = (StorageFile) e.Parameter;
-                DisplayReportContent();
+                currentReportFile = (StorageFile) e.Parameter; //set field for supplied report file
+                await DisplayReportContent();
             }
-            else //must send information
+            else //must send a report
             {
                 Frame.Navigate(typeof(UnsentReportsPage));
             }
         }
 
+        //Create report object for display from reportfile field
         private async Task DisplayReportContent()
         {
             string fileContent;
-            using (StreamReader s = new StreamReader(await currentReportFile.OpenStreamForReadAsync()))
+            using (StreamReader s = new StreamReader(await currentReportFile.OpenStreamForReadAsync())) //Read from the file
             {
                 fileContent = await s.ReadToEndAsync();
                 s.Dispose();
             }
-            //Report currReport = new Report(fileContent);
-            currentReport = await Report.GenerateFromString(fileContent);
+            currentReport = await Report.GenerateFromString(fileContent); //use extracted string to create report
             
-            PageTitle.Text = currentReport.getReportName();
-            imagePreview.Source = new BitmapImage(new Uri(currentReport.getImage().Path));
-            GeolocationToolTip.FontSize = 15;
+            PageTitle.Text = currentReport.getReportName(); //Set the page title to the name of the report
+            imagePreview.Source = new BitmapImage(new Uri(currentReport.getImage().Path)); //display report image
+            GeolocationToolTip.FontSize = 15; //display geolocation from report
             GeolocationToolTip.Text = "Latitude: " + currentReport.getLatitude() + "\n\nLongitude: " + currentReport.getLongitude();
-            if (!currentReport.isTagsReady())
+            if (!currentReport.isTagsReady()) //Check if tags entered
             {
                 TagsToolTip.FontSize = 20;
                 TagsToolTip.Text = "No tags";
@@ -120,13 +110,13 @@ namespace RiverWatch_Windows_Phone_App
 
                     foreach (String element in currentReport.getTags())
                     {
-                        // if we've displayed 6 tags
+                        // if we've displayed 8 tags
                         if (TagCount >= TagLimit)
                         {
                             break;
                         }
 
-                        // if we've got two tags on a line
+                        // if we've got three tags on a line
                         if (!(LineCount < LineLimit))
                         {
                             t += "\n";
@@ -142,7 +132,7 @@ namespace RiverWatch_Windows_Phone_App
                     // remove extra comma
                     t = t.Substring(0, t.Length - 2);
 
-                    // if user selected more than 6 tags, add a ...
+                    // if user selected more than 8 tags, add a ...
                     if (NoOfTags > TagLimit)
                     {
                         t += "...";
@@ -179,15 +169,18 @@ namespace RiverWatch_Windows_Phone_App
             }
         }
 
+        //Method for when the submit button has been tapped. Displays confirmation that they wish to send.
         private async void SubmitReport_Click(object sender, RoutedEventArgs e)
         {
+            //Make message dialog to confirm if they want to send the report
             MessageDialog sendConfirm = new MessageDialog("Are you sure you wish to send this report?", "Send?");
             sendConfirm.Commands.Add(new UICommand("Send", new UICommandInvokedHandler(this.SendInvokedHandler)));
             sendConfirm.Commands.Add(new UICommand("No"));
-
+            //Show user the message dialog
             await sendConfirm.ShowAsync();
         }
 
+        //Respond to user confriming send prompt
         private async void SendInvokedHandler(IUICommand command)
         {
             if (command.Label == "Send")
@@ -199,13 +192,13 @@ namespace RiverWatch_Windows_Phone_App
                 // show progress ring
                 this.processing.IsActive = true;
 
-                if (await currentReport.UploadToServer())
+                if (await currentReport.UploadToServer()) //attempt upload
                 {
-                    await currentReport.discardReport(true);
+                    await currentReport.discardReport(true); //delete report, image and saved file
                     await currentReportFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
 
                     this.processing.IsActive = false;
-                    //submit report
+                    //navigate to previous page
                     Frame.Navigate(typeof(UnsentReportsPage));
                 }
                 else
@@ -214,27 +207,32 @@ namespace RiverWatch_Windows_Phone_App
                     MessageDialog didNotSend = new MessageDialog("Error when attempting to send report, please try again later", "Failed to Send");
                     didNotSend.Commands.Add(new UICommand("OK"));
                     await didNotSend.ShowAsync();
+                    //show buttons again
+                    this.SubmitButton.Visibility = Visibility.Visible;
+                    this.DeleteButton.Visibility = Visibility.Visible;
                 }
             }
         }
 
+        //Method that repsonds to user pressing delete report button. Displays confirmation that they want to delete the report
         private async void DeleteReport_Click(object sender, RoutedEventArgs e)
         {
-
+            //Create messageDialog
             MessageDialog deleteConfirm = new MessageDialog("Are you sure you wish to delete this report?", "Delete?");
             deleteConfirm.Commands.Add(new UICommand("Delete", new UICommandInvokedHandler(this.DeleteInvokedHandler)));
             deleteConfirm.Commands.Add(new UICommand("No"));
-
+            //Show dialog to user
             await deleteConfirm.ShowAsync();
         }
 
+        //Method that responds to the user confirming the delete of the current report
         private async void DeleteInvokedHandler(IUICommand command)
         {
             if (command.Label == "Delete")
             {
-                await currentReport.discardReport(true);
+                await currentReport.discardReport(true); //delete report, image and saved file
                 await currentReportFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
-                Frame.Navigate(typeof(UnsentReportsPage));
+                Frame.Navigate(typeof(UnsentReportsPage));//navigate back to previous page
             }
         }
     }
