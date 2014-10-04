@@ -32,7 +32,12 @@
     <Capability Name="internetClientServer" />
     <m2:DeviceCapability Name="bluetooth.rfcomm">
       <m2:Device Id="any">
-        <m2:Function Type="serviceId:A7EA96BB-4F95-4A91-9FDD-3CE3CFF1D8DA" />
+        <m2:Function Type="name:serialPort" />
+        <m2:Function Type="name:obexObjectPush" />
+        <m2:Function Type="name:obexFileTransfer" />
+        <m2:Function Type="name:phoneBookAccessPce" />
+        <m2:Function Type="name:phoneBookAccessPse" />
+        <m2:Function Type="name:genericFileTransfer" />
       </m2:Device>
     </m2:DeviceCapability>
     
