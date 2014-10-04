@@ -153,7 +153,7 @@ namespace RiverWatch_Windows_Phone_App {
             }
         }
 
-        private void doSomething_Click(object sender, RoutedEventArgs e) {
+        private async void doSomething_Click(object sender, RoutedEventArgs e) {
             // Because I enable the ConnectToSelected button only if the user has
             // a device selected, I don't need to check here whether that is the case.
 
@@ -162,10 +162,10 @@ namespace RiverWatch_Windows_Phone_App {
             PeerInformation peer = pdi.PeerInfo;
 
             // Asynchronous call to connect to the device
-            ConnectToDevice(peer);
+            await ConnectToDevice(peer);
         }
 
-        private async void ConnectToDevice(PeerInformation peer) {
+        private async Task<Boolean> ConnectToDevice(PeerInformation peer) {
             if (_socket != null) {
                 // Disposing the socket with close it and release all resources associated with the socket
                 _socket.Dispose();
@@ -198,6 +198,8 @@ namespace RiverWatch_Windows_Phone_App {
                 _socket.Dispose();
                 _socket = null;
             }
+
+            return true;
         }
     }
 
