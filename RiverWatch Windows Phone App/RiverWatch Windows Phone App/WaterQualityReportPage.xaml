@@ -8,36 +8,12 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
-        <ListBox x:Name="PairedDevicesList" Margin="10,10,10,465">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Display Name:  "  />
-                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding DisplayName}" />
-                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Host Name:     "  />
-                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding HostName}" />
-                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Service Name:  "  />
-                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding ServiceName}" />
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
 
-
-        <TextBlock>This is the Water Quality Report Page</TextBlock>
-        <TextBlock x:Name="thingsFound" Text="Devices" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
-        <Button x:Name="ConnectButton" Content="Connect" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="ConnectButton_Click"></Button>
-        <Button x:Name="doSomething" Content="Do Something" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="doSomething_Click"></Button>
-        <Button Content="Return" HorizontalAlignment="Left" Margin="20,170,0,0" VerticalAlignment="Top" Click="ReturnButton_Click"/>
-    </Grid>
+    <StackPanel>
+        <ListBox Tapped="lstDevices_Tapped" x:Name="lstDevices"/>
+        <TextBlock>GattServices</TextBlock>
+        <ListBox Height="200" x:Name="lstGattServices" Tapped="lstGattServices_Tapped"/>
+        <TextBlock>GattService Characteristics</TextBlock>
+        <ListBox Tapped="lstCharacteristics_Tapped" x:Name="lstCharacteristics"/>
+    </StackPanel>
 </Page>
