@@ -30,7 +30,11 @@
   </Applications>
   <Capabilities>
     <Capability Name="internetClientServer" />
-    <Capability Name="sharedUserCertificates" />
+    <m2:DeviceCapability Name="bluetooth.rfcomm">
+      <m2:Device Id="any">
+        <m2:Function Type="name:serialPort" />
+      </m2:Device>
+    </m2:DeviceCapability>
     <DeviceCapability Name="location" />
     <DeviceCapability Name="microphone" />
     <DeviceCapability Name="webcam" />
