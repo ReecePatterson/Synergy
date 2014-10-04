@@ -204,14 +204,14 @@ namespace RiverWatch_Windows_Phone_App
         }
 
 
-        static byte[] GetBytes(string str)
+        static byte[] StringToByteArray(string str)
         {
             byte[] bytes = new byte[str.Length * sizeof(char)];
             System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
             return bytes;
         }
 
-        static string GetString(byte[] bytes)
+        static string ByteArrayToString(byte[] bytes)
         {
             char[] chars = new char[bytes.Length / sizeof(char)];
             System.Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
@@ -261,7 +261,7 @@ namespace RiverWatch_Windows_Phone_App
          * Utilizes a GeoLocator Object to fetch the GeoPosition Object at the phone's current location,
          * which contains both the Latitude and Longitude.
          */
-        private async Task getGeoPosition()
+        private async Task findGeoPosition()
         {
             // initialise geolocation values
             this.geolocationReady = false;
@@ -274,7 +274,6 @@ namespace RiverWatch_Windows_Phone_App
                 maximumAge: TimeSpan.FromMinutes(5),
                 timeout: TimeSpan.FromMinutes(5));
 
-            //TODO research if this is needs to be changed for updated releases point.position.latitude
             this.latit = "" + position.Coordinate.Point.Position.Latitude;
             this.longi = "" + position.Coordinate.Point.Position.Longitude;
             this.geolocationReady = true;
@@ -319,13 +318,32 @@ namespace RiverWatch_Windows_Phone_App
 
         // setters
 
-        public Boolean setImage(StorageFile imageFile, Boolean getGeo)
+        public Boolean setImageWithFindLocation(StorageFile imageFile)
         {
             this.pollutionImage = imageFile;
             this.imageReady = true;
 
             // sneakily start the geolocation task
-            if (getGeo) { this.getGeoPosition(); }
+            this.findGeoPosition();
+
+            // the date the photo was taken is in the files name
+            Debug.WriteLine("source:" + imageFile.Path);
+
+            // get file name
+            //String[] sa = imageUri.AbsolutePath.Split(new Char[] {'/','.'});
+            //Debug.WriteLine("Cut off absolute: "+sa[sa.Length - 2]);
+            String filename = imageFile.Name;
+
+            // get date and time
+            this.date = filename.Substring(16, 19);
+
+            return true;
+        }
+
+        public Boolean setImage(StorageFile imageFile)
+        {
+            this.pollutionImage = imageFile;
+            this.imageReady = true;
 
             // the date the photo was taken is in the files name
             Debug.WriteLine("source:" + imageFile.Path);
@@ -343,8 +361,8 @@ namespace RiverWatch_Windows_Phone_App
 
         public Boolean setGeolocation(Geoposition geo)
         {
-            this.latit = "" + geo.Coordinate.Latitude;
-            this.longi = "" + geo.Coordinate.Longitude;
+            this.latit = "" + geo.Coordinate.Point.Position.Latitude;
+            this.longi = "" + geo.Coordinate.Point.Position.Longitude;
             this.geolocationReady = true;
             return true;
         }
@@ -393,7 +411,7 @@ namespace RiverWatch_Windows_Phone_App
             Report newReport = new Report();
             int count = 0;
             string[] reportComponents = savedReportString.Split(new String[] { ":~:" }, StringSplitOptions.None);
-            newReport.setImage(await ApplicationData.Current.LocalFolder.GetFileAsync(reportComponents[count++]), false);
+            newReport.setImage(await ApplicationData.Current.LocalFolder.GetFileAsync(reportComponents[count++]));
 
             string logit = reportComponents[count++];
             string latit = reportComponents[count++];
