@@ -85,6 +85,16 @@ namespace RiverWatch_Windows_Phone_App {
         }
 
         private async void lstGattServices_Tapped(object sender, TappedRoutedEventArgs e) {
+            lstGattServices.Items.Clear();
+            string description = string.Empty;
+
+            foreach (var service in currentDevice.GattServices) {
+                description = UUIDHelper.GetUUIDDescription(service.Uuid.ToString());
+                lstGattServices.Items.Add(new MyGattService(description, service));
+            }
+        }
+
+        private async void lstCharacteristics_Tapped(object sender, TappedRoutedEventArgs e) {
             lstCharacteristics.Items.Clear();
             GattDeviceService selectedService = (lstGattServices.SelectedItem as MyGattService).GattDeviceService;
 
