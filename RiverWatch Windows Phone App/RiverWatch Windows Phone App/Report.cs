@@ -270,11 +270,13 @@ namespace RiverWatch_Windows_Phone_App
 
             var geolocator = new Geolocator();
             geolocator.DesiredAccuracyInMeters = 80;
-            Geoposition position = await geolocator.GetGeopositionAsync();
+            Geoposition position = await geolocator.GetGeopositionAsync(
+                maximumAge: TimeSpan.FromMinutes(5),
+                timeout: TimeSpan.FromMinutes(5));
 
             //TODO research if this is needs to be changed for updated releases point.position.latitude
-            this.latit = "" + position.Coordinate.Latitude; 
-            this.longi = "" + position.Coordinate.Longitude;
+            this.latit = "" + position.Coordinate.Point.Position.Latitude;
+            this.longi = "" + position.Coordinate.Point.Position.Longitude;
             this.geolocationReady = true;
         }
 
