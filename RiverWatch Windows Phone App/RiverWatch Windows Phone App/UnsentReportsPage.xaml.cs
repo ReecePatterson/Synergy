@@ -204,7 +204,7 @@ namespace RiverWatch_Windows_Phone_App
         private async void DeleteAllButton_Click(object sender, RoutedEventArgs e)
         {
             //Create confirmation dialog
-            MessageDialog deleteConfirm = new MessageDialog("Are you sure you wish to delete all unsaved reports?", "Delete All?");
+            MessageDialog deleteConfirm = new MessageDialog("Are you sure you wish to delete all unsent reports?", "Delete All?");
             deleteConfirm.Commands.Add(new UICommand("Delete", new UICommandInvokedHandler(this.DeleteInvokedHandler)));
             deleteConfirm.Commands.Add(new UICommand("No"));
             //display confirmation dialog to user
