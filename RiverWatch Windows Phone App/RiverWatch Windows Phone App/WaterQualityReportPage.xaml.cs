@@ -30,14 +30,23 @@ namespace RiverWatch_Windows_Phone_App {
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class WaterQualityReportPage : Page {
+        enum connectionState {
+            isNull,
+            isScanning,
+            isToScan,
+            isConnecting,
+            isConnected,
+            isDisconnecting
+        }
 
-        ObservableCollection<PairedDeviceInfo> _pairedDevices;  // a local copy of paired device information
-        StreamSocket _socket; // socket object used to communicate with the device
+        private ObservableCollection<PairedDeviceInfo> _pairedDevices;  // a local copy of paired device information
+        private StreamSocket _socket; // socket object used to communicate with the device
+
+        public event TypedEventHandler<StreamSocketListener, StreamSocketListenerConnectionReceivedEventArgs> ConnectionReceived;
 
         public WaterQualityReportPage() {
             this.InitializeComponent();
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
-
         }
 
 
@@ -173,22 +182,14 @@ namespace RiverWatch_Windows_Phone_App {
 
             try {
                 _socket = new StreamSocket();
-                //string serviceName = (String.IsNullOrWhiteSpace(peer.ServiceName)) ? "2" : peer.ServiceName;
-                string serviceName = "2";
-
-                Debug.WriteLine("before first await");
+                string serviceName = "1";
 
                 // Note: If either parameter is null or empty, the call will throw an exception
                 await _socket.ConnectAsync(peer.HostName, serviceName);
 
-                MessageDialog messageDialog = new MessageDialog(_socket.Information.RemoteAddress.DisplayName);
-
-                Debug.WriteLine("before");
+                //Show 
+                MessageDialog messageDialog = new MessageDialog(_socket.Information.RemoteAddress.DisplayName + _socket.Information.RemoteHostName);
                 await messageDialog.ShowAsync();
-                //MessageBox.Show(String.Format(AppResources.Msg_ConnectedTo, _socket.Information.RemoteAddress.DisplayName));
-                // If the connection was successful, the RemoteAddress field will be populated
-                //MessageBox.Show(String.Format(AppResources.Msg_ConnectedTo, _socket.Information.RemoteAddress.DisplayName));
-                Debug.WriteLine("poopies hurray");
             }
             catch (Exception ex) {
                 // In a real app, you would want to take action dependent on the type of 
