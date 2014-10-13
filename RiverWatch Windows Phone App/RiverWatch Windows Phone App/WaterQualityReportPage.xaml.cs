@@ -62,7 +62,7 @@ namespace RiverWatch_Windows_Phone_App {
         }
 
 
-        private async void ConnectButton_Click(object sender, RoutedEventArgs e) {
+        private void RefreshPairedDevices_Click(object sender, RoutedEventArgs e) {
             RefreshPairedDevicesList();
 
         }
@@ -117,7 +117,7 @@ namespace RiverWatch_Windows_Phone_App {
             }
         }
 
-        private void doSomething_Click(object sender, RoutedEventArgs e) {
+        private void ConnectToSelectedDevice_Click(object sender, RoutedEventArgs e) {
             // Because I enable the ConnectToSelected button only if the user has
             // a device selected, I don't need to check here whether that is the case.
 
