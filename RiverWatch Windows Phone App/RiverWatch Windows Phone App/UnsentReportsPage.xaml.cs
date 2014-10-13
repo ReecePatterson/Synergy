@@ -186,7 +186,6 @@ namespace RiverWatch_Windows_Phone_App
                         StorageFile rFile = await unsentReportFolder.GetFileAsync(r.getReportName());
                         await rFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
                         await r.discardReport(true); //delete report object and image file
-                        this.processing.IsActive = false;
                     }
                     else //Error in attempting to send reports. 
                     {
