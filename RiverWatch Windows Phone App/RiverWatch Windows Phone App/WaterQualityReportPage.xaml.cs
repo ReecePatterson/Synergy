@@ -144,7 +144,6 @@ namespace RiverWatch_Windows_Phone_App {
 
                 // If the connection was successful, the RemoteAddress field will be populated
                 //MessageBox.Show(String.Format(AppResources.Msg_ConnectedTo, _socket.Information.RemoteAddress.DisplayName));
-                Debug.WriteLine("poopies hurray");
             }
             catch (Exception ex) {
                 // In a real app, you would want to take action dependent on the type of 
