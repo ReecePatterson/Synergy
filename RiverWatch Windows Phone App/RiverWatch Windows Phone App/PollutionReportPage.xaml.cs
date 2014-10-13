@@ -382,6 +382,11 @@ namespace RiverWatch_Windows_Phone_App
             Frame.Navigate(typeof(AddDescriptionPage),report);
         }
 
+        private void waterQualityButton_Tapped(object sender, PollutionReportPage p)
+        {
+            // Not implemented.
+        }
+
         void HardwareButtons_DisableCameraButton(object sender, CameraEventArgs e) {
         }
 
