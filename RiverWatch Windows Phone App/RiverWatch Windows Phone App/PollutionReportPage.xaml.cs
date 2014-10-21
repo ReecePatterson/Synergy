@@ -440,5 +440,10 @@ namespace RiverWatch_Windows_Phone_App
             report.discardReport(true);
             Frame.Navigate(typeof(HubPage));
         }
+
+        private void waterQualityButton_Tapped(object sender, NavigatedEventHandler e)
+        {
+            // does nothing
+        }
     }
 }
