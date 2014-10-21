@@ -2,6 +2,7 @@
 using RiverWatch_Windows_Phone_App.Data;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -178,6 +179,7 @@ namespace RiverWatch_Windows_Phone_App
         }
 
         void HardwareButtons_DisableCameraButton(object sender, CameraEventArgs e) {
+            Debug.WriteLine("Hello");
         }
 
         private void SettingsImage_Tapped(object sender, TappedRoutedEventArgs e)
