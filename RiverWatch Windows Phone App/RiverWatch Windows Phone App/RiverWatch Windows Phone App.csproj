@@ -108,6 +108,9 @@
       <DependentUpon>CameraPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Report.cs" />
+    <Compile Include="SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SubmitReportPage.xaml.cs">
       <DependentUpon>SubmitReportPage.xaml</DependentUpon>
     </Compile>
@@ -184,6 +187,10 @@
     <Page Include="CameraPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SubmitReportPage.xaml">
       <SubType>Designer</SubType>
