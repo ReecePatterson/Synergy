@@ -188,13 +188,21 @@ namespace RiverWatch_Windows_Phone_App
             form.Add(content, "\"data\"");
             
             //convert image into byte array so we can create a memorystream
-            HttpContent image = new StreamContent(new MemoryStream(await convertImageToByte()));
-            image.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data") {
-                Name = "\"image\"",
-                FileName = "\"" + pollutionImage.Name + "\""
-            };
-            image.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
-            form.Add(image);
+            //Becase this app is multi theaded, there may be some concurrency issues displaying image to user at same time so catch this
+            //exception and return false so pages to handle.
+            try {
+                HttpContent image = new StreamContent(new MemoryStream(await convertImageToByte()));
+           
+                image.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data") {
+                    Name = "\"image\"",
+                    FileName = "\"" + pollutionImage.Name + "\""
+                };
+                image.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
+                form.Add(image);
+            }
+            catch (System.UnauthorizedAccessException) {
+                return false;
+            }
 
 
             Debug.WriteLine(client.DefaultRequestHeaders.ToString());
