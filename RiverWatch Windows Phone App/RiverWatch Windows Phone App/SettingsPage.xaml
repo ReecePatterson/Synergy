@@ -6,19 +6,22 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    >
 
     <Grid>
         <TextBlock x:Name="PageTitle" FontSize="25" Margin="10,0,0,0">Settings</TextBlock>
         <Grid x:Name="descriptionGrid" Margin="60,50,0,0">
             <ListView>
                 <ListViewItem Height="80">
-                    <ToggleSwitch x:Name="locationServices" Header="Location Services" Margin="10,0,0,0" Width="320" Toggled="locationServices_Toggled" />
+                    <Grid Margin="10,0,0,0" Width="320" Background="#FF97B1B9" >
+                        <ToggleSwitch x:Name="locationServices" Header="Location Services" Margin="5,0" Toggled="locationServices_Toggled" />    
+                    </Grid>
                 </ListViewItem>
+
                 <ListViewItem Height="80">
-                    <Grid x:Name="privacyPolicy" Margin="10,0,0,0" Width="320" Tapped="privacyPolicy_Tapped">
-                        <TextBlock FontSize="16" Margin="0,0" Foreground="#FFC3C1C1">Privacy Policy</TextBlock>
-                        <TextBlock FontSize="24" Margin="0,23">View privacy policy</TextBlock>
+                    <Grid Margin="10,0,0,0" Width="320" Background="#FF97B1B9" Tapped="privacyPolicy_Tapped">
+                        <TextBlock FontSize="16" Margin="5,0" Foreground="#FFEAEAEA">Privacy Policy</TextBlock>
+                        <TextBlock FontSize="24" Margin="5,18">View privacy policy</TextBlock>
                     </Grid>
                 </ListViewItem>
             </ListView>
