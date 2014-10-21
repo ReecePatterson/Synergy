@@ -61,16 +61,30 @@ namespace RiverWatch_Windows_Phone_App
         {
             var geolocator = new Geolocator();
             // Check Location Services is on
+            Boolean exists = (Boolean)Application.Current.Resources.ContainsKey("locSer");
+
             Boolean current;
-            try
+
+            if (!exists)
+            {
+                current = true;
+            }
+            else
             {
                 current = (Boolean)Application.Current.Resources["locSer"];
-            }catch(Exception ex){
-                current = false;
             }
             
             Debug.WriteLine("Poll Report says: " + current);
+
             if (!current)
+            {
+                MessageDialog checkLocationServices = new MessageDialog("Location is disabled within the application. To enable location, go to Settings and select turn on location services.");
+                checkLocationServices.Commands.Add(new UICommand("Close"));
+                await checkLocationServices.ShowAsync();
+                Frame.Navigate(typeof(HubPage));
+            }
+
+            if (PositionStatus.Disabled.Equals(geolocator.LocationStatus))
             {
                 MessageDialog checkLocationServices = new MessageDialog("Location is disabled on your device. To enable location, go to Settings and select location.");
                 checkLocationServices.Commands.Add(new UICommand("Close"));
@@ -78,15 +92,20 @@ namespace RiverWatch_Windows_Phone_App
                 Frame.Navigate(typeof(HubPage));
             }
 
+            // parses input...
+
             if (e == null)
             {
                 return;
             }
-            if (e.Parameter is StorageFile)
+            if (e.Parameter is Uri)
             {
-                Debug.WriteLine("photo");
-                StorageFile imageFile = e.Parameter as StorageFile;
-                report.setImageWithFindLocation(imageFile);
+                Debug.WriteLine("uri");
+                Uri imageUri = e.Parameter as Uri;
+                String path = imageUri.LocalPath;
+                Debug.WriteLine(path);
+                StorageFile sf = await StorageFile.GetFileFromPathAsync(path);
+                report.setImageWithFindLocation(sf);
             }
             else if(e.Parameter is List<String>){
                 Debug.WriteLine("tags");

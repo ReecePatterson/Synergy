@@ -52,12 +52,17 @@ namespace RiverWatch_Windows_Phone_App
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            Boolean current ;
-            try
+            Boolean exists = (Boolean)Application.Current.Resources.ContainsKey("locSer");
+
+            Boolean current;
+
+            if (!exists)
+            {
+                current = true;
+            }
+            else
             {
                 current = (Boolean)Application.Current.Resources["locSer"];
-            }catch(Exception ex){
-                current = false;
             }
             
             Debug.WriteLine("Settings Initially says: " + current);

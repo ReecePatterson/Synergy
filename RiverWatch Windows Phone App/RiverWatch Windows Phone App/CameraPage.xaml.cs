@@ -281,7 +281,7 @@ namespace RiverWatch_Windows_Phone_App
             // once finished, hide progress bar
             this.processing.IsActive = false;
 
-            Frame.Navigate(typeof(PollutionReportPage),file.Path+"");
+            Frame.Navigate(typeof(PollutionReportPage),imageURI);
         }
     }
 }
