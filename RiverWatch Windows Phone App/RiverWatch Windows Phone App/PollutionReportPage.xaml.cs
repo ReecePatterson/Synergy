@@ -61,7 +61,14 @@ namespace RiverWatch_Windows_Phone_App
         {
             var geolocator = new Geolocator();
             // Check Location Services is on
-            Boolean current = (Boolean)Application.Current.Resources["locSer"];
+            Boolean current;
+            try
+            {
+                current = (Boolean)Application.Current.Resources["locSer"];
+            }catch(Exception ex){
+                current = false;
+            }
+            
             Debug.WriteLine("Poll Report says: " + current);
             if (!current)
             {
