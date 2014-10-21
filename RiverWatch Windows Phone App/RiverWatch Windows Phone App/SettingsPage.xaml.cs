@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
+
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
 namespace RiverWatch_Windows_Phone_App
@@ -25,6 +26,8 @@ namespace RiverWatch_Windows_Phone_App
     /// </summary>
     public sealed partial class SettingsPage : Page
     {
+        private Geolocator myGeoLocator = new Geolocator();
+
         public SettingsPage()
         {
             this.InitializeComponent();
@@ -49,7 +52,17 @@ namespace RiverWatch_Windows_Phone_App
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            // update what the toggle switch value is depending on the phone's current location settings
+            Boolean current ;
+            try
+            {
+                current = (Boolean)Application.Current.Resources["locSer"];
+            }catch(Exception ex){
+                current = false;
+            }
+            
+            Debug.WriteLine("Settings Initially says: " + current);
+            Application.Current.Resources["locSer"] = current;
+            locationServices.IsOn = current;
         }
 
         
@@ -63,7 +76,10 @@ namespace RiverWatch_Windows_Phone_App
         private void locationServices_Toggled(object sender, RoutedEventArgs e)
         {
             // update location services boolean
-            
+            // boolean is after toggle is shifted
+            Boolean current = locationServices.IsOn;
+            Debug.WriteLine("Settings says: " + current);
+            Application.Current.Resources["locSer"] = current;
         }
 
         private void ReturnButton_Click(object sender, RoutedEventArgs e)
