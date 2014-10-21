@@ -57,9 +57,9 @@ namespace RiverWatch_Windows_Phone_App
         /// This parameter is typically used to configure the page.</param>
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e != null && e.Parameter is StorageFile) //presume supplied file is a saved report file
+            if (e != null && e.Parameter is String) //presume supplied file is a saved report file
             {
-                currentReportFile = (StorageFile) e.Parameter; //set field for supplied report file
+                currentReportFile = await StorageFile.GetFileFromPathAsync((String) e.Parameter); //set field for supplied report file
                 await DisplayReportContent();
             }
             else //must send a report
