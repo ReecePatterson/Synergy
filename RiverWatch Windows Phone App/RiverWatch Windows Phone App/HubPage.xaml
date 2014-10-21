@@ -21,7 +21,15 @@
             <HubSection Header="Unsent Reports">
                 <DataTemplate>
                     <Grid>
-                        <Image Margin="10,50,0,0" VerticalAlignment="Top" Source="Assets/UnsentReportsImg.png" Tapped="WaterQualityReport_Tapped"/>
+                        <Image Margin="10,50,0,0" VerticalAlignment="Top" Source="Assets/UnsentReportsImg.png" Tapped="UnsentReports_Tapped"/>
+                    </Grid>
+                </DataTemplate>
+            </HubSection>
+
+            <HubSection Header="Settings">
+                <DataTemplate>
+                    <Grid>
+                        <Image Margin="10,50,0,0" VerticalAlignment="Top" Source="Assets/SettingsPage.png" />
                     </Grid>
                 </DataTemplate>
             </HubSection>
