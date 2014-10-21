@@ -166,50 +166,6 @@ namespace RiverWatch_Windows_Phone_App
             this.SubmitReportProgress.IsActive = false;
         }
 
-        //the URI that the image will be uploaded to.
-        private readonly Uri uploadAddress = new Uri("http://www-test.wainz.org.nz/api/image");
-
-        /* This method is used to try and upload a report if the user of the app decides that they want to upload the report after making the report. 
-         * will return true if successful and delete the image and report from the phone. If return false, then the report will be saved to the phone. 
-         */
-        private async Task<Boolean> tryUpload() {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = uploadAddress;
-            MultipartFormDataContent form = new MultipartFormDataContent();
-
-            //create the string for description, tags, and geolocation
-            HttpContent content = new StringContent(report.ConvertReportInformationForUpload());
-            form.Add(content, "\"data\"");
-            //convert image into byte array so we can create a memorystream
-            HttpContent image = new StreamContent(new MemoryStream(await report.convertImageToByte()));
-            image.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data") {
-                Name = "\"image\"",
-                FileName = "\"" + report.getImage().Name + "\""
-            };
-            image.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
-            form.Add(image);
-
-
-            Debug.WriteLine(client.DefaultRequestHeaders.ToString());
-            Debug.WriteLine(form.Headers);
-            Debug.WriteLine((await form.ReadAsStringAsync()) + "\n");
-
-            //try and post to server
-            var response = await client.PostAsync(uploadAddress, form);
-
-            Debug.WriteLine(response);
-
-            return response.IsSuccessStatusCode;
-        }
-
-        private async void SaveButton_Click(object sender, RoutedEventArgs e) {
-            // not used
-        }
-
-        private async void DiscardButton_Click(object sender, RoutedEventArgs e) {
-            // not used
-        }
-
         private async void YesButton_Click(object sender, RoutedEventArgs e)
         {
             // check if we are at ...
