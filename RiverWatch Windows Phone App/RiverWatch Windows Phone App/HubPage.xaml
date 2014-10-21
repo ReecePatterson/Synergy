@@ -10,7 +10,7 @@
 
     <Grid>
         <Hub Header="RiverWatch">
-            <HubSection Header="Submit Report">
+            <HubSection>
                 <DataTemplate>
                     <Grid>
                         <Image Margin="10,50,0,0" Source="Assets/PollutionReportImg.png" Tapped="PollutionReport_Tapped" VerticalAlignment="Top"/>
@@ -18,7 +18,7 @@
                 </DataTemplate>
             </HubSection>
 
-            <HubSection Header="Unsent Reports">
+            <HubSection>
                 <DataTemplate>
                     <Grid>
                         <Image Margin="10,50,0,0" VerticalAlignment="Top" Source="Assets/UnsentReportsImg.png" Tapped="UnsentReports_Tapped"/>
@@ -26,7 +26,7 @@
                 </DataTemplate>
             </HubSection>
 
-            <HubSection Header="Settings">
+            <HubSection>
                 <DataTemplate>
                     <Grid>
                         <Image Margin="10,50,0,0" VerticalAlignment="Top" Source="Assets/SettingsPage.png" />
