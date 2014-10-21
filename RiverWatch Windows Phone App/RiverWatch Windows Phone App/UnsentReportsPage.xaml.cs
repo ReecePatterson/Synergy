@@ -146,7 +146,8 @@ namespace RiverWatch_Windows_Phone_App
             foreach(StorageFile currReportFile in reportFiles){ //Find corresponding file to the item clicked
                 if (currReportFile.Name == senderLVI.Name)
                 {
-                    Frame.Navigate(typeof (ReviewReportPage), currReportFile);
+                    String filepath = currReportFile.Path;
+                    Frame.Navigate(typeof (ReviewReportPage), filepath);
                     return; //report found, break out of the method
                 }
             }
