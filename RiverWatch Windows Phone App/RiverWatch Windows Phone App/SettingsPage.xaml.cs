@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Phone.UI.Input;
@@ -62,6 +63,7 @@ namespace RiverWatch_Windows_Phone_App
         private void locationServices_Toggled(object sender, RoutedEventArgs e)
         {
             // update location services boolean
+            
         }
 
         private void ReturnButton_Click(object sender, RoutedEventArgs e)
