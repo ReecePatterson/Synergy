@@ -155,7 +155,7 @@ namespace RiverWatch_Windows_Phone_App
             else
             {
                 // tell user the report failed to send
-                this.SubmitReportText.Text = "Report failed to send\nSave report?";
+                this.SubmitReportText.Text = "Report failed to send\nWould you like to try again?";
 
                 // disable progress ring
                 this.SubmitReportProgress.IsActive = false;
@@ -171,7 +171,6 @@ namespace RiverWatch_Windows_Phone_App
             // check if we are at ...
             if (this.atSend) {
                 this.attemptSendToServer();
-                this.atSend = false;
             }
             else {
                 this.SubmitReportProgress.IsActive = true;
@@ -263,7 +262,6 @@ namespace RiverWatch_Windows_Phone_App
             if (this.atSend) {
                 // change text
                 this.SubmitReportText.Text = "Do you want to save\nyour report?";
-
                 this.atSend = false;
             }
             else {

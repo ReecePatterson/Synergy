@@ -12,7 +12,7 @@
     <OSMaxVersionTested>6.3.1</OSMaxVersionTested>
   </Prerequisites>
   <Resources>
-    <Resource Language="x-generate" />
+    <Resource Language="en-us" />
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="HubPage.xaml">
