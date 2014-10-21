@@ -9,9 +9,9 @@
     >
     <Page.BottomAppBar>
         <CommandBar x:Name="cmdBar" Visibility="Collapsed">
-            <AppBarButton x:Name="SendAllButton" Icon="Send" Label="Send All" Click="SendAllButton_Click"/>
             <AppBarButton x:Name="DeleteAllButton" Icon="Delete" Label="Delete All" Click="DeleteAllButton_Click"/>
-        </CommandBar>
+            <AppBarButton x:Name="SendAllButton" Icon="Send" Label="Send All" Click="SendAllButton_Click"/>
+            </CommandBar>
     </Page.BottomAppBar>
 
     <Grid>
