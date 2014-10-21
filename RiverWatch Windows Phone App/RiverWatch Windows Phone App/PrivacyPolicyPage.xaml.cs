@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -22,9 +21,9 @@ namespace RiverWatch_Windows_Phone_App
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class SettingsPage : Page
+    public sealed partial class PrivacyPolicyPage : Page
     {
-        public SettingsPage()
+        public PrivacyPolicyPage()
         {
             this.InitializeComponent();
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
@@ -36,7 +35,7 @@ namespace RiverWatch_Windows_Phone_App
             Frame rootFrame = Window.Current.Content as Frame;
             if (rootFrame != null && rootFrame.CanGoBack)
             {
-                rootFrame.Navigate(typeof(HubPage));
+                rootFrame.Navigate(typeof(SettingsPage));
                 e.Handled = true;
             }
         }
@@ -48,25 +47,8 @@ namespace RiverWatch_Windows_Phone_App
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            // update what the toggle switch value is depending on the phone's current location settings
         }
 
         
-
-        private void privacyPolicy_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            // go to page that displays privacy policy
-            Frame.Navigate(typeof(PrivacyPolicyPage));
-        }
-
-        private void locationServices_Toggled(object sender, RoutedEventArgs e)
-        {
-            // update location services boolean
-        }
-
-        private void ReturnButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(HubPage));
-        }
     }
 }

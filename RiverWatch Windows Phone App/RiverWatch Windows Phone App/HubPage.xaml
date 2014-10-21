@@ -29,7 +29,7 @@
             <HubSection>
                 <DataTemplate>
                     <Grid>
-                        <Image Margin="10,50,0,0" VerticalAlignment="Top" Source="Assets/SettingsPage.png" />
+                        <Image x:Name="SettingsImage" Margin="10,50,0,0" VerticalAlignment="Top" Source="Assets/SettingsPage.png" Tapped="SettingsImage_Tapped"/>
                     </Grid>
                 </DataTemplate>
             </HubSection>

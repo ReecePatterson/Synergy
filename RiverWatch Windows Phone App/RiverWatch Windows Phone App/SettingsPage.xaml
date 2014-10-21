@@ -9,6 +9,20 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-
+        <TextBlock x:Name="PageTitle" FontSize="25" Margin="10,0,0,0">Settings</TextBlock>
+        <Grid x:Name="descriptionGrid" Margin="60,50,0,0">
+            <ListView>
+                <ListViewItem Height="80">
+                    <ToggleSwitch x:Name="locationServices" Header="Location Services" Margin="10,0,0,0" Width="320" Toggled="locationServices_Toggled" />
+                </ListViewItem>
+                <ListViewItem Height="80">
+                    <Grid x:Name="privacyPolicy" Margin="10,0,0,0" Width="320" Tapped="privacyPolicy_Tapped">
+                        <TextBlock FontSize="16" Margin="0,0" Foreground="#FFC3C1C1">Privacy Policy</TextBlock>
+                        <TextBlock FontSize="24" Margin="0,23">View privacy policy</TextBlock>
+                    </Grid>
+                </ListViewItem>
+            </ListView>
+        </Grid>
+        <AppBarButton x:Name="ReturnButton" HorizontalAlignment="Left" Icon="Back" Label="appbarbutton" Margin="5,40,0,0" VerticalAlignment="Top" IsCompact="True" Click="ReturnButton_Click"/>
     </Grid>
 </Page>

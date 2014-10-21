@@ -180,5 +180,10 @@ namespace RiverWatch_Windows_Phone_App
         void HardwareButtons_DisableCameraButton(object sender, CameraEventArgs e) {
         }
 
+        private void SettingsImage_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(SettingsPage));
+        }
+
     }
 }
