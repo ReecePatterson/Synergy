@@ -61,7 +61,9 @@ namespace RiverWatch_Windows_Phone_App
         {
             var geolocator = new Geolocator();
             // Check Location Services is on
-            if (PositionStatus.Disabled.Equals(geolocator.LocationStatus))
+            Boolean current = (Boolean)Application.Current.Resources["locSer"];
+            Debug.WriteLine("Poll Report says: " + current);
+            if (!current)
             {
                 MessageDialog checkLocationServices = new MessageDialog("Location is disabled on your device. To enable location, go to Settings and select location.");
                 checkLocationServices.Commands.Add(new UICommand("Close"));
