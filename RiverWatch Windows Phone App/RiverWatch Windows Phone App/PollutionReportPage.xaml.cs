@@ -391,6 +391,11 @@ namespace RiverWatch_Windows_Phone_App
             Frame.Navigate(typeof(AddDescriptionPage),report);
         }
 
+        private void waterQualityButton_Tapped(object sender, PollutionReportPage p)
+        {
+            // Not implemented.
+        }
+
         void HardwareButtons_DisableCameraButton(object sender, CameraEventArgs e) {
         }
 
@@ -443,6 +448,11 @@ namespace RiverWatch_Windows_Phone_App
             // discard report and go back to hub
             report.discardReport(true);
             Frame.Navigate(typeof(HubPage));
+        }
+
+        private void waterQualityButton_Tapped(object sender, NavigatedEventHandler e)
+        {
+            // does nothing
         }
     }
 }

@@ -165,7 +165,13 @@ namespace RiverWatch_Windows_Phone_App
             return buffer;
         }
 
+#if DEBUG
+        //This is the url for the test server 
         private readonly Uri uploadAddress = new Uri("http://www-test.wainz.org.nz/api/image");
+#else
+        //This is the url for the actual server
+        private readonly Uri uploadAddress = new Uri("http://www.wainz.org.nz/api/image");
+#endif
 
         /**
          * Converts the Report to the Web Server's desired format, JSON.
