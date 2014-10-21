@@ -32,6 +32,5 @@
     <Capability Name="internetClientServer" />
     <DeviceCapability Name="location" />
     <DeviceCapability Name="webcam" />
-    <DeviceCapability Name="proximity" />
   </Capabilities>
 </Package>
